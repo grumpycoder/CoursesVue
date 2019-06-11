@@ -1,0 +1,6 @@
+﻿[
+  {
+    "outputFile": "css/vendor-bundle.css",
+    "inputFile": "src/scss/vendor.scss"
+  }
+]
