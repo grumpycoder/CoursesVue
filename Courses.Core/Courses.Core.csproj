@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,9 +45,46 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoMapperConfig.cs" />
+    <Compile Include="Dtos\ClusterEditDto.cs" />
+    <Compile Include="Dtos\CourseDto.cs" />
+    <Compile Include="Dtos\CourseEditDto.cs" />
+    <Compile Include="Dtos\CredentialDto.cs" />
+    <Compile Include="Dtos\CredentialEditDto.cs" />
+    <Compile Include="Dtos\ProgramCourseEditDto.cs" />
+    <Compile Include="Dtos\ProgramCredentialEditDto.cs" />
+    <Compile Include="Dtos\ProgramDto.cs" />
+    <Compile Include="Dtos\ProgramEditDto.cs" />
+    <Compile Include="Models\ClassType.cs" />
+    <Compile Include="Models\Cluster.cs" />
+    <Compile Include="Models\ClusterType.cs" />
+    <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\CourseType.cs" />
+    <Compile Include="Models\CourseView.cs" />
+    <Compile Include="Models\Credential.cs" />
+    <Compile Include="Models\CredentialType.cs" />
+    <Compile Include="Models\CreditType.cs" />
+    <Compile Include="Models\DeliveryType.cs" />
+    <Compile Include="Models\Grade.cs" />
+    <Compile Include="Models\Program.cs" />
+    <Compile Include="Models\ProgramCourse.cs" />
+    <Compile Include="Models\ProgramCredential.cs" />
+    <Compile Include="Models\ProgramType.cs" />
+    <Compile Include="Models\SchoolYear.cs" />
+    <Compile Include="Models\SubjectArea.cs" />
+    <Compile Include="Profiles\ClusterProfile.cs" />
+    <Compile Include="Profiles\CourseProfile.cs" />
+    <Compile Include="Profiles\CredentialProfile.cs" />
+    <Compile Include="Profiles\ProgramProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
