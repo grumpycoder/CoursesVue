@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using AutoMapper.QueryableExtensions;
 using Courses.Core.Dtos;
+using DevExtreme.AspNet.Data;
+using DevExtreme.AspNet.Mvc;
 
 namespace Courses.Web.Controllers
 {
@@ -15,6 +17,14 @@ namespace Courses.Web.Controllers
         public CourseController()
         {
             _context = CourseDbContext.Create();
+        }
+
+        [HttpGet, Route("")]
+        public async Task<object> Get(DataSourceLoadOptions loadOptions)
+        {
+            var list = await _context.CourseViews.ToListAsync();
+
+            return Ok(DataSourceLoader.Load(list, loadOptions));
         }
 
         [HttpGet, Route("{id}")]

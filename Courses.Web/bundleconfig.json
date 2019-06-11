@@ -1,0 +1,33 @@
+[
+  {
+    "outputFileName": "js/vendor-bundle.js",
+    "inputFiles": [
+      "node_modules/jquery/dist/jquery.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "js/dx-bundle.js",
+    "inputFiles": [
+      "node_modules/jszip/dist/jszip.js",
+      "node_modules/devextreme/dist/js/dx.all.js",
+      "node_modules/devextreme-aspnet-data/js/dx.aspnet.data.js"
+    ]
+  },
+  {
+    "outputFileName": "css/dx-bundle.css",
+    "inputFiles": [
+      "node_modules/devextreme/dist/css/dx.common.css",
+      "node_modules/devextreme/dist/css/dx.light.css",
+      "src/scss/devextreme/override.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "adjustRelativePaths": false
+    }
+  }
+]
