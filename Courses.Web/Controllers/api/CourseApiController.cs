@@ -10,11 +10,11 @@ using DevExtreme.AspNet.Mvc;
 namespace Courses.Web.Controllers.api
 {
     [RoutePrefix("api/courses")]
-    public class CourseController : ApiController
+    public class CourseApiController : ApiController
     {
         private readonly CourseDbContext _context;
 
-        public CourseController()
+        public CourseApiController()
         {
             _context = CourseDbContext.Create();
         }
