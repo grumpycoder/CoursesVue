@@ -165,6 +165,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\api\CourseController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -240,7 +241,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="src\scss\bootstrap\bootstrap.scss" />
     <Content Include="src\scss\vendor.scss" />
-    <Content Include="src\app\tsconfig.json" />
+    <None Include="src\app\tsconfig.json.1" />
+    <Content Include="Views\Course\Index.cshtml" />
+    <Content Include="Views\Course\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
