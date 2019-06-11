@@ -2,6 +2,8 @@
 using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper.QueryableExtensions;
+using Courses.Core.Dtos;
 
 namespace Courses.Web.Controllers
 {
@@ -20,6 +22,15 @@ namespace Courses.Web.Controllers
         {
             var dto = await _context.CourseViews.FirstOrDefaultAsync(c => c.Id == id);
 
+            return Ok(dto);
+        }
+
+        [HttpGet, Route("{id}/full"), Authorize]
+        public async Task<object> GetFull(int id)
+        {
+            var dto = await _context.Courses
+                .Include(x => x.ProgramCourses).ProjectTo<CourseDto>()
+                .FirstOrDefaultAsync(c => c.Id == id);
             return Ok(dto);
         }
 
