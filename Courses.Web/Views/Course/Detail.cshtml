@@ -1,8 +1,108 @@
-﻿@model string 
+﻿@model string
 
 @{
     ViewBag.Title = "Detail";
 }
+<style>
+    [v-cloak] {
+        display: none;
+    }
+</style>
+@*<h2>Detail - @Model</h2>*@
 
-<h2>Detail - @Model</h2>
+<div id="app" v-cloak>
+
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">{{course.name}} ({{course.courseCode}})</h4>
+        </div>
+        <div class="card-body">
+            
+            <div class="row">
+
+
+                <div class="col-6">
+                    <fieldset>
+                        <legend>Details</legend>
+                        <dl class="row">
+                            <dt class="col-3">Name</dt>
+                            <dd class="col-9">{{ course.name }}</dd>
+
+                            <dt class="col-3">Course Code</dt>
+                            <dd class="col-9">{{ course.courseCode }}</dd>
+
+                            <dt class="col-3">CIP Code</dt>
+                            <dd class="col-9">{{ course.cipCode || 'None'}}</dd>
+
+                            <dt class="col-3">Description</dt>
+                            <dd class="col-9">{{ course.description }}</dd>
+
+                            <dt class="col-3">Service Range</dt>
+                            <dd class="col-9">{{ course.beginYear }}-{{ course.endYear || 'Current' }}</dd>
+
+                            <dt class="col-3">Grade Range</dt>
+                            <dd class="col-9">{{ course.lowGrade }}-{{ course.highGrade }}</dd>
+
+                            <dt class="col-3">Course Type</dt>
+                            <dd class="col-9">{{ course.courseType }}</dd>
+
+                            <dt class="col-3">Credit Type</dt>
+                            <dd class="col-9">{{ course.creditType }}</dd>
+
+                            <dt class="col-3">Subject Area</dt>
+                            <dd class="col-9">{{ course.subjectArea }}</dd>
+
+                        </dl>
+                    </fieldset>
+                </div>
+
+                <div class="col-6">
+                    <fieldset>
+                        <legend>Career Tech Programs</legend>
+                        <ul class="list-group">
+                            <li v-for="program in course.programs" class="list-group-item">
+                                {{ program.programName }} ({{ program.programCode }})
+                            </li>
+                        </ul>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            <a href="/courses">Back To Courses</a>
+            
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+
+    <script src="~/js/app/course-detail.module.js"></script>
+
+    <script>
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                selectedCountryCode: null,
+                countries: [
+                    { code: 'ca', name: 'Canada' },
+                    { code: 'us', name: 'United States' }
+                ],
+                course: {}
+            },
+            mounted() {
+                var currentUrl = window.location.pathname.split('/');
+                var courseCode = currentUrl[currentUrl.length - 1];
+                var url = '/api/courses/' + courseCode + '/full';
+
+                axios.get(url).then(resp => {
+                    this.course = resp.data;
+                    this.isLoading = false;
+                }).catch(err => console.log(err));
+            }
+        })
+    </script>
+}
 

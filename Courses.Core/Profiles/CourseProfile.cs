@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Courses.Core.Dtos;
 using Courses.Core.Models;
+using System.Linq;
 
 namespace Courses.Core.Profiles
 {
@@ -24,6 +25,7 @@ namespace Courses.Core.Profiles
                 .ForMember(d => d.SubjectArea, opt => opt.MapFrom(src => src.SubjectArea.Name))
                 .ForMember(d => d.LowGrade, opt => opt.MapFrom(src => src.LowGrade.Name))
                 .ForMember(d => d.HighGrade, opt => opt.MapFrom(src => src.HighGrade.Name))
+                .ForMember(d => d.Programs, opt => opt.MapFrom(src => src.ProgramCourses.Select(x => x.Program)))
                 ;
         }
     }

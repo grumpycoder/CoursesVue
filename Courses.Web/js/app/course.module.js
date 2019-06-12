@@ -21,7 +21,7 @@
             icon: 'fa fa-trash'
         },
         stateStoring: {
-            enabled: true,
+            enabled: false,
             type: "localStorage",
             storageKey: "gridCourseFilterStorage"
         },
@@ -35,6 +35,32 @@
         columnResizingMode: "nextColumn",
         columnMinWidth: 50,
         columnAutoWidth: true,
-        columns: ["courseCode", "name", "description", "beginServiceYear", "endServiceYear"]
+        columns: [
+            'courseCode', 
+            'cipCode',
+            'name', 
+            'description', 
+            'beginServiceYear', 
+            'endServiceYear', 
+            'lowGrade', 
+            'highGrade',
+            'status', 
+            'courseType', 
+            'classType', 
+            'creditType',
+            'subjectArea',
+            {
+                cellTemplate: function(container, item) {
+                    $('<a/>').addClass('btn btn-outline-primary')
+                        .text('Details')
+                        .attr('aria-label', 'Details')
+                        .attr('href', '/courses/' + item.data.courseCode)
+                        .on('dxclick',
+                            function (e) {
+                                console.log('click', item.data);
+                            })
+                        .appendTo(container);
+                }
+            }]
     }).dxDataGrid("instance");
 })();

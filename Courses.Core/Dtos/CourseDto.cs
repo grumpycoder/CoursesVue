@@ -1,4 +1,6 @@
-﻿namespace Courses.Core.Dtos
+﻿using System.Collections.Generic;
+
+namespace Courses.Core.Dtos
 {
     public class CourseDto
     {
@@ -18,6 +20,6 @@
         public string SubjectArea { get; set; }
         public string Status { get; set; }
 
-       // public List<ProgramDto> CareerTechPrograms { get; set; }
+        public List<ProgramDto> Programs { get; set; }
     }
 }

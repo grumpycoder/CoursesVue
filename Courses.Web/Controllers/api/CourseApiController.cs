@@ -1,11 +1,11 @@
-﻿using System.Data.Entity;
-using System.Threading.Tasks;
-using System.Web.Http;
-using AutoMapper.QueryableExtensions;
+﻿using AutoMapper.QueryableExtensions;
 using Courses.Core.Dtos;
 using Courses.Infrastructure;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
+using System.Data.Entity;
+using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace Courses.Web.Controllers.api
 {
@@ -27,20 +27,28 @@ namespace Courses.Web.Controllers.api
             return Ok(DataSourceLoader.Load(list, loadOptions));
         }
 
-        [HttpGet, Route("{id}")]
-        public async Task<object> Get(int id)
+        //[HttpGet, Route("{id:int}")]
+        //public async Task<object> GetById(int id)
+        //{
+        //    var dto = await _context.CourseViews.FirstOrDefaultAsync(c => c.Id == id);
+
+        //    return Ok(dto);
+        //}
+
+        [HttpGet, Route("{courseCode}")]
+        public async Task<object> GetByCode(string courseCode)
         {
-            var dto = await _context.CourseViews.FirstOrDefaultAsync(c => c.Id == id);
+            var dto = await _context.CourseViews.FirstOrDefaultAsync(c => c.CourseCode == courseCode);
 
             return Ok(dto);
         }
 
-        [HttpGet, Route("{id}/full"), Authorize]
-        public async Task<object> GetFull(int id)
+        [HttpGet, Route("{courseCode}/full")]
+        public async Task<object> GetFull(string courseCode)
         {
             var dto = await _context.Courses
                 .Include(x => x.ProgramCourses).ProjectTo<CourseDto>()
-                .FirstOrDefaultAsync(c => c.Id == id);
+                .FirstOrDefaultAsync(c => c.CourseCode == courseCode);
             return Ok(dto);
         }
 
