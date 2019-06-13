@@ -4,11 +4,10 @@
 /*$text-color: $gray-dark !default;*/
 
 
-
-/*@import '_pre_default';*/ 
-@import "node_modules/bootswatch/dist/yeti/variables";
+@import '_pre_default';
+@import "node_modules/bootswatch/dist/cosmo/variables";
 @import "node_modules/bootstrap/scss/bootstrap";
-@import "node_modules/bootswatch/dist/yeti/bootswatch";
+@import "node_modules/bootswatch/dist/cosmo/bootswatch";
 
 
 
@@ -30,7 +29,7 @@ $btn-default-border: #ddd !default;*/
 
 
 
-.navbar {
+/*.navbar {
     margin-bottom: 10px;
 }
 
@@ -56,4 +55,4 @@ $btn-default-border: #ddd !default;*/
 
 .error {
     color: $danger;
-}
+}*/

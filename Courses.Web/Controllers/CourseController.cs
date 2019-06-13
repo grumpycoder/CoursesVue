@@ -17,5 +17,11 @@ namespace Courses.Web.Controllers
             return View((object)courseCode);
         }
 
+        [Route("{courseCode}/edit")]
+        public ActionResult Edit(string courseCode)
+        {
+            return View((object)courseCode);
+        }
+
     }
 }

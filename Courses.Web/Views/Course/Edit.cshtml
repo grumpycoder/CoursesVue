@@ -1,0 +1,254 @@
+﻿@model string
+
+@{
+    ViewBag.Title = "Edit";
+}
+<style>
+    [v-cloak] {
+        display: none;
+    }
+</style>
+
+<div id="app" v-cloak>
+
+    <div class="card" v-if="!course">
+        <div class="card-header">
+            Not Found
+        </div>
+        <div class="card-body">
+            <h4>Unable to find course {{courseCode}}</h4>
+        </div>
+    </div>
+
+    <div class="card" v-if="course">
+        <div class="card-header">
+            <h4 class="card-title">{{title}}</h4>
+        </div>
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-8">
+                    Errors:
+                    <p v-if="errors.length">
+                        <b>Please correct the following error(s):</b>
+                        <ul>
+                            <li v-for="error in errors">{{ error }}</li>
+                        </ul>
+                    </p>
+                    <form novalidate>
+                        <div class="form-group row">
+                            <label for="courseCode" class="col-md-2 col-form-label">Course Code</label>
+                            <div class="col-md-8">
+                                <input type="text"
+                                       class="form-control"
+                                       id="courseCode"
+                                       name="courseCode"
+                                       placeholder="Course Code (required)"
+                                       v-model="course.courseCode"
+                                       minlength="6"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="cipCode" class="col-md-2 col-form-label">CIP Code</label>
+                            <div class="col-md-8">
+                                <input autocomplete="off"
+                                       type="text"
+                                       class="form-control"
+                                       id="cipCode"
+                                       name="cipCode"
+                                       placeholder="CIP Code"
+                                       v-model="course.cipCode"
+                                       minlength="6"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="courseName" class="col-md-2 col-form-label">Name</label>
+                            <div class="col-md-8">
+                                <input type="text"
+                                       class="form-control"
+                                       id="courseName"
+                                       name="courseName"
+                                       placeholder="Course Name (required)"
+                                       v-model="course.name"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="description" class="col-md-2 col-form-label">Description</label>
+                            <div class="col-md-8">
+                                <textarea id="description"
+                                          name="description"
+                                          class="form-control"
+                                          cols="30"
+                                          rows="10"
+                                          placeholder="Course Description (required)"
+                                          v-model="course.description"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="beginServiceYearId" class="col-md-2 col-form-label">Begin Service</label>
+                            <div class="col-md-8">
+                                <select class="form-control"
+                                        v-model="course.beginServiceYearId"
+                                        name="beginServiceYearId">
+                                    <option v-for="year in schoolYears" :value="year.id">{{ year.year }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="endServiceYearId" class="col-md-2 col-form-label">End Service</label>
+                            <div class="col-md-8">
+                                <select class="form-control"
+                                        v-model="course.endServiceYearId"
+                                        name="endServiceYearId">
+                                    <option v-for="year in schoolYears" :value="year.id">{{ year.year }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="lowGradeId" class="col-md-2 col-form-label">Low Grade</label>
+                            <div class="col-md-8">
+                                <select class="form-control"
+                                        v-model="course.lowGradeId"
+                                        name="lowGradeId">
+                                    <option v-for="grade in grades" :value="grade.id">
+                                        {{ grade.name }} - {{ grade.description }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="highGradeId" class="col-md-2 col-form-label">High Grade</label>
+                            <div class="col-md-8">
+                                <select class="form-control"
+                                        v-model="course.highGradeId"
+                                        name="highGradeId">
+                                    <option v-for="grade in grades" :value="grade.id">
+                                        {{ grade.name }} - {{ grade.description }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="courseTypeId" class="col-md-2 col-form-label">Course Type</label>
+                            <div class="col-md-8">
+                                <select class="form-control"
+                                        v-model="course.courseTypeId"
+                                        name="courseTypeId">
+                                    <option v-for="type of courseTypes" :value="type.id">{{ type.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="creditTypeId" class="col-md-2 col-form-label">Credit Type</label>
+                            <div class="col-md-8">
+                                <select class="form-control"
+                                        v-model="course.creditTypeId"
+                                        name="creditType">
+                                    <option v-for="type of creditTypes" :value="type.id">{{ type.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="classTypeId" class="col-md-2 col-form-label">Class Type</label>
+                            <div class="col-md-8">
+                                <select class="form-control"
+                                        v-model="course.classTypeId"
+                                        name="classTypeId">
+                                    <option v-for="type of classTypes" :value="type.id">{{ type.name }} - {{ type.description }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="subjectAreaId" class="col-md-2 col-form-label">Subject Area</label>
+                            <div class="col-md-8">
+                                <select class="form-control"
+                                        v-model="course.subjectAreaId"
+                                        name="subjectArea">
+                                    <option v-for="type of subjectAreas" :value="type.id">{{ type.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" type="submit" v-on:click.prevent="submit">Save Course</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            <a v-bind:href="'/courses/'+ course.courseCode + ''" ><i class="fa fa-arrow-circle-o-left"></i> Back To Details</a>
+            <a href="/courses" class="float-right"><i class="fa fa-book"></i> Back To Courses</a>
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+
+    <script>
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                schoolYears: [],
+                grades: [],
+                courseTypes: [],
+                creditTypes: [],
+                classTypes: [],
+                subjectAreas: [],
+                course: {},
+                courseCode: '',
+                errors: [], 
+                title: ''
+            },
+            methods: {
+                submit: function(e) {
+                    console.log('submit');
+                    this.errors.push('Course code required');
+                    if (this.course.name.length === 0) {
+                        this.errors.push('Course code required');
+                    }
+                }
+            }, 
+            mounted() {
+                var currentUrl = window.location.pathname.split('/');
+                this.courseCode = currentUrl[currentUrl.length - 2];
+                var url = '/api/courses/' + this.courseCode + '/edit';
+                axios.get(url).then(resp => {
+                    this.course = resp.data;
+                    this.title = this.course.name + ' (' + this.course.courseCode + ')';
+                }).catch(err => console.log(err));
+
+                axios.get('/api/ref/schoolyears').then(resp => {
+                    this.schoolYears = resp.data;
+                }).catch(err => console.log(err));
+
+                axios.get('/api/ref/grades').then(resp => {
+                    this.grades = resp.data;
+                }).catch(err => console.log(err));
+
+                axios.get('/api/ref/coursetypes').then(resp => {
+                    this.courseTypes = resp.data;
+                }).catch(err => console.log(err));
+
+                axios.get('/api/ref/credittypes').then(resp => {
+                    this.creditTypes = resp.data;
+                }).catch(err => console.log(err));
+
+                axios.get('/api/ref/classtypes').then(resp => {
+                    this.classTypes = resp.data;
+                }).catch(err => console.log(err));
+
+                axios.get('/api/ref/subjectareas').then(resp => {
+                    this.subjectAreas = resp.data;
+                }).catch(err => console.log(err));
+            },
+            ready() {
+                var currentUrl = window.location.pathname.split('/');
+                this.courseCode = currentUrl[currentUrl.length - 2];
+
+            }
+        })
+    </script>
+}
+

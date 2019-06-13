@@ -166,6 +166,7 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\api\CourseApiController.cs" />
+    <Compile Include="Controllers\api\RefController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -178,6 +179,7 @@
     <Content Include="css\dx-bundle.min.css">
       <DependentUpon>dx-bundle.css</DependentUpon>
     </Content>
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="css\vendor-bundle.css" />
     <Content Include="css\vendor-bundle.min.css">
       <DependentUpon>vendor-bundle.css</DependentUpon>
@@ -213,6 +215,11 @@
     <Content Include="css\icons\dxiconsmaterial.ttf" />
     <Content Include="css\icons\dxiconsmaterial.woff" />
     <Content Include="css\icons\dxiconsmaterial.woff2" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -245,6 +252,10 @@
     <None Include="src\app\tsconfig.json.1" />
     <Content Include="Views\Course\Index.cshtml" />
     <Content Include="Views\Course\Detail.cshtml" />
+    <Content Include="Views\Course\Edit.cshtml" />
+    <Content Include="src\scss\font-awesome\font-awesome.scss" />
+    <Content Include="src\scss\font-awesome\_variables.scss" />
+    <Content Include="src\scss\bootstrap\_pre_default.scss" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

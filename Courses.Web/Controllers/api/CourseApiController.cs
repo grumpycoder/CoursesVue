@@ -4,10 +4,11 @@ using Courses.Infrastructure;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace Courses.Web.Controllers.api
+namespace Courses.Web.Controllers.Api
 {
     [RoutePrefix("api/courses")]
     public class CourseApiController : ApiController
@@ -52,5 +53,14 @@ namespace Courses.Web.Controllers.api
             return Ok(dto);
         }
 
+        [HttpGet, Route("{courseCode}/edit")]
+        public async Task<object> GetEdit(string courseCode)
+        {
+            //var dto = await _context.Courses.Include(x => x.BeginServiceYear).FirstOrDefaultAsync(c => c.Id == id);
+            var dto = await _context.Courses
+                .Where(c => c.CourseCode == courseCode).ProjectTo<CourseEditDto>().FirstOrDefaultAsync();
+
+            return Ok(dto);
+        }
     }
 }

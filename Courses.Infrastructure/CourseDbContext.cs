@@ -23,6 +23,14 @@ namespace Courses.Infrastructure
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseView> CourseViews { get; set; }
 
+        // Lookup References
+        public DbSet<SchoolYear> SchoolYears { get; set; }
+        public DbSet<Grade> Grades { get; set; }
+        public DbSet<CourseType> CourseTypes { get; set; }
+        public DbSet<CreditType> CreditTypes { get; set; }
+        public DbSet<ClassType> ClassTypes { get; set; }
+        public DbSet<SubjectArea> SubjectAreas { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -54,5 +62,7 @@ namespace Courses.Infrastructure
 
 
         }
+
+
     }
 }
