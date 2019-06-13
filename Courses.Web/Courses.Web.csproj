@@ -23,7 +23,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <UseGlobalApplicationHostFile />
+    <UseGlobalApplicationHostFile>
+    </UseGlobalApplicationHostFile>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
@@ -81,6 +82,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="StackifyHttpTracer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=93c44ce23f2048dd, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackifyHttpModule.1.0.41\lib\net40\StackifyHttpTracer.dll</HintPath>
     </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
@@ -249,7 +253,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="src\scss\bootstrap\bootstrap.scss" />
     <Content Include="src\scss\vendor.scss" />
-    <None Include="src\app\tsconfig.json.1" />
     <Content Include="Views\Course\Index.cshtml" />
     <Content Include="Views\Course\Detail.cshtml" />
     <Content Include="Views\Course\Edit.cshtml" />

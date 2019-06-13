@@ -15,11 +15,12 @@ namespace Courses.Core.Models
         public int? ProgramTypeId { get; set; }
 
         public int? ClusterId { get; set; }
-        public Cluster Cluster { get; set; }
-        public List<Course> Courses { get; set; } = new List<Course>();
-
+        //public Cluster Cluster { get; set; }
         public List<ProgramCourse> ProgramCourses { get; set; }
 
-        public List<ProgramCredential> Credentials { get; set; }
+        //public List<Course> Courses { get; set; } = new List<Course>();
+
+
+        //public List<ProgramCredential> Credentials { get; set; }
     }
 }

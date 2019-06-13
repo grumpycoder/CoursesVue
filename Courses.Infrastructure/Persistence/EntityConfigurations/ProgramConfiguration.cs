@@ -9,7 +9,10 @@ namespace Courses.Infrastructure.Persistence.EntityConfigurations
         {
             ToTable("Program", "CareerTech");
             Property(s => s.Id).HasColumnName("ProgramId");
-            Property(s => s.Name).HasColumnName("Program");
+            Property(s => s.Name).HasColumnName("ProgramName");
+
+            HasMany<ProgramCourse>(e => e.ProgramCourses)
+                .WithRequired(e => e.Program);
         }
     }
 }

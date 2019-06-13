@@ -9,8 +9,8 @@ namespace Courses.Infrastructure.Persistence.EntityConfigurations
         {
             ToTable("ProgramCourse", "CareerTech");
             Property(s => s.Id).HasColumnName("ProgramCourseId");
-            //Property(s => s.ProgramId).HasColumnName("ProgramId");
-            //Property(s => s.CourseId).HasColumnName("CourseId");
+            Property(s => s.ProgramId).HasColumnName("ProgramId");
+            Property(s => s.CourseId).HasColumnName("CourseId");
         }
     }
 }

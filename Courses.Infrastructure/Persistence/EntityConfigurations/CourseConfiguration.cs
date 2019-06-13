@@ -22,6 +22,8 @@ namespace Courses.Infrastructure.Persistence.EntityConfigurations
             Property(s => s.CreditTypeId).HasColumnName("CreditTypeId");
             Property(s => s.SubjectAreaId).HasColumnName("CourseSubjectAreaId");
 
+            HasMany<ProgramCourse>(s => s.ProgramCourses)
+                .WithRequired(s => s.Course);
 
             //HasMany<Program>(s => s.Programs)
             //    .WithMany(c => c.Courses)
