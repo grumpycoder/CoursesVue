@@ -17,7 +17,7 @@
             <h4 class="card-title">{{course.name}} ({{course.courseCode}})</h4>
         </div>
         <div class="card-body">
-            
+
             <div class="row">
 
 
@@ -61,16 +61,22 @@
                         <legend>Career Tech Programs</legend>
                         <ul class="list-group">
                             <li v-for="program in course.programs" class="list-group-item">
-                                {{ program.programName }} ({{ program.programCode }})
+                                <div class="text-muted">Cluster: {{ program.clusterName}}</div>
+                                <div class="font-weight-bolder">
+                                    {{ program.programName }} ({{ program.programCode }})
+                                </div>
                             </li>
                         </ul>
+                        
+                     
+
                     </fieldset>
                 </div>
             </div>
         </div>
         <div class="card-footer text-muted">
             <a href="/courses">Back To Courses</a>
-            
+            <a v-bind:href="'/courses/'+ course.courseCode + '/edit'" class="float-right">Edit</a>
         </div>
     </div>
 
@@ -78,7 +84,7 @@
 
 @section scripts{
 
-    <script src="~/js/app/course-detail.module.js"></script>
+    @*<script src="~/js/app/course-detail.module.js"></script>*@
 
     <script>
 
@@ -96,7 +102,6 @@
                 var currentUrl = window.location.pathname.split('/');
                 var courseCode = currentUrl[currentUrl.length - 1];
                 var url = '/api/courses/' + courseCode + '/full';
-
                 axios.get(url).then(resp => {
                     this.course = resp.data;
                     this.isLoading = false;
