@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper;
 
 namespace Courses.Web.Controllers.Api
 {
@@ -61,6 +62,19 @@ namespace Courses.Web.Controllers.Api
                 .Where(c => c.CourseCode == courseCode).ProjectTo<CourseEditDto>().FirstOrDefaultAsync();
 
             return Ok(dto);
+        }
+
+        [HttpPut, Route("")]
+        public async Task<object> Put(CourseEditDto dto)
+        {
+            var course = await _context.Courses.FindAsync(dto.Id);
+
+            Mapper.Map(dto, course);
+
+            _context.SaveChanges();
+
+            return Ok(dto);
+            return Ok();
         }
     }
 }

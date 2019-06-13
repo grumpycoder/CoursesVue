@@ -35,7 +35,7 @@
                             <li v-for="error in errors">{{ error }}</li>
                         </ul>
                     </p>
-                    <form novalidate>
+                    <form novalidate v-on:submit.prevent="submit()">
                         <div class="form-group row">
                             <label for="courseCode" class="col-md-2 col-form-label">Course Code</label>
                             <div class="col-md-8">
@@ -45,7 +45,7 @@
                                        name="courseCode"
                                        placeholder="Course Code (required)"
                                        v-model="course.courseCode"
-                                       minlength="6"/>
+                                       minlength="6" />
                             </div>
                         </div>
                         <div class="form-group row">
@@ -58,7 +58,7 @@
                                        name="cipCode"
                                        placeholder="CIP Code"
                                        v-model="course.cipCode"
-                                       minlength="6"/>
+                                       minlength="6" />
                             </div>
                         </div>
                         <div class="form-group row">
@@ -69,7 +69,7 @@
                                        id="courseName"
                                        name="courseName"
                                        placeholder="Course Name (required)"
-                                       v-model="course.name"/>
+                                       v-model="course.name" />
                             </div>
                         </div>
                         <div class="form-group row">
@@ -90,6 +90,7 @@
                                 <select class="form-control"
                                         v-model="course.beginServiceYearId"
                                         name="beginServiceYearId">
+                                    <option :value="null">-- Select Year --</option>
                                     <option v-for="year in schoolYears" :value="year.id">{{ year.year }}</option>
                                 </select>
                             </div>
@@ -100,6 +101,7 @@
                                 <select class="form-control"
                                         v-model="course.endServiceYearId"
                                         name="endServiceYearId">
+                                    <option :value="null">-- Select Year --</option>
                                     <option v-for="year in schoolYears" :value="year.id">{{ year.year }}</option>
                                 </select>
                             </div>
@@ -111,6 +113,7 @@
                                 <select class="form-control"
                                         v-model="course.lowGradeId"
                                         name="lowGradeId">
+                                    <option :value="null">-- Select Grade --</option>
                                     <option v-for="grade in grades" :value="grade.id">
                                         {{ grade.name }} - {{ grade.description }}
                                     </option>
@@ -123,6 +126,7 @@
                                 <select class="form-control"
                                         v-model="course.highGradeId"
                                         name="highGradeId">
+                                    <option :value="null">-- Select Grade --</option>
                                     <option v-for="grade in grades" :value="grade.id">
                                         {{ grade.name }} - {{ grade.description }}
                                     </option>
@@ -135,6 +139,7 @@
                                 <select class="form-control"
                                         v-model="course.courseTypeId"
                                         name="courseTypeId">
+                                    <option :value="null">-- Select Course Type --</option>
                                     <option v-for="type of courseTypes" :value="type.id">{{ type.name }}</option>
                                 </select>
                             </div>
@@ -145,6 +150,7 @@
                                 <select class="form-control"
                                         v-model="course.creditTypeId"
                                         name="creditType">
+                                    <option :value="null">-- Select Credit Type --</option>
                                     <option v-for="type of creditTypes" :value="type.id">{{ type.name }}</option>
                                 </select>
                             </div>
@@ -155,6 +161,7 @@
                                 <select class="form-control"
                                         v-model="course.classTypeId"
                                         name="classTypeId">
+                                    <option :value="null">-- Select Class Type --</option>
                                     <option v-for="type of classTypes" :value="type.id">{{ type.name }} - {{ type.description }}</option>
                                 </select>
                             </div>
@@ -165,18 +172,19 @@
                                 <select class="form-control"
                                         v-model="course.subjectAreaId"
                                         name="subjectArea">
+                                    <option :value="null">-- Select Subject Area --</option>
                                     <option v-for="type of subjectAreas" :value="type.id">{{ type.name }}</option>
                                 </select>
                             </div>
                         </div>
-                        <button class="btn btn-primary" type="submit" v-on:click.prevent="submit">Save Course</button>
+                        <button class="btn btn-primary" type="submit">Save Course</button>
                     </form>
 
                 </div>
             </div>
         </div>
         <div class="card-footer text-muted">
-            <a v-bind:href="'/courses/'+ course.courseCode + ''" ><i class="fa fa-arrow-circle-o-left"></i> Back To Details</a>
+            <a v-bind:href="'/courses/'+ course.courseCode + ''"><i class="fa fa-arrow-circle-o-left"></i> Back To Details</a>
             <a href="/courses" class="float-right"><i class="fa fa-book"></i> Back To Courses</a>
         </div>
     </div>
@@ -198,18 +206,23 @@
                 subjectAreas: [],
                 course: {},
                 courseCode: '',
-                errors: [], 
+                errors: [],
                 title: ''
             },
             methods: {
-                submit: function(e) {
-                    console.log('submit');
+                submit: function (e) {
+                    console.log('submit', this.course);
                     this.errors.push('Course code required');
                     if (this.course.name.length === 0) {
                         this.errors.push('Course code required');
                     }
+
+                    axios.put('/api/courses', this.course)
+                        .then(resp => {
+                            console.log('resp', resp);
+                        });
                 }
-            }, 
+            },
             mounted() {
                 var currentUrl = window.location.pathname.split('/');
                 this.courseCode = currentUrl[currentUrl.length - 2];

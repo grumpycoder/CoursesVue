@@ -51,13 +51,13 @@ namespace Courses.Infrastructure
             modelBuilder.Configurations.Add(new DeliveryTypeConfiguration());
             modelBuilder.Configurations.Add(new SubjectAreaConfiguration());
 
-            modelBuilder.Configurations.Add(new ClusterConfiguration());
-            modelBuilder.Configurations.Add(new ProgramConfiguration());
+            //modelBuilder.Configurations.Add(new ClusterConfiguration());
+            //modelBuilder.Configurations.Add(new ProgramConfiguration());
 
-            modelBuilder.Configurations.Add(new ProgramCourseConfiguration());
-            modelBuilder.Configurations.Add(new ProgramCredentialConfiguration());
-            modelBuilder.Configurations.Add(new CredentialConfiguration());
-            modelBuilder.Configurations.Add(new CredentialTypeConfiguration());
+            //modelBuilder.Configurations.Add(new ProgramCourseConfiguration());
+            //modelBuilder.Configurations.Add(new ProgramCredentialConfiguration());
+            //modelBuilder.Configurations.Add(new CredentialConfiguration());
+            //modelBuilder.Configurations.Add(new CredentialTypeConfiguration());
 
 
 
