@@ -7,6 +7,7 @@
     [v-cloak] {
         display: none;
     }
+
     section.tab-container {
         padding: 1em 0.8em;
     }
@@ -184,12 +185,20 @@
 
                 </div>
             </div>
-          
-            
-            <div class="row">
-                <div class="col-12">
-                    Current Programs
 
+
+            <div class="row">
+                <div class="col-6">
+                    Current Programs
+                    <ul class="list-group">
+                        <li class="list-group-item" v-for="program in course.programs">
+                            <div class="text-muted">Cluster: {{ program.clusterName}}</div>
+                            <div class="font-weight-bolder">
+                                {{ program.programName }} ({{ program.programCode }})
+                                <span class="float-right"><button class="btn btn-danger" v-on:click="deleteProgram($event, program)">Delete</button></span>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -198,38 +207,23 @@
             <a href="/courses" class="float-right"><i class="fa fa-book"></i> Back To Courses</a>
         </div>
     </div>
-    
-<vue-tabs active-tab-color="#9b59b6"
-          active-text-color="white">
-    <v-tab title="Information" icon="fa fa-user">
+
+    <vue-tabs active-tab-color="#9b59b6"
+              active-text-color="white">
+        <v-tab title="Information" icon="fa fa-user">
 
 
-    </v-tab>
-
-    <v-tab title="Programs" icon="fa fa2x fa-cogs">
-        Programs
-    </v-tab>
-
-    <v-tab title="Third tab" icon="fa fa-check">
-        Third tab content
-    </v-tab>
-</vue-tabs>
-
-    @*<vue-tabs active-tab-color="#9b59b6" 
-              active-text-color="white"
-    >
-        <v-tab title="First tab" icon="fa fa-user">
-            First tab content
         </v-tab>
 
-        <v-tab title="Second tab" icon="fa fa-cogs">
-            Second tab content
+        <v-tab title="Programs" icon="fa fa2x fa-cogs">
+            Programs
+
         </v-tab>
 
         <v-tab title="Third tab" icon="fa fa-check">
             Third tab content
         </v-tab>
-    </vue-tabs>*@
+    </vue-tabs>
 
 </div>
 
@@ -247,7 +241,7 @@
                 creditTypes: [],
                 classTypes: [],
                 subjectAreas: [],
-                programs: [], 
+                programs: [],
                 course: {},
                 courseCode: '',
                 errors: [],
@@ -255,13 +249,22 @@
             },
             methods: {
                 submit: function (e) {
-                    console.log('submit', this.course);
                     this.errors.push('Course code required');
                     if (this.course.name.length === 0) {
                         this.errors.push('Course code required');
                     }
 
                     axios.put('/api/courses', this.course)
+                        .then(resp => {
+                            console.log('resp', resp);
+                        });
+                },
+
+                deleteProgram: function(e, program) {
+                    var idx = this.course.programs.indexOf(program);
+                    this.course.programs.splice(idx, 1);
+
+                    axios.delete('/api/careertech/programs/' + program.programId + '/' + this.course.id)
                         .then(resp => {
                             console.log('resp', resp);
                         });

@@ -30,7 +30,7 @@ namespace Courses.Core.Profiles
                 .ForMember(d => d.EndServiceYearId, opt => opt.MapFrom(s => s.EndServiceYearId))
                 .ForMember(d => d.LowGradeId, opt => opt.MapFrom(s => s.LowGradeId))
                 .ForMember(d => d.HighGradeId, opt => opt.MapFrom(s => s.HighGradeId))
-                .ForMember(d => d.ProgramDtos, opt => opt.MapFrom(s => s.ProgramCourses.Select(x => x.Program)))
+                .ForMember(d => d.Programs, opt => opt.MapFrom(s => s.ProgramCourses.Select(x => x.Program)))
                 .ReverseMap();
 
             CreateMap<Course, CourseDto>()

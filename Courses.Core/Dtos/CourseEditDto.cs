@@ -40,7 +40,7 @@ namespace Courses.Core.Dtos
         public int? ClassTypeId { get; set; }
         public int? SubjectAreaId { get; set; }
 
-        public List<ProgramDto> ProgramDtos { get; set; }
+        public List<ProgramDto> Programs { get; set; }
 
     }
 }

@@ -6,6 +6,7 @@ using System.Diagnostics;
 
 namespace Courses.Infrastructure
 {
+
     public class CareerTechDbContext : DbContext
     {
         public CareerTechDbContext() : base("CareerTechContext")

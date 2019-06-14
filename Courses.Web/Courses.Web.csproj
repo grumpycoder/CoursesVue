@@ -169,6 +169,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\api\CareerTechController.cs" />
     <Compile Include="Controllers\api\CourseApiController.cs" />
     <Compile Include="Controllers\api\RefController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
