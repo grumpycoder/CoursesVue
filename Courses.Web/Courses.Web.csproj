@@ -172,6 +172,7 @@
     <Compile Include="Controllers\api\CareerTechController.cs" />
     <Compile Include="Controllers\api\CourseApiController.cs" />
     <Compile Include="Controllers\api\RefController.cs" />
+    <Compile Include="Controllers\CareerTechController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -260,6 +261,8 @@
     <Content Include="src\scss\font-awesome\font-awesome.scss" />
     <Content Include="src\scss\font-awesome\_variables.scss" />
     <Content Include="src\scss\bootstrap\_pre_default.scss" />
+    <Content Include="Views\CareerTech\Index.cshtml" />
+    <Content Include="Views\CareerTech\Clusters.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
