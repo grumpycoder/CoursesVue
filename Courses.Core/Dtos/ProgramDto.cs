@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Courses.Core.Dtos
+﻿namespace Courses.Core.Dtos
 {
     public class ProgramDto
     {
@@ -16,6 +14,7 @@ namespace Courses.Core.Dtos
         public int? BeginYear { get; set; }
         public int? EndYear { get; set; }
 
+        public int? ClusterId { get; set; }
         //public List<CredentialDto> Credentials { get; set; }
     }
 }

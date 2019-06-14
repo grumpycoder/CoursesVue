@@ -30,6 +30,7 @@ namespace Courses.Infrastructure
         public DbSet<CreditType> CreditTypes { get; set; }
         public DbSet<ClassType> ClassTypes { get; set; }
         public DbSet<SubjectArea> SubjectAreas { get; set; }
+        public DbSet<Program> Programs { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -51,7 +52,7 @@ namespace Courses.Infrastructure
             modelBuilder.Configurations.Add(new DeliveryTypeConfiguration());
             modelBuilder.Configurations.Add(new SubjectAreaConfiguration());
 
-            //modelBuilder.Configurations.Add(new ClusterConfiguration());
+            modelBuilder.Configurations.Add(new ClusterConfiguration());
             modelBuilder.Configurations.Add(new ProgramConfiguration());
 
             modelBuilder.Configurations.Add(new ProgramCourseConfiguration());

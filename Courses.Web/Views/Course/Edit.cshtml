@@ -7,6 +7,9 @@
     [v-cloak] {
         display: none;
     }
+    section.tab-container {
+        padding: 1em 0.8em;
+    }
 </style>
 
 <div id="app" v-cloak>
@@ -25,7 +28,6 @@
             <h4 class="card-title">{{title}}</h4>
         </div>
         <div class="card-body">
-
             <div class="row">
                 <div class="col-8">
                     Errors:
@@ -182,18 +184,59 @@
 
                 </div>
             </div>
+          
+            
+            <div class="row">
+                <div class="col-12">
+                    Current Programs
+
+                </div>
+            </div>
         </div>
         <div class="card-footer text-muted">
             <a v-bind:href="'/courses/'+ course.courseCode + ''"><i class="fa fa-arrow-circle-o-left"></i> Back To Details</a>
             <a href="/courses" class="float-right"><i class="fa fa-book"></i> Back To Courses</a>
         </div>
     </div>
+    
+<vue-tabs active-tab-color="#9b59b6"
+          active-text-color="white">
+    <v-tab title="Information" icon="fa fa-user">
+
+
+    </v-tab>
+
+    <v-tab title="Programs" icon="fa fa2x fa-cogs">
+        Programs
+    </v-tab>
+
+    <v-tab title="Third tab" icon="fa fa-check">
+        Third tab content
+    </v-tab>
+</vue-tabs>
+
+    @*<vue-tabs active-tab-color="#9b59b6" 
+              active-text-color="white"
+    >
+        <v-tab title="First tab" icon="fa fa-user">
+            First tab content
+        </v-tab>
+
+        <v-tab title="Second tab" icon="fa fa-cogs">
+            Second tab content
+        </v-tab>
+
+        <v-tab title="Third tab" icon="fa fa-check">
+            Third tab content
+        </v-tab>
+    </vue-tabs>*@
 
 </div>
 
 @section scripts{
 
     <script>
+        Vue.use(VueTabs);
 
         var app = new Vue({
             el: '#app',
@@ -204,6 +247,7 @@
                 creditTypes: [],
                 classTypes: [],
                 subjectAreas: [],
+                programs: [], 
                 course: {},
                 courseCode: '',
                 errors: [],
@@ -226,7 +270,7 @@
             mounted() {
                 var currentUrl = window.location.pathname.split('/');
                 this.courseCode = currentUrl[currentUrl.length - 2];
-                var url = '/api/courses/' + this.courseCode + '/edit';
+                var url = '/api/courses/' + this.courseCode + '/edit/full';
                 axios.get(url).then(resp => {
                     this.course = resp.data;
                     this.title = this.course.name + ' (' + this.course.courseCode + ')';
@@ -254,6 +298,10 @@
 
                 axios.get('/api/ref/subjectareas').then(resp => {
                     this.subjectAreas = resp.data;
+                }).catch(err => console.log(err));
+
+                axios.get('/api/ref/programs').then(resp => {
+                    this.programs = resp.data;
                 }).catch(err => console.log(err));
             },
             ready() {

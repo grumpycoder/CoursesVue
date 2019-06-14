@@ -1,6 +1,8 @@
 ﻿using Courses.Infrastructure;
 using System.Linq;
 using System.Web.Http;
+using AutoMapper.QueryableExtensions;
+using Courses.Core.Dtos;
 
 namespace Courses.Web.Controllers.Api
 {
@@ -55,5 +57,14 @@ namespace Courses.Web.Controllers.Api
             var list = _context.SubjectAreas.ToList();
             return Ok(list);
         }
+
+        [HttpGet, Route("programs")]
+        public object Programs()
+        {
+            var list = _context.Programs.ProjectTo<ProgramDto>().ToList();
+            return Ok(list);
+        }
+
+
     }
 }

@@ -17,6 +17,22 @@ namespace Courses.Core.Profiles
                 .ForMember(d => d.HighGradeId, opt => opt.MapFrom(s => s.HighGradeId))
                 .ReverseMap();
 
+            //CreateMap<CourseEditFullDto, Course>()
+            //    .ForMember(d => d.BeginServiceYearId, opt => opt.MapFrom(s => s.BeginServiceYearId))
+            //    .ForMember(d => d.EndServiceYearId, opt => opt.MapFrom(s => s.EndServiceYearId))
+            //    .ForMember(d => d.LowGradeId, opt => opt.MapFrom(s => s.LowGradeId))
+            //    .ForMember(d => d.HighGradeId, opt => opt.MapFrom(s => s.HighGradeId))
+            //    .ForMember(d => d.ProgramCourses, opt => opt.MapFrom(s => s.))
+            //    .ReverseMap();
+
+            CreateMap<Course, CourseEditFullDto>()
+                .ForMember(d => d.BeginServiceYearId, opt => opt.MapFrom(s => s.BeginServiceYearId))
+                .ForMember(d => d.EndServiceYearId, opt => opt.MapFrom(s => s.EndServiceYearId))
+                .ForMember(d => d.LowGradeId, opt => opt.MapFrom(s => s.LowGradeId))
+                .ForMember(d => d.HighGradeId, opt => opt.MapFrom(s => s.HighGradeId))
+                .ForMember(d => d.ProgramDtos, opt => opt.MapFrom(s => s.ProgramCourses.Select(x => x.Program)))
+                .ReverseMap();
+
             CreateMap<Course, CourseDto>()
                 .ForMember(d => d.CourseCode, opt => opt.MapFrom(src => src.CourseCode))
                 .ForMember(d => d.CreditType, opt => opt.MapFrom(src => src.CreditType.Name))

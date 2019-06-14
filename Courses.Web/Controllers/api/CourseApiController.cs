@@ -1,4 +1,5 @@
-﻿using AutoMapper.QueryableExtensions;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Courses.Core.Dtos;
 using Courses.Infrastructure;
 using DevExtreme.AspNet.Data;
@@ -7,7 +8,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using AutoMapper;
 
 namespace Courses.Web.Controllers.Api
 {
@@ -29,14 +29,6 @@ namespace Courses.Web.Controllers.Api
             return Ok(DataSourceLoader.Load(list, loadOptions));
         }
 
-        //[HttpGet, Route("{id:int}")]
-        //public async Task<object> GetById(int id)
-        //{
-        //    var dto = await _context.CourseViews.FirstOrDefaultAsync(c => c.Id == id);
-
-        //    return Ok(dto);
-        //}
-
         [HttpGet, Route("{courseCode}")]
         public async Task<object> GetByCode(string courseCode)
         {
@@ -57,9 +49,16 @@ namespace Courses.Web.Controllers.Api
         [HttpGet, Route("{courseCode}/edit")]
         public async Task<object> GetEdit(string courseCode)
         {
-            //var dto = await _context.Courses.Include(x => x.BeginServiceYear).FirstOrDefaultAsync(c => c.Id == id);
             var dto = await _context.Courses
                 .Where(c => c.CourseCode == courseCode).ProjectTo<CourseEditDto>().FirstOrDefaultAsync();
+
+            return Ok(dto);
+        }
+
+        [HttpGet, Route("{courseCode}/edit/full")]
+        public async Task<object> GetEditFull(string courseCode)
+        {
+            var dto = await _context.Courses.Include(x => x.ProgramCourses).ProjectTo<CourseEditFullDto>().FirstOrDefaultAsync(c => c.CourseCode == courseCode);
 
             return Ok(dto);
         }
@@ -74,7 +73,8 @@ namespace Courses.Web.Controllers.Api
             _context.SaveChanges();
 
             return Ok(dto);
-            return Ok();
         }
+
+
     }
 }

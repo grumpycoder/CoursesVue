@@ -11,11 +11,11 @@ namespace Courses.Core.Profiles
         {
             CreateMap<Program, ProgramDto>()
                 .ForMember(d => d.ProgramId, opt => opt.MapFrom(src => src.Id))
-                //.ForMember(d => d.ClusterId, opt => opt.MapFrom(src => src.ClusterId))
+                .ForMember(d => d.ClusterId, opt => opt.MapFrom(src => src.ClusterId))
                 .ForMember(d => d.ProgramName, opt => opt.MapFrom(src => src.Name))
                 .ForMember(d => d.ProgramCode, opt => opt.MapFrom(src => src.ProgramCode))
-                //.ForMember(d => d.ClusterCode, opt => opt.MapFrom(src => src.Cluster.ClusterCode))
-                //.ForMember(d => d.ClusterName, opt => opt.MapFrom(src => src.Cluster.Name))
+                .ForMember(d => d.ClusterCode, opt => opt.MapFrom(src => src.Cluster.ClusterCode))
+                .ForMember(d => d.ClusterName, opt => opt.MapFrom(src => src.Cluster.Name))
                 //.ForMember(d => d.Credentials, opt => opt.MapFrom(src => src.Credentials.Select(x => x.Credential)))
                 ;
 
