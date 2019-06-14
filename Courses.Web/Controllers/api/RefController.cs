@@ -65,6 +65,18 @@ namespace Courses.Web.Controllers.Api
             return Ok(list);
         }
 
+        [HttpGet, Route("clustertypes")]
+        public object ClusterTypes()
+        {
+            var list = _context.ClusterTypes.ToList();
+            return Ok(list);
+        }
 
+        [HttpGet, Route("clusters")]
+        public object Clusters()
+        {
+            var list = _context.Clusters.ToList();
+            return Ok(list);
+        }
     }
 }

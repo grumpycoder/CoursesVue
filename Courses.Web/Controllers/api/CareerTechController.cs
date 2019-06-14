@@ -1,11 +1,12 @@
-﻿using Courses.Infrastructure;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Courses.Core.Dtos;
+using Courses.Core.Models;
+using Courses.Infrastructure;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using AutoMapper.QueryableExtensions;
-using Courses.Core.Dtos;
-using Courses.Core.Models;
 
 namespace Courses.Web.Controllers.api
 {
@@ -19,6 +20,41 @@ namespace Courses.Web.Controllers.api
         public CareerTechController()
         {
             _context = CareerTechDbContext.Create();
+        }
+
+        [HttpGet, Route("clusters/{clusterCode}")]
+        public async Task<object> Cluster(string clusterCode)
+        {
+            var dto = await _context.Clusters.Include(x => x.Programs).FirstOrDefaultAsync(x => x.ClusterCode == clusterCode);
+            return Ok(dto);
+        }
+
+        [HttpGet, Route("clusters/{clusterCode}/edit")]
+        public async Task<object> GetEdit(string clusterCode)
+        {
+            var dto = await _context.Clusters.ProjectTo<ClusterEditDto>().FirstOrDefaultAsync(x => x.ClusterCode == clusterCode);
+
+            return Ok(dto);
+        }
+
+        [HttpGet, Route("clusters/{clusterCode}/edit/full")]
+        public async Task<object> GetEditFull(string clusterCode)
+        {
+            var dto = await _context.Clusters.Include(x => x.Programs).ProjectTo<ClusterEditFullDto>().FirstOrDefaultAsync(x => x.ClusterCode == clusterCode);
+
+            return Ok(dto);
+        }
+
+        [HttpPut, Route("clusters")]
+        public async Task<object> Put(ClusterEditDto dto)
+        {
+            var cluster = await _context.Clusters.FindAsync(dto.Id);
+
+            Mapper.Map(dto, cluster);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(dto);
         }
 
         [HttpDelete, Route("programs/{programId}/{courseId}")]

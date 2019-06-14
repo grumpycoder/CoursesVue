@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using Courses.Core.Dtos;
 using Courses.Core.Models;
 
@@ -10,6 +11,10 @@ namespace Courses.Core.Profiles
         {
             CreateMap<ClusterEditDto, Cluster>();
 
+  
+            CreateMap<Cluster, ClusterEditFullDto>()
+                .ForMember(d => d.Programs, opt => opt.MapFrom(s => s.Programs))
+                .ReverseMap();
         }
     }
 }

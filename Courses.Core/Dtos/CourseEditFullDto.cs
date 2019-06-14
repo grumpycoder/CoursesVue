@@ -1,6 +1,8 @@
-﻿namespace Courses.Core.Dtos
+﻿using System.Collections.Generic;
+
+namespace Courses.Core.Dtos
 {
-    public class CourseEditDto
+    public class CourseEditFullDto
     {
         public int Id { get; set; }
         public string CourseCode { get; set; }
@@ -17,6 +19,8 @@
         public int? CreditTypeId { get; set; }
         public int? ClassTypeId { get; set; }
         public int? SubjectAreaId { get; set; }
+
+        public List<ProgramDto> Programs { get; set; }
 
     }
 }

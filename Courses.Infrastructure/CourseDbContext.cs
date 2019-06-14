@@ -22,6 +22,8 @@ namespace Courses.Infrastructure
 
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseView> CourseViews { get; set; }
+        public DbSet<Program> Programs { get; set; }
+        public DbSet<Cluster> Clusters { get; set; }
 
         // Lookup References
         public DbSet<SchoolYear> SchoolYears { get; set; }
@@ -29,8 +31,9 @@ namespace Courses.Infrastructure
         public DbSet<CourseType> CourseTypes { get; set; }
         public DbSet<CreditType> CreditTypes { get; set; }
         public DbSet<ClassType> ClassTypes { get; set; }
+        public DbSet<ClusterType> ClusterTypes { get; set; }
         public DbSet<SubjectArea> SubjectAreas { get; set; }
-        public DbSet<Program> Programs { get; set; }
+
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -56,6 +59,7 @@ namespace Courses.Infrastructure
             modelBuilder.Configurations.Add(new ProgramConfiguration());
 
             modelBuilder.Configurations.Add(new ProgramCourseConfiguration());
+            modelBuilder.Configurations.Add(new ClusterTypeConfiguration());
             //modelBuilder.Configurations.Add(new ProgramCredentialConfiguration());
             //modelBuilder.Configurations.Add(new CredentialConfiguration());
             //modelBuilder.Configurations.Add(new CredentialTypeConfiguration());

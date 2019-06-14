@@ -300,10 +300,10 @@
 
                 deleteProgram: function (e, program) {
                     var idx = this.course.programs.indexOf(program);
-                    this.course.programs.splice(idx, 1);
 
                     axios.delete('/api/careertech/programs/' + program.programId + '/' + this.course.id)
                         .then(resp => {
+                            this.course.programs.splice(idx, 1);
                         });
                 },
 
@@ -313,7 +313,7 @@
                     axios.post(url)
                         .then(resp => {
                             var dto = resp.data.result;
-                            this.course.programs.push(dto); 
+                            this.course.programs.push(dto);
                         });
                 }
             },
@@ -359,7 +359,7 @@
                 this.courseCode = currentUrl[currentUrl.length - 2];
 
             }
-        })
+        });
     </script>
 }
 

@@ -51,9 +51,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoMapperConfig.cs" />
-    <Compile Include="Dtos\ClusterEditDto.cs" />
+    <Compile Include="Dtos\ClusterEditDtoFull.cs" />
+    <Compile Include="Dtos\ClusterEditFullDto.cs" />
     <Compile Include="Dtos\CourseDto.cs" />
     <Compile Include="Dtos\CourseEditDto.cs" />
+    <Compile Include="Dtos\CourseEditFullDto.cs" />
     <Compile Include="Dtos\CredentialDto.cs" />
     <Compile Include="Dtos\CredentialEditDto.cs" />
     <Compile Include="Dtos\ProgramCourseEditDto.cs" />
