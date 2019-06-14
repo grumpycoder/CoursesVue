@@ -11,7 +11,7 @@
         //public bool? IsElective { get; set; }
         //public bool? IsActive { get; set; }
 
-        //public string ModifyUser { get; set; }
+        public string ModifyUser { get; set; }
 
         public Course Course { get; set; }
         public Program Program { get; set; }

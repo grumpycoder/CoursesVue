@@ -1,7 +1,11 @@
 ﻿using Courses.Infrastructure;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper.QueryableExtensions;
+using Courses.Core.Dtos;
+using Courses.Core.Models;
 
 namespace Courses.Web.Controllers.api
 {
@@ -33,5 +37,30 @@ namespace Courses.Web.Controllers.api
 
         }
 
+        [HttpPost, Route("programs/{programId}/{courseId}")]
+        public async Task<object> AddProgramCourse(int programId, int courseId)
+        {
+
+            var existing =
+                _context.ProgramCourses.Any(x => x.ProgramId == programId && x.CourseId == courseId);
+
+            if (existing) return BadRequest("Course already assigned to program");
+
+            var link = new ProgramCourse()
+            {
+                CourseId = courseId,
+                ProgramId = programId,
+                ModifyUser = "mlawrence" //TODO: Get auth user
+            };
+            _context.ProgramCourses.Add(link);
+
+            await _context.SaveChangesAsync();
+
+            var dto = _context.Programs.ProjectTo<ProgramDto>()
+                .FirstOrDefaultAsync(x => x.ProgramId == programId);
+
+            return Ok(dto);
+
+        }
     }
 }
