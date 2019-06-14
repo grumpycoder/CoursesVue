@@ -19,7 +19,12 @@ namespace Courses.Core.Profiles
                 //.ForMember(d => d.Credentials, opt => opt.MapFrom(src => src.Credentials.Select(x => x.Credential)))
                 ;
 
-            CreateMap<ProgramEditDto, Program>();
+            CreateMap<ProgramEditDto, Program>().ReverseMap();
+
+
+            CreateMap<Program, ProgramEditFullDto>()
+                .ForMember(d => d.Credentials, opt => opt.MapFrom(s => s.Credentials.Select(x => x.Credential)))
+                .ReverseMap();
 
             CreateMap<Credential, CredentialDto>()
                 .ForMember(d => d.CredentialTypeName, opt => opt.MapFrom(src => src.CredentialType.Name))

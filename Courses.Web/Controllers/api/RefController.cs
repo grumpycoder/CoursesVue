@@ -72,11 +72,19 @@ namespace Courses.Web.Controllers.Api
             return Ok(list);
         }
 
+        [HttpGet, Route("programTypes")]
+        public object ProgramTypes()
+        {
+            var list = _context.ProgramTypes.ToList();
+            return Ok(list);
+        }
+
         [HttpGet, Route("clusters")]
         public object Clusters()
         {
             var list = _context.Clusters.ToList();
             return Ok(list);
         }
+
     }
 }

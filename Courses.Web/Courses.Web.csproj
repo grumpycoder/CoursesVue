@@ -169,7 +169,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\api\CareerTechController.cs" />
+    <Compile Include="Controllers\api\CareerTechApiController.cs" />
     <Compile Include="Controllers\api\CourseApiController.cs" />
     <Compile Include="Controllers\api\RefController.cs" />
     <Compile Include="Controllers\CareerTechController.cs" />
@@ -263,6 +263,7 @@
     <Content Include="src\scss\bootstrap\_pre_default.scss" />
     <Content Include="Views\CareerTech\Index.cshtml" />
     <Content Include="Views\CareerTech\Clusters.cshtml" />
+    <Content Include="Views\CareerTech\Programs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

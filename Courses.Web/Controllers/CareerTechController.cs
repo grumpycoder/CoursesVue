@@ -17,5 +17,11 @@ namespace Courses.Web.Controllers
             return View();
         }
 
+        [Route("programs")]
+        public ActionResult Programs()
+        {
+            return View();
+        }
+
     }
 }

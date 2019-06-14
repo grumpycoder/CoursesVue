@@ -62,6 +62,7 @@
     <Compile Include="Dtos\ProgramCredentialEditDto.cs" />
     <Compile Include="Dtos\ProgramDto.cs" />
     <Compile Include="Dtos\ProgramEditDto.cs" />
+    <Compile Include="Dtos\ProgramEditFullDto.cs" />
     <Compile Include="Models\ClassType.cs" />
     <Compile Include="Models\Cluster.cs" />
     <Compile Include="Models\ClusterType.cs" />

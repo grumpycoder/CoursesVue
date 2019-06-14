@@ -11,13 +11,13 @@ using System.Web.Http;
 namespace Courses.Web.Controllers.api
 {
     [RoutePrefix("api/careertech")]
-    public class CareerTechController : ApiController
+    public class CareerTechApiController : ApiController
     {
 
         private readonly CareerTechDbContext _context;
 
 
-        public CareerTechController()
+        public CareerTechApiController()
         {
             _context = CareerTechDbContext.Create();
         }
@@ -51,6 +51,39 @@ namespace Courses.Web.Controllers.api
             var cluster = await _context.Clusters.FindAsync(dto.Id);
 
             Mapper.Map(dto, cluster);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(dto);
+        }
+
+        [HttpGet, Route("programs/{programCode}/edit")]
+        public async Task<object> GetEditPrograms(int programCode)
+        {
+            //var schoolYear = 2017;
+            var programs = await _context.Programs
+                .ProjectTo<ProgramEditDto>()
+                .Where(x => x.Id == programCode).FirstOrDefaultAsync();
+            return Ok(programs);
+        }
+
+        [HttpGet, Route("programs/{programCode}/edit/full")]
+        public async Task<object> GetEditProgramsFull(int programCode)
+        {
+            //var schoolYear = 2017;
+            var programs = await _context.Programs
+                .Include(x => x.Credentials)
+                .ProjectTo<ProgramEditFullDto>()
+                .Where(x => x.Id == programCode).FirstOrDefaultAsync();
+            return Ok(programs);
+        }
+
+        [HttpPut, Route("programs")]
+        public async Task<object> Put(ProgramEditDto dto)
+        {
+            var program = await _context.Programs.FindAsync(dto.Id);
+
+            Mapper.Map(dto, program);
 
             await _context.SaveChangesAsync();
 
