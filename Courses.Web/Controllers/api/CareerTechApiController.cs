@@ -13,9 +13,7 @@ namespace Courses.Web.Controllers.api
     [RoutePrefix("api/careertech")]
     public class CareerTechApiController : ApiController
     {
-
         private readonly CareerTechDbContext _context;
-
 
         public CareerTechApiController()
         {
@@ -73,9 +71,23 @@ namespace Courses.Web.Controllers.api
             //var schoolYear = 2017;
             var programs = await _context.Programs
                 .Include(x => x.Credentials)
+                .Include(x => x.ProgramCourses)
                 .ProjectTo<ProgramEditFullDto>()
                 .Where(x => x.Id == programCode).FirstOrDefaultAsync();
+
+
             return Ok(programs);
+        }
+
+        [HttpGet, Route("programs/{programCode}/courses")]
+        public async Task<object> GetProgramsCourses(string programCode)
+        {
+            //var schoolYear = 2017;
+            var dto = await _context.ProgramCourses.Where(x => x.Program.ProgramCode == programCode)
+                .Select(x => x.Course).ProjectTo<CourseDto>().ToListAsync();
+             
+
+            return Ok(dto);
         }
 
         [HttpPut, Route("programs")]

@@ -41,7 +41,7 @@ namespace Courses.Web.Controllers.Api
         public async Task<object> GetFull(string courseCode)
         {
             var dto = await _context.Courses
-                .Include(x => x.ProgramCourses).ProjectTo<CourseDto>()
+                .Include(x => x.ProgramCourses).ProjectTo<CourseFullDto>()
                 .FirstOrDefaultAsync(c => c.CourseCode == courseCode);
             return Ok(dto);
         }

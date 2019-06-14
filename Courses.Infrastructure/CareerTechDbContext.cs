@@ -45,6 +45,13 @@ namespace Courses.Infrastructure
             modelBuilder.Configurations.Add(new CredentialConfiguration());
             modelBuilder.Configurations.Add(new CredentialTypeConfiguration());
             modelBuilder.Configurations.Add(new ProgramCredentialConfiguration());
+            
+            modelBuilder.Configurations.Add(new GradeConfiguration());
+            modelBuilder.Configurations.Add(new CourseTypeConfiguration());
+            modelBuilder.Configurations.Add(new CreditTypeConfiguration());
+            modelBuilder.Configurations.Add(new ClassTypeConfiguration());
+            modelBuilder.Configurations.Add(new DeliveryTypeConfiguration());
+            modelBuilder.Configurations.Add(new SubjectAreaConfiguration());
         }
     }
 }

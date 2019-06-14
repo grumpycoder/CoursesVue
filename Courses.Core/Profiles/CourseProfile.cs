@@ -41,6 +41,16 @@ namespace Courses.Core.Profiles
                 .ForMember(d => d.SubjectArea, opt => opt.MapFrom(src => src.SubjectArea.Name))
                 .ForMember(d => d.LowGrade, opt => opt.MapFrom(src => src.LowGrade.Name))
                 .ForMember(d => d.HighGrade, opt => opt.MapFrom(src => src.HighGrade.Name))
+                ;
+
+            CreateMap<Course, CourseFullDto>()
+                .ForMember(d => d.CourseCode, opt => opt.MapFrom(src => src.CourseCode))
+                .ForMember(d => d.CreditType, opt => opt.MapFrom(src => src.CreditType.Name))
+                .ForMember(d => d.CourseType, opt => opt.MapFrom(src => src.CourseType.Name))
+                .ForMember(d => d.ClassType, opt => opt.MapFrom(src => src.ClassType.Description))
+                .ForMember(d => d.SubjectArea, opt => opt.MapFrom(src => src.SubjectArea.Name))
+                .ForMember(d => d.LowGrade, opt => opt.MapFrom(src => src.LowGrade.Name))
+                .ForMember(d => d.HighGrade, opt => opt.MapFrom(src => src.HighGrade.Name))
                 .ForMember(d => d.Programs, opt => opt.MapFrom(src => src.ProgramCourses.Select(x => x.Program)))
                 ;
         }

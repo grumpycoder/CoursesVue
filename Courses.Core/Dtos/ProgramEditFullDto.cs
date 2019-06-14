@@ -15,6 +15,6 @@ namespace Courses.Core.Dtos
         public int? ClusterId { get; set; }
 
         public List<CredentialDto> Credentials { get; set; }
-
+        
     }
 }

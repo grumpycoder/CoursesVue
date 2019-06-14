@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using Courses.Core.Dtos;
 using Courses.Core.Models;
 using System.Linq;
