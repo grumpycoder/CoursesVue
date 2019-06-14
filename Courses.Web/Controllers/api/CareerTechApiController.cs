@@ -90,6 +90,52 @@ namespace Courses.Web.Controllers.api
             return Ok(dto);
         }
 
+        [HttpDelete, Route("programs/{programCode}/credential/{credentialCode}")]
+        public async Task<object> RemoveProgramCredential(string programCode, string credentialCode)
+        {
+
+            var pc = await _context.ProgramCredentials.Where(x =>
+                x.Program.ProgramCode == programCode && x.Credential.CredentialCode == credentialCode).ToListAsync();
+
+            if (!pc.Any()) return NotFound();
+
+            _context.ProgramCredentials.RemoveRange(pc);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+
+        }
+
+        [HttpPost, Route("programs/{programCode}/credential/{credentialCode}")]
+        public async Task<object> AddProgramCredential(string programCode, string credentialCode)
+        {
+
+            var program = await _context.Programs.Include(x => x.Credentials)
+                .FirstOrDefaultAsync(x => x.ProgramCode == programCode);
+
+            if (program == null) return NotFound();
+
+            var credential = await _context.Credentials.FirstOrDefaultAsync(x => x.CredentialCode == credentialCode);
+
+            if (credential == null) return NotFound();
+
+            if (program.Credentials.Any(x => x.CredentialId == credential.Id))
+            {
+                return BadRequest("Credential already assigned");
+            }
+            
+            //TODO: update modify user
+            program.Credentials.Add(new ProgramCredential() { Program = program, Credential = credential, ModifiyUser = "mlawrence" });
+
+            await _context.SaveChangesAsync();
+
+            var dto = Mapper.Map<CredentialDto>(credential);
+            return Ok(dto);
+
+        }
+
+
         [HttpDelete, Route("programs/{programId}/{courseId}")]
         public async Task<object> RemoveProgramCourse(int programId, int courseId)
         {

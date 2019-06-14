@@ -1,8 +1,8 @@
-﻿using Courses.Infrastructure;
+﻿using AutoMapper.QueryableExtensions;
+using Courses.Core.Dtos;
+using Courses.Infrastructure;
 using System.Linq;
 using System.Web.Http;
-using AutoMapper.QueryableExtensions;
-using Courses.Core.Dtos;
 
 namespace Courses.Web.Controllers.Api
 {
@@ -76,6 +76,13 @@ namespace Courses.Web.Controllers.Api
         public object ProgramTypes()
         {
             var list = _context.ProgramTypes.ToList();
+            return Ok(list);
+        }
+
+        [HttpGet, Route("credentials")]
+        public object Credentials()
+        {
+            var list = _context.Credentials.ToList();
             return Ok(list);
         }
 

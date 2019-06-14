@@ -134,15 +134,30 @@
                 <div class="row">
                     <div class="col-12">
                         <p>
-
+                            <div class="input-group mb-3">
+                                <select class="form-control"
+                                        v-model="selectedCredentialCode"
+                                        name="selectedCredentialCode"
+                                        id="selectedCredentialCode">
+                                    <option :value="null">-- Select Credential --</option>
+                                    <option v-for="item in credentials" :value="item.credentialCode">{{ item.name }} ({{ item.credentialCode }})</option>
+                                </select>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" id="button-addon2" v-on:click="addCredential">Add Credential</button>
+                                </div>
+                            </div>
 
                             <ul class="list-group">
                                 <li class="list-group-item" v-for="credential in program.credentials">
+                                    <div class="row">
+                                        <div class="col-9">
+                                            {{ credential.name }} ({{ credential.credentialCode }})
+                                        </div>
+                                        <div class="col-3">
+                                            <button class="btn btn-danger btn-sm float-right" v-on:click="deleteCredential(credential)">Delete</button>
 
-                                    <span>
-                                        {{ credential.name }} ({{ credential.credentialCode }})
-                                    </span>
-
+                                        </div>
+                                    </div>
                                 </li>
                             </ul>
                         </p>
@@ -163,50 +178,47 @@
             el: '#app',
             data: {
                 selectedProgramCode: null,
+                selectedCredentialCode: null, 
                 program: {},
                 errors: [],
                 clusters: [],
                 programs: [],
                 schoolYears: [],
-                programTypes: []
+                programTypes: [], 
+                credentials: []
             },
             methods: {
                 submit: function (e) {
-                    console.log('save', this.program);
                     axios.put('/api/careertech/programs', this.program)
                         .then(resp => {
-                            console.log(resp);
                         });
                 },
 
                 onChange: function (e) {
-
                     var url = '/api/careertech/programs/' + this.selectedProgramCode + '/edit/full';
-                    console.log(url);
                     axios.get(url).then(resp => {
                         this.program = resp.data;
-                        console.log(this.program);
                     }).catch(err => console.log(err));
+                },
+
+                deleteCredential: function (credential) {
+                    var idx = this.program.credentials.indexOf(credential);
+                    var url = '/api/careertech/programs/' + this.selectedProgramCode + '/credential/' + credential.credentialCode;
+                    this.program.credentials.splice(idx, 1);
+                    axios.delete(url)
+                        .then(resp => {
+                            this.program.credentials.splice(idx, 1);
+                        });
+                },
+
+                addCredential: function () {
+                    var url = '/api/careertech/programs/' + this.selectedProgramCode + '/credential/' + this.selectedCredentialCode;
+                    axios.post(url)
+                        .then(resp => {
+                            var dto = resp.data;
+                            this.program.credentials.push(dto);
+                        });
                 }
-
-                //deleteProgram: function (e, program) {
-                //    //var idx = this.program.programs.indexOf(program);
-
-                //    //axios.delete('/api/careertech/clusters/' + this.selectedCluster + '/' + program.programCode)
-                //    //    .then(resp => {
-                //    //        this.program.programs.splice(idx, 1);
-                //    //    });
-                //},
-
-                //addProgram: function (e) {
-                //    var url = '/api/careertech/programs/' + this.selectedCluster + '/' + this.program.id;
-
-                //    axios.post(url)
-                //        .then(resp => {
-                //            var dto = resp.data.result;
-                //            this.program.programs.push(dto);
-                //        });
-                //}
 
             },
             mounted() {
@@ -225,6 +237,10 @@
 
                 axios.get('/api/ref/programTypes').then(resp => {
                     this.programTypes = resp.data;
+                }).catch(err => console.log(err));
+
+                axios.get('/api/ref/credentials').then(resp => {
+                    this.credentials = resp.data;
                 }).catch(err => console.log(err));
 
             }
