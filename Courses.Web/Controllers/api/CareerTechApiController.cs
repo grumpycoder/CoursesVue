@@ -149,21 +149,21 @@ namespace Courses.Web.Controllers.api
         }
 
 
-        [HttpDelete, Route("programs/{programId}/{courseId}")]
-        public async Task<object> RemoveProgramCourse(int programId, int courseId)
-        {
+        //[HttpDelete, Route("programs/{programId}/{courseId}")]
+        //public async Task<object> RemoveProgramCourse(int programId, int courseId)
+        //{
 
-            var link = await _context.ProgramCourses.FirstOrDefaultAsync(x => x.CourseId == courseId && x.ProgramId == programId);
+        //    var link = await _context.ProgramCourses.FirstOrDefaultAsync(x => x.CourseId == courseId && x.ProgramId == programId);
 
-            if (link == null) return NotFound();
+        //    if (link == null) return NotFound();
 
-            _context.ProgramCourses.Remove(link);
+        //    _context.ProgramCourses.Remove(link);
 
-            await _context.SaveChangesAsync();
+        //    await _context.SaveChangesAsync();
 
-            return Ok();
+        //    return Ok();
 
-        }
+        //}
 
         [HttpPost, Route("programs/{programCode}/course/{courseCode}")]
         public async Task<object> AddProgramCourse(string programCode, string courseCode)
@@ -195,6 +195,23 @@ namespace Courses.Web.Controllers.api
             var dto = Mapper.Map<CourseDto>(course);
 
             return Ok(dto);
+
+        }
+
+        [HttpDelete, Route("programs/{programCode}/course/{courseCode}")]
+        public async Task<object> RemoveProgramCourse(string programCode, string courseCode)
+        {
+
+            var link = await _context.ProgramCourses
+                .FirstOrDefaultAsync(x => x.Course.CourseCode == courseCode && x.Program.ProgramCode == programCode);
+
+            if (link == null) return NotFound();
+
+            _context.ProgramCourses.Remove(link);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
 
         }
 

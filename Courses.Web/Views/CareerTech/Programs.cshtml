@@ -195,7 +195,7 @@
                                             {{ course.name }} ({{ course.courseCode }})
                                         </div>
                                         <div class="col-3">
-                                            <button class="btn btn-danger btn-sm float-right" v-on:click="deleteCredential(credential)">Delete</button>
+                                            <button class="btn btn-danger btn-sm float-right" v-on:click="removeCourse(course)">Delete</button>
 
                                         </div>
                                     </div>
@@ -271,13 +271,23 @@
                 },
 
                 addCourse: function() {
-                    console.log('course', this.selectedCourseCode);
                     var url = '/api/careertech/programs/' + this.selectedProgramCode + '/course/' + this.selectedCourseCode;
                     axios.post(url)
                         .then(resp => {
-                            console.log(resp);
                             var dto = resp.data;
                             this.programCourses.push(dto);
+                        }).catch(err => console.log(err));;
+                },
+
+                removeCourse: function(course) {
+                    console.log('course', course);
+                    var idx = this.programCourses.indexOf(course);
+                    var url = '/api/careertech/programs/' + this.selectedProgramCode + '/course/' + course.courseCode;
+                    axios.delete(url)
+                        .then(resp => {
+                            console.log(resp);
+                            var dto = resp.data;
+                            this.programCourses.splice(idx, 1);
                         }).catch(err => console.log(err));;
                 }
 
