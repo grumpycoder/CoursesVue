@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using DevExtreme.AspNet.Mvc;
 
 namespace Courses.Web.Controllers.api
 {
@@ -14,10 +15,12 @@ namespace Courses.Web.Controllers.api
     public class CareerTechApiController : ApiController
     {
         private readonly CareerTechDbContext _context;
+        private readonly CourseDbContext _courseContext;
 
         public CareerTechApiController()
         {
             _context = CareerTechDbContext.Create();
+            _courseContext = CourseDbContext.Create();
         }
 
         [HttpGet, Route("clusters/{clusterCode}")]
@@ -85,8 +88,6 @@ namespace Courses.Web.Controllers.api
             //var schoolYear = 2017;
             var dto = await _context.ProgramCourses.Where(x => x.Program.ProgramCode == programCode)
                 .Select(x => x.Course).ProjectTo<CourseDto>().ToListAsync();
-             
-
             return Ok(dto);
         }
 
@@ -136,7 +137,7 @@ namespace Courses.Web.Controllers.api
             {
                 return BadRequest("Credential already assigned");
             }
-            
+
             //TODO: update modify user
             program.Credentials.Add(new ProgramCredential() { Program = program, Credential = credential, ModifiyUser = "mlawrence" });
 
@@ -164,30 +165,38 @@ namespace Courses.Web.Controllers.api
 
         }
 
-        [HttpPost, Route("programs/{programId}/{courseId}")]
-        public async Task<object> AddProgramCourse(int programId, int courseId)
+        [HttpPost, Route("programs/{programCode}/course/{courseCode}")]
+        public async Task<object> AddProgramCourse(string programCode, string courseCode)
         {
 
             var existing =
-                _context.ProgramCourses.Any(x => x.ProgramId == programId && x.CourseId == courseId);
+                _context.ProgramCourses.Any(x => x.Program.ProgramCode == programCode && x.Course.CourseCode == courseCode);
 
             if (existing) return BadRequest("Course already assigned to program");
 
+            var program = _context.Programs.FirstOrDefault(x => x.ProgramCode == programCode);
+
+            if (program == null) return NotFound();
+
+            var course = _courseContext.Courses.FirstOrDefault(x => x.CourseCode == courseCode);
+
+            if (course == null) return NotFound();
+
             var link = new ProgramCourse()
             {
-                CourseId = courseId,
-                ProgramId = programId,
+               CourseId = course.Id, 
+               ProgramId = program.Id,
                 ModifyUser = "mlawrence" //TODO: Get auth user
             };
             _context.ProgramCourses.Add(link);
 
             await _context.SaveChangesAsync();
 
-            var dto = _context.Programs.ProjectTo<ProgramDto>()
-                .FirstOrDefaultAsync(x => x.ProgramId == programId);
+            var dto = Mapper.Map<CourseDto>(course);
 
             return Ok(dto);
 
         }
+
     }
 }

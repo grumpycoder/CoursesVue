@@ -170,29 +170,29 @@
         <div class="col-6">
             <fieldset v-if="selectedProgramCode">
                 <legend>
-                    Assigned Credentials
+                    Assigned Courses
                 </legend>
                 <div class="row">
                     <div class="col-12">
                         <p>
                             <div class="input-group mb-3">
                                 <select class="form-control"
-                                        v-model="selectedCredentialCode"
-                                        name="selectedCredentialCode"
-                                        id="selectedCredentialCode">
-                                    <option :value="null">-- Select Credential --</option>
-                                    <option v-for="item in credentials" :value="item.credentialCode">{{ item.name }} ({{ item.credentialCode }})</option>
+                                        v-model="selectedCourseCode"
+                                        name="selectedCourseCode"
+                                        id="selectedCourseCode">
+                                    <option :value="null">-- Select Course --</option>
+                                    <option v-for="item in courses" :value="item.courseCode">{{ item.courseCode }} ({{ item.name }})</option>
                                 </select>
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button" id="button-addon2" v-on:click="addCredential">Add Credential</button>
+                                    <button class="btn btn-outline-secondary" type="button" id="button-addon2" v-on:click="addCourse">Add Course</button>
                                 </div>
                             </div>
 
                             <ul class="list-group">
-                                <li class="list-group-item" v-for="credential in program.credentials">
+                                <li class="list-group-item" v-for="course in programCourses">
                                     <div class="row">
                                         <div class="col-9">
-                                            {{ credential.name }} ({{ credential.credentialCode }})
+                                            {{ course.name }} ({{ course.courseCode }})
                                         </div>
                                         <div class="col-3">
                                             <button class="btn btn-danger btn-sm float-right" v-on:click="deleteCredential(credential)">Delete</button>
@@ -218,14 +218,17 @@
             el: '#app',
             data: {
                 selectedProgramCode: null,
-                selectedCredentialCode: null, 
+                selectedCredentialCode: null,
+                selectedCourseCode: null,
                 program: {},
+                programCourses: [],
                 errors: [],
                 clusters: [],
                 programs: [],
                 schoolYears: [],
-                programTypes: [], 
-                credentials: []
+                programTypes: [],
+                credentials: [],
+                courses: []
             },
             methods: {
                 submit: function (e) {
@@ -238,7 +241,14 @@
                     var url = '/api/careertech/programs/' + this.selectedProgramCode + '/edit/full';
                     axios.get(url).then(resp => {
                         this.program = resp.data;
-                    }).catch(err => console.log(err));
+                    }).then(resp => {
+                        //programs/{programCode}/courses
+                        var courseUrl = '/api/careertech/programs/' + this.selectedProgramCode + '/courses';
+                        axios.get(courseUrl).then(resp => {
+                            this.programCourses = resp.data;
+                        }).catch(err => console.log(err));
+                    })
+                        .catch(err => console.log(err));
                 },
 
                 deleteCredential: function (credential) {
@@ -256,8 +266,19 @@
                     axios.post(url)
                         .then(resp => {
                             var dto = resp.data;
-                            this.program.credentials.push(dto);
+                            this.courses.credentials.push(dto);
                         });
+                },
+
+                addCourse: function() {
+                    console.log('course', this.selectedCourseCode);
+                    var url = '/api/careertech/programs/' + this.selectedProgramCode + '/course/' + this.selectedCourseCode;
+                    axios.post(url)
+                        .then(resp => {
+                            console.log(resp);
+                            var dto = resp.data;
+                            this.programCourses.push(dto);
+                        }).catch(err => console.log(err));;
                 }
 
             },
@@ -283,6 +304,9 @@
                     this.credentials = resp.data;
                 }).catch(err => console.log(err));
 
+                axios.get('/api/courses?loadOptions.filter=isActive%3Dtrue&loadOptions.remoteSelect=true').then(resp => {
+                    this.courses = resp.data.data;
+                }).catch(err => console.log(err));
             }
         })
     </script>
