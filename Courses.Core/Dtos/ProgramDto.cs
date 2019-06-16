@@ -15,6 +15,10 @@
         public int? EndYear { get; set; }
 
         public int? ClusterId { get; set; }
-        //public List<CredentialDto> Credentials { get; set; }
+        public bool? isNonTraditionalForFemales { get; set; }
+        public bool? isNonTraditionalForMales { get; set; }
+        public bool? isProgramReviewed { get; set; }
+        public bool? doSupplementalReview { get; set; }
+
     }
 }

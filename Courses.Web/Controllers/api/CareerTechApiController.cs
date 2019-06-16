@@ -148,23 +148,6 @@ namespace Courses.Web.Controllers.api
 
         }
 
-
-        //[HttpDelete, Route("programs/{programId}/{courseId}")]
-        //public async Task<object> RemoveProgramCourse(int programId, int courseId)
-        //{
-
-        //    var link = await _context.ProgramCourses.FirstOrDefaultAsync(x => x.CourseId == courseId && x.ProgramId == programId);
-
-        //    if (link == null) return NotFound();
-
-        //    _context.ProgramCourses.Remove(link);
-
-        //    await _context.SaveChangesAsync();
-
-        //    return Ok();
-
-        //}
-
         [HttpPost, Route("programs/{programCode}/course/{courseCode}")]
         public async Task<object> AddProgramCourse(string programCode, string courseCode)
         {
