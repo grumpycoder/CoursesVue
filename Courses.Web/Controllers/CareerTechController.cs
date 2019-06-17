@@ -2,6 +2,7 @@
 
 namespace Courses.Web.Controllers
 {
+
     [RoutePrefix("careertech")]
     public class CareerTechController : Controller
     {
@@ -12,15 +13,15 @@ namespace Courses.Web.Controllers
         }
 
         [Route("clusters/{clusterCode?}")]
-        public ActionResult Clusters(string clusterCode = null)
+        public ActionResult Clusters(string clusterCode)
         {
-            return View(clusterCode);
+            return View((object)clusterCode);
         }
 
-        [Route("programs")]
-        public ActionResult Programs()
+        [Route("programs/{programCode?}")]
+        public ActionResult Programs(string programCode)
         {
-            return View();
+            return View((object)programCode);
         }
 
 

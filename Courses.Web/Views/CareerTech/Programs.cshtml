@@ -196,7 +196,7 @@
         </div>
 
         <div class="col-6">
-            <fieldset v-if="selectedProgram">
+            <fieldset v-if="program">
                 <legend>
                     Assigned Courses
                 </legend>
@@ -249,6 +249,7 @@
         var careerTechUrl = '/api/careertech/';
         var courseUrl = '/api/courses/';
         var refUrl = '/api/ref/';
+        var urlParam = '@Model' ? '@Model' : null;
 
         var app = new Vue({
             el: '#app',
@@ -277,25 +278,7 @@
                 },
 
                 onChange: function (e) {
-                    var programCode = this.selectedProgram.programCode;
-                    var fetch = careerTechUrl + 'programs/' + programCode + '/edit';
-                    var fetchCredentials = careerTechUrl + 'programs/' + programCode + '/credentials';
-                    var courseUrl = careerTechUrl + 'programs/' + programCode + '/courses';
-
-                    axios.get(fetch)
-                        .then(resp => {
-                            this.program = resp.data;
-                        }).then(resp => {
-                            axios.get(courseUrl).then(resp => {
-                                this.programCourses = resp.data;
-                            }).catch(err => console.log(err));
-                        }).then(resp => {
-
-                            axios.get(fetchCredentials).then(resp => {
-                                this.programCredentials = resp.data;
-                            }).catch(err => console.log(err));
-
-                        });
+                    this.getProgram(this.selectedProgram.programCode);
                 },
 
                 deleteCredential: function (credential) {
@@ -348,10 +331,31 @@
                         .then(resp => {
                             this.programCourses.splice(idx, 1);
                         }).catch(err => console.log(err));;
+                },
+
+                getProgram: function(programCode) {
+                    var fetch = careerTechUrl + 'programs/' + programCode + '/edit';
+                    var fetchCredentials = careerTechUrl + 'programs/' + programCode + '/credentials';
+                    var courseUrl = careerTechUrl + 'programs/' + programCode + '/courses';
+
+                    axios.get(fetch)
+                        .then(resp => {
+                            this.program = resp.data;
+                        }).then(resp => {
+                            axios.get(courseUrl).then(resp => {
+                                this.programCourses = resp.data;
+                            }).catch(err => console.log(err));
+                        }).then(resp => {
+
+                            axios.get(fetchCredentials).then(resp => {
+                                this.programCredentials = resp.data.result;
+                            }).catch(err => console.log(err));
+
+                        });
                 }
 
             },
-            mounted() {
+            created() {
                 var courseOptions = '?loadOptions.filter=isActive%3Dtrue&loadOptions.remoteSelect=true';
 
                 axios.get(refUrl + 'schoolyears').then(resp => {
@@ -364,6 +368,11 @@
 
                 axios.get(refUrl + 'programs').then(resp => {
                     this.programs = resp.data;
+                }).then(() => {
+                    if (urlParam !== null) {
+                        this.selectedProgram = this.programs.find(x => x.programCode === urlParam);
+                        this.getProgram(urlParam);
+                    }
                 }).catch(err => console.log(err));
 
                 axios.get(refUrl + 'programTypes').then(resp => {
@@ -377,6 +386,10 @@
                 axios.get(courseUrl + courseOptions).then(resp => {
                     this.courses = resp.data.data;
                 }).catch(err => console.log(err));
+
+            },
+            mounted() {
+
             }
         });
     </script>
