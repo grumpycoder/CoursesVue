@@ -100,6 +100,28 @@ namespace Courses.Web.Controllers.api
             return Ok(dto);
         }
 
+        [HttpGet, Route("programs/{programCode}/credentials")]
+        public async Task<object> GetProgramsCredentials(string programCode)
+        {
+            //var schoolYear = 2017;
+            //var program = await _context.Programs
+            //    .Include(x => x.Credentials)
+            //    .FirstOrDefaultAsync(x => x.ProgramCode == programCode);
+
+            var dto = _context.ProgramCredentials
+                .Where(x => x.Program.ProgramCode == programCode)
+                .Select(x => x.Credential).ProjectTo<CredentialDto>();
+
+            //var dto = program.Credentials.Select(x => x.Credential).ToList();
+
+            //var dto = await _context.Programs
+            //    .Include(x => x.Credentials)
+            //    .Where(x => x.ProgramCode == programCode)
+            //    .Select(x => x.Credentials.Select(c => c.Credential)).ProjectTo<CredentialDto>().ToListAsync();
+
+            return Ok(dto);
+        }
+
         [HttpPut, Route("programs")]
         public async Task<object> Put(ProgramEditDto dto)
         {
@@ -147,7 +169,7 @@ namespace Courses.Web.Controllers.api
             return Ok(dto);
         }
 
-        [HttpPut, Route("credentials")]
+     [HttpPut, Route("credentials")]
         public async Task<object> PutCredential(CredentialEditDto dto)
         {
             var credential = await _context.Credentials.FindAsync(dto.Id);
