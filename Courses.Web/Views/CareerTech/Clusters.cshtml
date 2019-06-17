@@ -155,6 +155,9 @@
 
 @section scripts{
     <script>
+        var careerTechUrl = '/api/careertech/';
+        var courseUrl = '/api/courses/';
+        var refUrl = '/api/ref/';
 
         var app = new Vue({
             el: '#app',
@@ -168,16 +171,15 @@
             },
             methods: {
                 submit: function (e) {
-                    axios.put('/api/careertech/clusters', this.cluster)
+                    axios.put(careerTechUrl + 'clusters', this.cluster)
                         .then(resp => {
                             this.selectedCluster.name = this.cluster.name;
                             this.selectedCluster.clusterCode = this.cluster.clusterCode;
-                            console.log('saved cluster', this.cluster);
                         });
                 },
 
                 onChange: function (e) {
-                    var url = '/api/careertech/clusters/' + this.selectedCluster.clusterCode;
+                    var url = careerTechUrl +'clusters/' + this.selectedCluster.clusterCode;
 
                     axios.get(url  + '/edit').then(resp => {
                         this.cluster = resp.data;
@@ -191,17 +193,16 @@
 
             },
             mounted() {
-                var url = '/api/ref/';
 
-                axios.get(url + 'schoolyears').then(resp => {
+                axios.get(refUrl + 'schoolyears').then(resp => {
                     this.schoolYears = resp.data;
                 }).catch(err => console.log(err));
 
-                axios.get(url + 'clusters').then(resp => {
+                axios.get(refUrl + 'clusters').then(resp => {
                     this.clusters = resp.data;
                 }).catch(err => console.log(err));
 
-                axios.get(url + 'clustertypes').then(resp => {
+                axios.get(refUrl + 'clustertypes').then(resp => {
                     this.clusterTypes = resp.data;
                 }).catch(err => console.log(err));
             }

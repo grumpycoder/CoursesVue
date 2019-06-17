@@ -110,7 +110,8 @@ namespace Courses.Web.Controllers.api
 
             var dto = _context.ProgramCredentials
                 .Where(x => x.Program.ProgramCode == programCode)
-                .Select(x => x.Credential).ProjectTo<CredentialDto>();
+                .Select(x => x.Credential).ProjectTo<CredentialDto>()
+                .ToListAsync();
 
             //var dto = program.Credentials.Select(x => x.Credential).ToList();
 
