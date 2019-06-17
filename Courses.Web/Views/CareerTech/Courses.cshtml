@@ -14,28 +14,27 @@
 
     <div class="row">
         <div class="col-6">
+
             <fieldset>
                 <legend>Courses</legend>
+
                 <div class="form-group row">
                     <label for="selectedCourseCode" class="col-md-2 col-form-label">Courses</label>
                     <div class="col-md-8">
                         <select class="form-control"
-                                v-model="selectedCourse"
-                                name="selectedCourseCode"
-                                id="selectedCourseCode"
+                                v-model="course"
+                                name="course"
+                                id="course"
                                 v-on:change="onChange($event)">
                             <option :value="null">-- Select Course --</option>
                             <option v-for="item in courses" :value="item">{{ item.courseCode }} ({{ item.name }})</option>
                         </select>
                     </div>
-
-
                 </div>
 
-                <div v-if="!selectedCourse">
-                    <h4>Select a credential to edit</h4>
+                <div v-if="!course">
+                    <h4>Select a course to edit</h4>
                 </div>
-
 
             </fieldset>
 
@@ -44,11 +43,12 @@
     <div class="row">
 
         <div class="col-6">
-            <fieldset v-if="selectedCourse">
+            <fieldset v-if="course">
                 <legend>
                     Assigned Programs
                 </legend>
                 <div class="row">
+
                     <div class="col-12">
                         <p>
                             <div class="input-group mb-3">
@@ -63,8 +63,12 @@
                                     <button class="btn btn-outline-secondary" type="button" id="button-addon2" v-on:click="addProgram">Add Program</button>
                                 </div>
                             </div>
-
-                            <ul class="list-group">
+                            
+                            <div v-if="coursePrograms.length === 0">
+                                No courses assigned
+                            </div>
+                            
+                            <ul class="list-group" v-if="coursePrograms.length > 0">
                                 <li class="list-group-item" v-for="item in coursePrograms">
                                     <div class="row">
                                         <div class="col-9">
@@ -91,27 +95,30 @@
 
 @section scripts{
     <script type="text/javascript">
+        var careerTechUrl = '/api/careertech/';
+        var courseUrl = '/api/courses/';
+        var refUrl = '/api/ref/';
 
         var app = new Vue({
             el: '#app',
             data: {
-                selectedCourse: null,
+                course: null,
                 selectedProgram: null,
                 courses: [],
+                programs: [],
                 coursePrograms: [],
-                programs: []
             },
             methods: {
 
                 onChange: function (e) {
-                    var url = '/api/careertech/courses/' + this.selectedCourse.courseCode + '/programs';
+                    var url = careerTechUrl + 'courses/' + this.course.courseCode + '/programs';
                     axios.get(url).then(resp => {
                         this.coursePrograms = resp.data;
                     }).catch(err => console.log(err));
 
                 },
                 removeProgram: function (program) {
-                    var url = '/api/careertech/programs/' + program.programCode + '/course/' + this.selectedCourse.courseCode;
+                    var url = careerTechUrl + 'programs/' + program.programCode + '/course/' + this.course.courseCode;
                     var idx = this.coursePrograms.indexOf(program);
                     axios.delete(url)
                         .then(resp => {
@@ -121,7 +128,7 @@
                 },
 
                 addProgram: function () {
-                    var url = '/api/careertech/programs/' + this.selectedProgram.programCode + '/course/' + this.selectedCourse.courseCode;
+                    var url = careerTechUrl + 'programs/' + this.selectedProgram.programCode + '/course/' + this.course.courseCode;
                     axios.post(url)
                         .then(resp => {
                             this.coursePrograms.push(this.selectedProgram);
@@ -129,13 +136,13 @@
                 },
             },
             mounted() {
-                var url = '/api/ref/';
+                var courseOptions = '?loadOptions.filter=isActive%3Dtrue&loadOptions.remoteSelect=true';
 
-                axios.get('/api/courses?loadOptions.filter=isActive%3Dtrue&loadOptions.remoteSelect=true').then(resp => {
+                axios.get(courseUrl + courseOptions).then(resp => {
                     this.courses = resp.data.data;
                 }).catch(err => console.log(err));
 
-                axios.get('/api/ref/programs').then(resp => {
+                axios.get(refUrl + 'programs').then(resp => {
                     this.programs = resp.data;
                 }).catch(err => console.log(err));
 
