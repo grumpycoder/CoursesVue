@@ -1,4 +1,6 @@
-﻿@{
+﻿@model string
+
+@{
     ViewBag.Title = "Clusters";
 }
 <style>
@@ -16,7 +18,6 @@
             <fieldset>
                 <legend>Clusters</legend>
                 <div class="row">
-
                     <div class="col-12">
                         <p>
 
@@ -26,10 +27,20 @@
                                     <select class="form-control"
                                             v-model="selectedCluster"
                                             v-on:change="onChange($event)"
-                                            name="cluster" id="cluster">
+                                            name="cluster"
+                                            id="cluster">
                                         <option :value="null">-- Select Cluster --</option>
-                                        <option v-for="item in clusters" :value="item">{{ item.name }} ({{ item.clusterCode }})</option>
+                                        <option v-for="item in clusters" :value="item"
+                                                :selected="item.clusterCode == clusterCode">
+                                            {{ item.name }} ({{ item.clusterCode }})
+                                        </option>
                                     </select>
+
+                                    @*<select class="form-control" v-model="selectedCluster" v-on:change="onChange($event)">
+                                            <option v-for="(cluster,index) in clusters" :value="index">{{ cluster.name }}</option>
+                                        </select>*@
+
+
                                 </div>
 
 
@@ -115,7 +126,6 @@
 
         </div>
 
-
         <div class="col-6">
             <fieldset v-if="cluster">
                 <legend>
@@ -159,10 +169,12 @@
         var careerTechUrl = '/api/careertech/';
         var courseUrl = '/api/courses/';
         var refUrl = '/api/ref/';
+        var urlParam = '@Model' ? '@Model' : null;
 
         var app = new Vue({
             el: '#app',
             data: {
+                clusterCode: null,
                 selectedCluster: null,
                 cluster: null,
                 clusters: [],
@@ -171,7 +183,7 @@
                 programs: [],
             },
             methods: {
-                submit: function (e) {
+                submit: function(e) {
                     axios.put(careerTechUrl + 'clusters', this.cluster)
                         .then(resp => {
                             this.selectedCluster.name = this.cluster.name;
@@ -179,35 +191,49 @@
                         });
                 },
 
-                onChange: function (e) {
-                    var url = careerTechUrl + 'clusters/' + this.selectedCluster.clusterCode;
-
-                    axios.get(url + '/edit').then(resp => {
-                        this.cluster = resp.data;
-                    }).then(resp => {
-                        axios.get(url + '/programs').then(resp => {
-                            this.programs = resp.data;
-                        }).catch(err => console.log(err));
-                    })
-                        .catch(err => console.log(err));
+                onChange: function(e) {
+                    this.getCluster(this.selectedCluster.clusterCode);
                 },
 
-            },
-            mounted() {
+                getCluster(clusterCode) {
+                    var url = careerTechUrl + 'clusters/' + clusterCode;
 
+                    axios.get(url + '/edit').then(resp => {
+                            this.cluster = resp.data;
+                        }).then(resp => {
+                            axios.get(url + '/programs').then(resp => {
+                                this.programs = resp.data;
+                            }).catch(err => console.log(err));
+                        })
+                        .catch(err => console.log(err));
+                }
+            },
+            created() {
                 axios.get(refUrl + 'schoolyears').then(resp => {
                     this.schoolYears = resp.data;
-                }).catch(err => console.log(err));
-
-                axios.get(refUrl + 'clusters').then(resp => {
-                    this.clusters = resp.data;
                 }).catch(err => console.log(err));
 
                 axios.get(refUrl + 'clustertypes').then(resp => {
                     this.clusterTypes = resp.data;
                 }).catch(err => console.log(err));
+
+                axios.get(refUrl + 'clusters').then(resp => {
+                    this.clusters = resp.data;
+                }).then(() => {
+                    if (urlParam !== null) {
+                        this.selectedCluster = this.clusters.find(x => x.clusterCode === urlParam);
+                        this.getCluster(urlParam);
+                    }
+                }).catch(err => console.log(err));
+
+            },
+            updated() {
+            },
+            beforeMount() {
+            },
+            mounted() {
             }
-        })
+        });
     </script>
 }
 

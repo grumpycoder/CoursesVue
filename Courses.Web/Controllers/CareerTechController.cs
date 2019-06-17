@@ -11,10 +11,10 @@ namespace Courses.Web.Controllers
             return View();
         }
 
-        [Route("clusters")]
-        public ActionResult Clusters()
+        [Route("clusters/{clusterCode?}")]
+        public ActionResult Clusters(string clusterCode = null)
         {
-            return View();
+            return View(clusterCode);
         }
 
         [Route("programs")]
@@ -23,7 +23,7 @@ namespace Courses.Web.Controllers
             return View();
         }
 
-        
+
         [Route("credentials")]
         public ActionResult Credentials()
         {
