@@ -113,6 +113,19 @@ namespace Courses.Web.Controllers.api
             return Ok(dto);
         }
 
+        [HttpGet, Route("courses/{courseCode}/programs")]
+        public async Task<object> GetCoursePrograms(string courseCode)
+        {
+            //var schoolYear = 2017;
+            var dto = await _context.Programs
+                .Where(x => x.ProgramCourses.Any(c => c.Course.CourseCode == courseCode))
+                .ProjectTo<ProgramDto>()
+                .ToListAsync();
+
+            return Ok(dto);
+        }
+
+
         [HttpGet, Route("credentials/{credentialCode}/programs")]
         public async Task<object> GetEditCredentialPrograms(string credentialCode)
         {
