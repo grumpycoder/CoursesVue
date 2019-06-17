@@ -7,11 +7,11 @@ using System.Web.Http;
 namespace Courses.Web.Controllers.Api
 {
     [RoutePrefix("api/ref")]
-    public class RefController : ApiController
+    public class RefApiController : ApiController
     {
         private readonly CourseDbContext _context;
 
-        public RefController()
+        public RefApiController()
         {
             _context = CourseDbContext.Create();
         }

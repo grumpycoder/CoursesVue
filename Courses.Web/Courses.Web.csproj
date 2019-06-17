@@ -172,7 +172,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\api\CareerTechApiController.cs" />
     <Compile Include="Controllers\api\CourseApiController.cs" />
-    <Compile Include="Controllers\api\RefController.cs" />
+    <Compile Include="Controllers\api\RefApiController.cs" />
     <Compile Include="Controllers\CareerTechController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
