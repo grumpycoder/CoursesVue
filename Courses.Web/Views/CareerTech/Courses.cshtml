@@ -9,6 +9,7 @@
     }
 </style>
 
+@Html.Partial("_CareerTechNav")
 
 <div id="app" v-cloak>
 
@@ -63,11 +64,11 @@
                                     <button class="btn btn-outline-secondary" type="button" id="button-addon2" v-on:click="addProgram">Add Program</button>
                                 </div>
                             </div>
-                            
+
                             <div v-if="coursePrograms.length === 0">
                                 No courses assigned
                             </div>
-                            
+
                             <ul class="list-group" v-if="coursePrograms.length > 0">
                                 <li class="list-group-item" v-for="item in coursePrograms">
                                     <div class="row">

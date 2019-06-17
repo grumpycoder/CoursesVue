@@ -7,6 +7,7 @@
         display: none;
     }
 </style>
+@Html.Partial("_CareerTechNav")
 
 <div id="app" v-cloak>
 
@@ -147,7 +148,7 @@
             </fieldset>
 
         </div>
-        
+
         <div class="col-6">
             <fieldset v-if="program">
                 <legend>
@@ -169,7 +170,7 @@
                                     <button class="btn btn-outline-secondary" type="button" id="button-addon2" v-on:click="addCredential">Add Credential</button>
                                 </div>
                             </div>
-                            
+
                             <div v-if="programCredentials.length === 0">
                                 No credentials assigned
                             </div>
@@ -193,7 +194,7 @@
                 </div>
             </fieldset>
         </div>
-        
+
         <div class="col-6">
             <fieldset v-if="selectedProgram">
                 <legend>
@@ -215,12 +216,12 @@
                                     <button class="btn btn-outline-secondary" type="button" id="button-addon2" v-on:click="addCourse">Add Course</button>
                                 </div>
                             </div>
-                            
+
                             <div v-if="programCourses.length === 0">
                                 No courses assigned
                             </div>
 
-                            <ul class="list-group"  v-if="programCourses.length > 0">
+                            <ul class="list-group" v-if="programCourses.length > 0">
                                 <li class="list-group-item" v-for="course in programCourses">
                                     <div class="row">
                                         <div class="col-9">
@@ -233,7 +234,7 @@
                                 </li>
                             </ul>
                         </p>
-                   
+
                     </div>
                 </div>
             </fieldset>
@@ -259,14 +260,14 @@
                 programTypes: [],
                 schoolYears: [],
                 credentials: [],
-                courses: [], 
+                courses: [],
                 programCredentials: null,
                 programCourses: [],
                 selectedCourse: null,
                 selectedCredential: null,
             },
             methods: {
-                submit: function(e) {
+                submit: function (e) {
 
                     axios.put(careerTechUrl + 'programs', this.program)
                         .then(resp => {
@@ -275,7 +276,7 @@
                         });
                 },
 
-                onChange: function(e) {
+                onChange: function (e) {
                     var programCode = this.selectedProgram.programCode;
                     var fetch = careerTechUrl + 'programs/' + programCode + '/edit';
                     var fetchCredentials = careerTechUrl + 'programs/' + programCode + '/credentials';
@@ -297,7 +298,7 @@
                         });
                 },
 
-                deleteCredential: function(credential) {
+                deleteCredential: function (credential) {
                     var idx = this.programCredentials.indexOf(credential);
                     var url = careerTechUrl +
                         'programs/' +
@@ -310,7 +311,7 @@
                         });
                 },
 
-                addCredential: function() {
+                addCredential: function () {
                     var url = careerTechUrl +
                         'programs/' +
                         this.selectedProgram.programCode +
@@ -323,7 +324,7 @@
                         });
                 },
 
-                addCourse: function() {
+                addCourse: function () {
                     var url = careerTechUrl +
                         'programs/' +
                         this.selectedProgram.programCode +
@@ -336,7 +337,7 @@
                         }).catch(err => console.log(err));;
                 },
 
-                removeCourse: function(course) {
+                removeCourse: function (course) {
                     var idx = this.programCourses.indexOf(course);
                     var url = careerTechUrl +
                         'programs/' +

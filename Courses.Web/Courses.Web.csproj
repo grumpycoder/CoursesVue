@@ -267,6 +267,7 @@
     <Content Include="Views\CareerTech\Programs.cshtml" />
     <Content Include="Views\CareerTech\Credentials.cshtml" />
     <Content Include="Views\CareerTech\Courses.cshtml" />
+    <Content Include="Views\Shared\_CareerTechNav.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

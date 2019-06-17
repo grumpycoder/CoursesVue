@@ -7,6 +7,7 @@
     }
 </style>
 
+@Html.Partial("_CareerTechNav")
 
 <div id="app" v-cloak>
 
@@ -123,13 +124,13 @@
                 <div class="row">
                     <div class="col-12">
                         <p>
-                            
+
                             <div v-if="programs.length === 0">
                                 No programs assigned
                             </div>
-                            
 
-                            <ul class="list-group"  v-if="programs.length > 0">
+
+                            <ul class="list-group" v-if="programs.length > 0">
                                 <li class="list-group-item" v-for="program in programs">
                                     <div class="text-muted">Cluster: {{ program.clusterName}}</div>
                                     <div class="font-weight-bolder">
@@ -179,14 +180,14 @@
                 },
 
                 onChange: function (e) {
-                    var url = careerTechUrl +'clusters/' + this.selectedCluster.clusterCode;
+                    var url = careerTechUrl + 'clusters/' + this.selectedCluster.clusterCode;
 
-                    axios.get(url  + '/edit').then(resp => {
+                    axios.get(url + '/edit').then(resp => {
                         this.cluster = resp.data;
                     }).then(resp => {
-                            axios.get(url + '/programs').then(resp => {
-                                this.programs = resp.data;
-                            }).catch(err => console.log(err));
+                        axios.get(url + '/programs').then(resp => {
+                            this.programs = resp.data;
+                        }).catch(err => console.log(err));
                     })
                         .catch(err => console.log(err));
                 },
