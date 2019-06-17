@@ -7,7 +7,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using DevExtreme.AspNet.Mvc;
 
 namespace Courses.Web.Controllers.api
 {
@@ -27,6 +26,16 @@ namespace Courses.Web.Controllers.api
         public async Task<object> Cluster(string clusterCode)
         {
             var dto = await _context.Clusters.Include(x => x.Programs).FirstOrDefaultAsync(x => x.ClusterCode == clusterCode);
+            return Ok(dto);
+        }
+
+        [HttpGet, Route("clusters/{clusterCode}/programs")]
+        public async Task<object> GetClusterPrograms(string clusterCode)
+        {
+            var dto = await _context.Programs
+                .Where(x => x.Cluster.ClusterCode == clusterCode)
+                .ProjectTo<ProgramDto>().ToListAsync();
+
             return Ok(dto);
         }
 
@@ -134,7 +143,7 @@ namespace Courses.Web.Controllers.api
                 .Where(x => x.Credentials.Any(c => c.Credential.CredentialCode == credentialCode))
                 .ProjectTo<ProgramDto>()
                 .ToListAsync();
-                
+
             return Ok(dto);
         }
 
@@ -214,8 +223,8 @@ namespace Courses.Web.Controllers.api
 
             var link = new ProgramCourse()
             {
-               CourseId = course.Id, 
-               ProgramId = program.Id,
+                CourseId = course.Id,
+                ProgramId = program.Id,
                 ModifyUser = "mlawrence" //TODO: Get auth user
             };
             _context.ProgramCourses.Add(link);

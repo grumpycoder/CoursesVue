@@ -14,117 +14,124 @@
         <div class="col-6">
             <fieldset>
                 <legend>Clusters</legend>
-                <div class="form-group row">
-                    <label for="clusterId" class="col-md-2 col-form-label">Clusters</label>
-                    <div class="col-md-8">
-                        <select class="form-control"
-                                v-model="selectedCluster"
-                                v-on:change="onChange($event)"
-                                name="clusterId" id="clusterId">
-                            <option :value="null">-- Select Cluster --</option>
-                            <option v-for="cluster in clusters" :value="cluster.clusterCode">{{ cluster.name }}</option>
-                        </select>
+                <div class="row">
+
+                    <div class="col-12">
+                        <p>
+
+                            <div class="form-group row">
+                                <label for="cluster" class="col-md-2 col-form-label">Clusters</label>
+                                <div class="col-md-8">
+                                    <select class="form-control"
+                                            v-model="selectedCluster"
+                                            v-on:change="onChange($event)"
+                                            name="cluster" id="cluster">
+                                        <option :value="null">-- Select Cluster --</option>
+                                        <option v-for="item in clusters" :value="item">{{ item.name }} ({{ item.clusterCode }})</option>
+                                    </select>
+                                </div>
+
+
+                            </div>
+
+                            <div v-if="!selectedCluster">
+                                <h4>Select a cluster to edit</h4>
+                            </div>
+
+                            <form novalidate v-on:submit.prevent="submit()" v-if="cluster">
+
+                                <div class="form-group row">
+                                    <label for="clusterCode" class="col-md-2 col-form-label">Cluster Code</label>
+                                    <div class="col-md-8">
+                                        <input type="text"
+                                               class="form-control"
+                                               id="clusterCode"
+                                               name="clusterCode"
+                                               placeholder="Cluster Code (required)"
+                                               v-model="cluster.clusterCode"
+                                               minlength="3" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="clusterName" class="col-md-2 col-form-label">Name</label>
+                                    <div class="col-md-8">
+                                        <input type="text"
+                                               class="form-control"
+                                               id="clusterName"
+                                               name="clusterName"
+                                               placeholder="Cluster Name (required)"
+                                               v-model="cluster.name"
+                                               minlength="3" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="clusterTypeId" class="col-md-2 col-form-label">Cluster Type</label>
+                                    <div class="col-md-8">
+                                        <select class="form-control"
+                                                v-model="cluster.clusterTypeId"
+                                                name="clusterTypeId"
+                                                id="clusterTypeId">
+                                            <option :value="null">-- Select Cluster Type --</option>
+                                            <option v-for="type in clusterTypes" :value="type.id">{{ type.name }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="beginYear" class="col-md-2 col-form-label">Begin Year</label>
+                                    <div class="col-md-8">
+                                        <select class="form-control"
+                                                v-model="cluster.beginYear"
+                                                name="beginYear"
+                                                id="beginYear">
+                                            <option :value="null">-- Select Year --</option>
+                                            <option v-for="year in schoolYears" :value="year.year">{{ year.year }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="endYear" class="col-md-2 col-form-label">End Year</label>
+                                    <div class="col-md-8">
+                                        <select class="form-control"
+                                                v-model="cluster.endYear"
+                                                name="endYear"
+                                                id="endYear">
+                                            <option :value="null">-- Select Year --</option>
+                                            <option v-for="year in schoolYears" :value="year.year">{{ year.year }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-primary" type="submit">Save Cluster</button>
+                            </form>
+
+                        </p>
                     </div>
-
-
                 </div>
-
-                <div v-if="!selectedCluster">
-                    <h4>Select a cluster to edit</h4>
-                </div>
-
-                <form novalidate v-on:submit.prevent="submit()" v-if="selectedCluster">
-
-                    <div class="form-group row">
-                        <label for="clusterCode" class="col-md-2 col-form-label">Cluster Code</label>
-                        <div class="col-md-8">
-                            <input type="text"
-                                   class="form-control"
-                                   id="clusterCode"
-                                   name="clusterCode"
-                                   placeholder="Cluster Code (required)"
-                                   v-model="cluster.clusterCode"
-                                   minlength="3" />
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="clusterName" class="col-md-2 col-form-label">Name</label>
-                        <div class="col-md-8">
-                            <input type="text"
-                                   class="form-control"
-                                   id="clusterName"
-                                   name="clusterName"
-                                   placeholder="Cluster Name (required)"
-                                   v-model="cluster.name"
-                                   minlength="3" />
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="clusterTypeId" class="col-md-2 col-form-label">Cluster Type</label>
-                        <div class="col-md-8">
-                            <select class="form-control"
-                                    v-model="cluster.clusterTypeId"
-                                    name="clusterTypeId"
-                                    id="clusterTypeId">
-                                <option :value="null">-- Select Cluster Type --</option>
-                                <option v-for="type in clusterTypes" :value="type.id">{{ type.name }}</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="beginYear" class="col-md-2 col-form-label">Begin Year</label>
-                        <div class="col-md-8">
-                            <select class="form-control"
-                                    v-model="cluster.beginYear"
-                                    name="beginYear"
-                                    id="beginYear">
-                                <option :value="null">-- Select Year --</option>
-                                <option v-for="year in schoolYears" :value="year.year">{{ year.year }}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="endYear" class="col-md-2 col-form-label">End Year</label>
-                        <div class="col-md-8">
-                            <select class="form-control"
-                                    v-model="cluster.endYear"
-                                    name="endYear"
-                                    id="endYear">
-                                <option :value="null">-- Select Year --</option>
-                                <option v-for="year in schoolYears" :value="year.year">{{ year.year }}</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <button class="btn btn-primary" type="submit">Save Cluster</button>
-                </form>
-
             </fieldset>
 
         </div>
 
 
         <div class="col-6">
-            <fieldset v-if="selectedCluster">
+            <fieldset v-if="cluster">
                 <legend>
                     Assigned Programs
                 </legend>
                 <div class="row">
                     <div class="col-12">
                         <p>
-
-
                             <ul class="list-group">
-                                <li class="list-group-item" v-for="program in cluster.programs">
+                                <li class="list-group-item" v-for="program in programs">
                                     <div class="text-muted">Cluster: {{ program.clusterName}}</div>
                                     <div class="font-weight-bolder">
                                         <span>
 
-                                        <a v-bind:href="'/careertech/programs/'+ program.programCode">
-                                            {{ program.programName }} ({{ program.programCode }})
-                                        </a>
+                                            <a v-bind:href="'/careertech/programs/'+ program.programCode">
+                                                {{ program.programName }} ({{ program.programCode }})
+                                            </a>
                                         </span>
                                     </div>
                                 </li>
@@ -147,65 +154,48 @@
             el: '#app',
             data: {
                 selectedCluster: null,
-                selectedProgram: null,
-                errors: [],
+                cluster: null,
                 clusters: [],
-                programs: [],
                 schoolYears: [],
                 clusterTypes: [],
-                cluster: {}
+                programs: [],
             },
             methods: {
                 submit: function (e) {
                     axios.put('/api/careertech/clusters', this.cluster)
                         .then(resp => {
+                            this.selectedCluster.name = this.cluster.name;
+                            this.selectedCluster.clusterCode = this.cluster.clusterCode;
+                            console.log('saved cluster', this.cluster);
                         });
                 },
 
-                onChange: function (e, cluster) {
-                    var url = '/api/careertech/clusters/' + this.selectedCluster + '/edit/full';
+                onChange: function (e) {
+                    var url = '/api/careertech/clusters/' + this.selectedCluster.clusterCode;
 
-                    axios.get(url).then(resp => {
+                    axios.get(url  + '/edit').then(resp => {
                         this.cluster = resp.data;
-                    }).catch(err => console.log(err));
+                    }).then(resp => {
+                            axios.get(url + '/programs').then(resp => {
+                                this.programs = resp.data;
+                            }).catch(err => console.log(err));
+                    })
+                        .catch(err => console.log(err));
                 },
-
-                deleteProgram: function (e, program) {
-                    var idx = this.cluster.programs.indexOf(program);
-
-                    axios.delete('/api/careertech/clusters/' + this.selectedCluster + '/' + program.programCode)
-                        .then(resp => {
-                            this.cluster.programs.splice(idx, 1);
-                        });
-                },
-
-                addProgram: function (e) {
-                    var url = '/api/careertech/programs/' + this.selectedCluster + '/' + this.cluster.id;
-
-                    axios.post(url)
-                        .then(resp => {
-                            var dto = resp.data.result;
-                            this.cluster.programs.push(dto);
-                        });
-                }
 
             },
             mounted() {
-                var url = '/api/ref/clusters';
+                var url = '/api/ref/';
 
-                axios.get('/api/ref/schoolyears').then(resp => {
+                axios.get(url + 'schoolyears').then(resp => {
                     this.schoolYears = resp.data;
                 }).catch(err => console.log(err));
 
-                axios.get(url).then(resp => {
+                axios.get(url + 'clusters').then(resp => {
                     this.clusters = resp.data;
                 }).catch(err => console.log(err));
 
-                axios.get('/api/ref/programs').then(resp => {
-                    this.programs = resp.data;
-                }).catch(err => console.log(err));
-
-                axios.get('/api/ref/clustertypes').then(resp => {
+                axios.get(url + 'clustertypes').then(resp => {
                     this.clusterTypes = resp.data;
                 }).catch(err => console.log(err));
             }
