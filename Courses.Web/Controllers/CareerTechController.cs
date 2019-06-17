@@ -25,10 +25,10 @@ namespace Courses.Web.Controllers
         }
 
 
-        [Route("credentials")]
-        public ActionResult Credentials()
+        [Route("credentials/{credentialCode?}")]
+        public ActionResult Credentials(string credentialCode)
         {
-            return View();
+            return View((object)credentialCode);
         }
 
         [Route("courses")]

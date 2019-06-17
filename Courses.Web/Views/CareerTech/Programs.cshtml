@@ -171,15 +171,21 @@
                                 </div>
                             </div>
 
-                            <div v-if="programCredentials.length === 0">
+                            <div v-if="!programCredentials">
                                 No credentials assigned
                             </div>
 
-                            <ul class="list-group" v-if="programCredentials.length > 0">
+                            <ul class="list-group" v-if="programCredentials">
                                 <li class="list-group-item" v-for="credential in programCredentials">
                                     <div class="row">
                                         <div class="col-9">
-                                            {{ credential.name }} ({{ credential.credentialCode }})
+                                            <div class="font-weight-bolder">
+                                                <span>
+                                                    <a v-bind:href="'/careertech/credentials/'+ credential.credentialCode">
+                                                        {{ credential.name }} ({{ credential.credentialCode }})
+                                                    </a>
+                                                </span>
+                                            </div>
                                         </div>
                                         <div class="col-3">
                                             <button class="btn btn-danger btn-sm float-right" v-on:click="deleteCredential(credential)">Delete</button>
@@ -217,11 +223,11 @@
                                 </div>
                             </div>
 
-                            <div v-if="programCourses.length === 0">
+                            <div v-if="!programCourses">
                                 No courses assigned
                             </div>
 
-                            <ul class="list-group" v-if="programCourses.length > 0">
+                            <ul class="list-group" v-if="programCourses">
                                 <li class="list-group-item" v-for="course in programCourses">
                                     <div class="row">
                                         <div class="col-9">
@@ -263,7 +269,7 @@
                 credentials: [],
                 courses: [],
                 programCredentials: null,
-                programCourses: [],
+                programCourses: null,
                 selectedCourse: null,
                 selectedCredential: null,
             },
