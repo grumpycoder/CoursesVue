@@ -8,7 +8,7 @@ namespace Courses.Core.Profiles
     {
         public CredentialProfile()
         {
-            CreateMap<CredentialEditDto, Credential>();
+            CreateMap<CredentialEditDto, Credential>().ReverseMap();
             
             CreateMap<CredentialDto, Credential>().ReverseMap();
 

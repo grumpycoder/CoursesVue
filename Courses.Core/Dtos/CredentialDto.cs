@@ -11,5 +11,9 @@
         public string CredentialTypeName { get; set; }
 
         public bool IsReimbursable { get; set; }
+
+        public int? BeginYear { get; set; }
+        public int? EndYear { get; set; }
+
     }
 }

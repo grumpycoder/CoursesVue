@@ -35,6 +35,7 @@ namespace Courses.Infrastructure
         public DbSet<ProgramType> ProgramTypes { get; set; }
         public DbSet<Credential> Credentials { get; set; }
         public DbSet<SubjectArea> SubjectAreas { get; set; }
+        public DbSet<CredentialType> CredentialTypes { get; set; }
 
 
 
@@ -56,6 +57,7 @@ namespace Courses.Infrastructure
             modelBuilder.Configurations.Add(new ClassTypeConfiguration());
             modelBuilder.Configurations.Add(new DeliveryTypeConfiguration());
             modelBuilder.Configurations.Add(new SubjectAreaConfiguration());
+            modelBuilder.Configurations.Add(new CredentialTypeConfiguration());
 
             modelBuilder.Configurations.Add(new ClusterConfiguration());
             modelBuilder.Configurations.Add(new ProgramConfiguration());

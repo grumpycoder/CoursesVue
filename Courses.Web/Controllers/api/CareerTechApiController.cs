@@ -103,6 +103,40 @@ namespace Courses.Web.Controllers.api
             return Ok(dto);
         }
 
+        [HttpGet, Route("credentials/{credentialCode}/edit")]
+        public async Task<object> GetEditCredential(string credentialCode)
+        {
+            //var schoolYear = 2017;
+            var dto = await _context.Credentials
+                   .ProjectTo<CredentialEditDto>()
+                .Where(x => x.CredentialCode == credentialCode).FirstOrDefaultAsync();
+            return Ok(dto);
+        }
+
+        [HttpGet, Route("credentials/{credentialCode}/programs")]
+        public async Task<object> GetEditCredentialPrograms(string credentialCode)
+        {
+            //var schoolYear = 2017;
+            var dto = await _context.Programs
+                .Where(x => x.Credentials.Any(c => c.Credential.CredentialCode == credentialCode))
+                .ProjectTo<ProgramDto>()
+                .ToListAsync();
+                
+            return Ok(dto);
+        }
+
+        [HttpPut, Route("credentials")]
+        public async Task<object> PutCredential(CredentialEditDto dto)
+        {
+            var credential = await _context.Credentials.FindAsync(dto.Id);
+
+            Mapper.Map(dto, credential);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(dto);
+        }
+
         [HttpDelete, Route("programs/{programCode}/credential/{credentialCode}")]
         public async Task<object> RemoveProgramCredential(string programCode, string credentialCode)
         {

@@ -93,5 +93,12 @@ namespace Courses.Web.Controllers.Api
             return Ok(list);
         }
 
+        [HttpGet, Route("credentialtypes")]
+        public object CredentialTypes()
+        {
+            var list = _context.CredentialTypes.ToList();
+            return Ok(list);
+        }
+
     }
 }

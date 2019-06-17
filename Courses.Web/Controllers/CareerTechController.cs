@@ -23,5 +23,18 @@ namespace Courses.Web.Controllers
             return View();
         }
 
+        
+        [Route("credentials")]
+        public ActionResult Credentials()
+        {
+            return View();
+        }
+
+        [Route("courses")]
+        public ActionResult Courses()
+        {
+            return View();
+        }
+
     }
 }
