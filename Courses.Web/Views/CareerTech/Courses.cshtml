@@ -73,7 +73,15 @@
                                 <li class="list-group-item" v-for="item in coursePrograms">
                                     <div class="row">
                                         <div class="col-9">
-                                            {{ item.programName }} ({{ item.programCode }})
+                                         
+                                            <div class="font-weight-bolder">
+                                                <span>
+                                                    <a v-bind:href="'/careertech/programs/'+ item.programCode">
+                                                        {{ item.programName }} ({{ item.programCode }})
+                                                    </a>
+                                                </span>
+                                            </div>
+
                                         </div>
                                         <div class="col-3">
                                             <button class="btn btn-danger btn-sm float-right" v-on:click="removeProgram(item)">Delete</button>
@@ -99,6 +107,7 @@
         var careerTechUrl = '/api/careertech/';
         var courseUrl = '/api/courses/';
         var refUrl = '/api/ref/';
+        var urlParam = '@Model' ? '@Model' : nul
 
         var app = new Vue({
             el: '#app',
@@ -110,15 +119,14 @@
                 coursePrograms: [],
             },
             methods: {
-
-                onChange: function (e) {
+                onChange: function(e) {
                     var url = careerTechUrl + 'courses/' + this.course.courseCode + '/programs';
                     axios.get(url).then(resp => {
                         this.coursePrograms = resp.data;
                     }).catch(err => console.log(err));
 
                 },
-                removeProgram: function (program) {
+                removeProgram: function(program) {
                     var url = careerTechUrl + 'programs/' + program.programCode + '/course/' + this.course.courseCode;
                     var idx = this.coursePrograms.indexOf(program);
                     axios.delete(url)
@@ -128,26 +136,45 @@
                         });
                 },
 
-                addProgram: function () {
-                    var url = careerTechUrl + 'programs/' + this.selectedProgram.programCode + '/course/' + this.course.courseCode;
+                addProgram: function() {
+                    var url = careerTechUrl +
+                        'programs/' +
+                        this.selectedProgram.programCode +
+                        '/course/' +
+                        this.course.courseCode;
                     axios.post(url)
                         .then(resp => {
                             this.coursePrograms.push(this.selectedProgram);
                         });
                 },
+
+                getPrograms(courseCode) {
+                    var url = careerTechUrl + 'courses/' + courseCode + '/programs';
+                    axios.get(url).then(resp => {
+                        this.coursePrograms = resp.data;
+                    }).catch(err => console.log(err));
+                }
+
             },
-            mounted() {
+            created() {
                 var courseOptions = '?loadOptions.filter=isActive%3Dtrue&loadOptions.remoteSelect=true';
 
                 axios.get(courseUrl + courseOptions).then(resp => {
                     this.courses = resp.data.data;
+                }).then(() => {
+                    if (urlParam !== null) {
+                        this.course = this.courses.find(x => x.courseCode === urlParam);
+                        this.getPrograms(urlParam);
+                    }
                 }).catch(err => console.log(err));
 
                 axios.get(refUrl + 'programs').then(resp => {
                     this.programs = resp.data;
                 }).catch(err => console.log(err));
 
+            },
+            mounted() {
             }
-        })
+        });
     </script>
 }

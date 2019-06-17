@@ -108,7 +108,7 @@ namespace Courses.Web.Controllers.api
             //    .Include(x => x.Credentials)
             //    .FirstOrDefaultAsync(x => x.ProgramCode == programCode);
 
-            var dto = _context.ProgramCredentials
+            var dto = await _context.ProgramCredentials
                 .Where(x => x.Program.ProgramCode == programCode)
                 .Select(x => x.Credential).ProjectTo<CredentialDto>()
                 .ToListAsync();

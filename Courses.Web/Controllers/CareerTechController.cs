@@ -31,10 +31,10 @@ namespace Courses.Web.Controllers
             return View((object)credentialCode);
         }
 
-        [Route("courses")]
-        public ActionResult Courses()
+        [Route("courses/{courseCode?}")]
+        public ActionResult Courses(string courseCode)
         {
-            return View();
+            return View((object)courseCode);
         }
 
     }

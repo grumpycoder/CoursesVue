@@ -231,7 +231,13 @@
                                 <li class="list-group-item" v-for="course in programCourses">
                                     <div class="row">
                                         <div class="col-9">
-                                            {{ course.name }} ({{ course.courseCode }})
+                                            <div class="font-weight-bolder">
+                                                <span>
+                                                    <a v-bind:href="'/careertech/courses/'+ course.courseCode">
+                                                        {{ course.name }} ({{ course.courseCode }})
+                                                    </a>
+                                                </span>
+                                            </div>
                                         </div>
                                         <div class="col-3">
                                             <button class="btn btn-danger btn-sm float-right" v-on:click="removeCourse(course)">Delete</button>
@@ -354,7 +360,7 @@
                         }).then(resp => {
 
                             axios.get(fetchCredentials).then(resp => {
-                                this.programCredentials = resp.data.result;
+                                this.programCredentials = resp.data;
                             }).catch(err => console.log(err));
 
                         });
