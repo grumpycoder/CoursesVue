@@ -13,161 +13,169 @@
 
 <div id="app" v-cloak>
 
-    <div class="row">
-        <div class="col-6">
-            <fieldset>
-                <legend>Clusters</legend>
-                <div class="row">
-                    <div class="col-12">
-                        <p>
+    <div class="card">
+        <div class="card-header">
+            <span class="card-title font-weight-bolder">Clusters</span>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <fieldset>
 
-                            <div class="form-group row">
-                                <label for="cluster" class="col-3 col-form-label">Clusters</label>
-                                <div class="col-md-9">
-                                    <select class="form-control"
-                                            v-model="selectedCluster"
-                                            v-on:change="onChange($event)"
-                                            name="cluster"
-                                            id="cluster">
-                                        <option :value="null">-- Select Cluster --</option>
-                                        <option v-for="item in clusters" :value="item"
-                                                :selected="item.clusterCode == clusterCode">
-                                            {{ item.name }} ({{ item.clusterCode }})
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div v-if="!selectedCluster">
-                                <h4>Select a cluster to edit</h4>
-                            </div>
-
-                            <form novalidate v-on:submit.prevent="submit()" v-if="cluster">
-
+                        <div class="row">
+                            <div class="col-12">
                                 <div class="form-group row">
-                                    <label for="clusterCode" class="col-3 col-form-label">Cluster Code</label>
                                     <div class="col-md-9">
-                                        <input type="text"
-                                               class="form-control"
-                                               id="clusterCode"
-                                               name="clusterCode"
-                                               placeholder="Cluster Code (required)"
-                                               autocomplete="false"
-                                               v-model.trim="cluster.clusterCode"
-                                               v-validate.continues="'required|min:3|max:3'"
-                                               data-vv-as="Cluster Code" />
-                                        <small v-if="errors.has('clusterCode')" class="text-danger">{{ errors.first('clusterCode') }}</small>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="clusterName" class="col-3 col-form-label">Name</label>
-                                    <div class="col-9">
-                                        <input type="text"
-                                               class="form-control"
-                                               id="clusterName"
-                                               name="clusterName"
-                                               placeholder="Cluster Name (required)"
-                                               autocomplete="false"
-                                               v-model.trim="cluster.name"
-                                               v-validate.continues="'required'"
-                                               data-vv-as="Cluster Name" />
-                                        <small v-if="errors.has('clusterName')" class="text-danger">{{ errors.first('clusterName') }}</small>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="clusterTypeId" class="col-3 col-form-label">Cluster Type</label>
-                                    <div class="col-9">
                                         <select class="form-control"
-                                                v-model="cluster.clusterTypeId"
-                                                name="clusterTypeId"
-                                                id="clusterTypeId"
-                                                v-validate.continues="'required'"
-                                                data-vv-as="Cluster Type">
-                                            <option :value="null">-- Select Cluster Type --</option>
-                                            <option v-for="type in clusterTypes" :value="type.id">{{ type.name }}</option>
+                                                v-model="selectedCluster"
+                                                v-on:change="onChange()"
+                                                name="cluster"
+                                                id="cluster">
+                                            <option :value="null">-- Select A Cluster --</option>
+                                            <option v-for="item in clusters" :value="item"
+                                                    :selected="item.clusterCode == clusterCode">
+                                                {{ item.name }} ({{ item.clusterCode }})
+                                            </option>
                                         </select>
-                                        <small v-if="errors.has('clusterTypeId')" class="text-danger">{{ errors.first('clusterTypeId') }}</small>
                                     </div>
                                 </div>
 
-
-                                <div class="form-group row">
-                                    <div class="col-6">
-                                        <label for="beginYear" class="col-form-label">Beginning Service Year</label>
-                                        <select class="form-control"
-                                                v-model="cluster.beginYear"
-                                                name="beginYear"
-                                                id="beginYear"
-                                                v-validate="'required'"
-                                                data-vv-as="Beginning Service Year"
-                                                ref="beginYear">
-                                            <option :value="null">-- Select Year --</option>
-                                            <option v-for="year in schoolYears" :value="year.id">{{ year.year }}</option>
-                                        </select>
-                                        <small v-if="errors.has('beginYear')" class="text-danger">{{ errors.first('beginYear') }}</small>
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="endYear" class="col-form-label">Ending Service Year</label>
-                                        <select class="form-control"
-                                                v-model="cluster.endYear"
-                                                name="endYear"
-                                                id="endYear"
-                                                v-validate="'greaterThan:beginYear'"
-                                                data-vv-as="End Service Year">
-                                            <option :value="null">-- Select Year --</option>
-                                            <option v-for="year in schoolYears" :value="year.id">{{ year.year }}</option>
-                                        </select>
-                                        <small v-if="errors.has('endYear')" class="text-danger">{{ errors.first('endYear') }}</small>
-
-                                    </div>
-
+                                <div v-if="!selectedCluster">
+                                    <h4>Select a cluster to edit</h4>
                                 </div>
 
-                                <button class="btn btn-primary" :disabled="errors.any() || !isFormDirty" type="submit">Save Cluster</button>
-                            </form>
+                                <form novalidate v-on:submit.prevent="submit()" v-if="cluster">
 
-                        </p>
-                    </div>
-                </div>
-            </fieldset>
+                                    <div class="form-group row">
+                                        <label for="clusterCode" class="col-3 col-form-label">Cluster Code</label>
+                                        <div class="col-md-9">
+                                            <input type="text"
+                                                   class="form-control"
+                                                   id="clusterCode"
+                                                   name="clusterCode"
+                                                   placeholder="Cluster Code (required)"
+                                                   autocomplete="false"
+                                                   v-model.trim="cluster.clusterCode"
+                                                   v-validate.continues="'required|min:3|max:3'"
+                                                   data-vv-as="Cluster Code" />
+                                            <small v-if="errors.has('clusterCode')" class="text-danger">{{ errors.first('clusterCode') }}</small>
+                                        </div>
+                                    </div>
 
-        </div>
+                                    <div class="form-group row">
+                                        <label for="clusterName" class="col-3 col-form-label">Name</label>
+                                        <div class="col-9">
+                                            <input type="text"
+                                                   class="form-control"
+                                                   id="clusterName"
+                                                   name="clusterName"
+                                                   placeholder="Cluster Name (required)"
+                                                   autocomplete="false"
+                                                   v-model.trim="cluster.name"
+                                                   v-validate.continues="'required'"
+                                                   data-vv-as="Cluster Name" />
+                                            <small v-if="errors.has('clusterName')" class="text-danger">{{ errors.first('clusterName') }}</small>
+                                        </div>
+                                    </div>
 
-        <div class="col-6">
-            <fieldset v-if="cluster">
-                <legend>
-                    Assigned Programs
-                </legend>
-                <div class="row">
-                    <div class="col-12">
-                        <p>
+                                    <div class="form-group row">
+                                        <label for="clusterTypeId" class="col-3 col-form-label">Cluster Type</label>
+                                        <div class="col-9">
+                                            <select class="form-control"
+                                                    v-model="cluster.clusterTypeId"
+                                                    name="clusterTypeId"
+                                                    id="clusterTypeId"
+                                                    v-validate.continues="'required'"
+                                                    data-vv-as="Cluster Type">
+                                                <option :value="null">-- Select Cluster Type --</option>
+                                                <option v-for="type in clusterTypes" :value="type.id">{{ type.name }}</option>
+                                            </select>
+                                            <small v-if="errors.has('clusterTypeId')" class="text-danger">{{ errors.first('clusterTypeId') }}</small>
+                                        </div>
+                                    </div>
 
-                            <div v-if="programs.length === 0">
-                                No programs assigned
+                                    <div class="form-group row">
+                                        <div class="col-6">
+                                            <label for="beginYear" class="col-form-label">Beginning Service Year</label>
+                                            <select class="form-control"
+                                                    v-model="cluster.beginYear"
+                                                    name="beginYear"
+                                                    id="beginYear"
+                                                    v-validate="'required'"
+                                                    data-vv-as="Beginning Service Year"
+                                                    ref="beginYear">
+                                                <option :value="null">-- Select Year --</option>
+                                                <option v-for="year in schoolYears" :value="year.id">{{ year.year }}</option>
+                                            </select>
+                                            <small v-if="errors.has('beginYear')" class="text-danger">{{ errors.first('beginYear') }}</small>
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="endYear" class="col-form-label">Ending Service Year</label>
+                                            <select class="form-control"
+                                                    v-model="cluster.endYear"
+                                                    name="endYear"
+                                                    id="endYear"
+                                                    v-validate="'greaterThan:beginYear'"
+                                                    data-vv-as="End Service Year">
+                                                <option :value="null">-- Select Year --</option>
+                                                <option v-for="year in schoolYears" :value="year.id">{{ year.year }}</option>
+                                            </select>
+                                            <small v-if="errors.has('endYear')" class="text-danger">{{ errors.first('endYear') }}</small>
+
+                                        </div>
+
+                                    </div>
+
+                                    <button class="btn btn-primary" :disabled="errors.any() || !isFormDirty" type="submit">Save Cluster</button>
+                                </form>
+
                             </div>
+                        </div>
+                    </fieldset>
 
-
-                            <ul class="list-group" v-if="programs.length > 0">
-                                <li class="list-group-item" v-for="program in programs">
-                                    <div class="text-muted">Cluster: {{ program.clusterName}}</div>
-                                    <div class="font-weight-bolder">
-                                        <span>
-
-                                            <a v-bind:href="'/careertech/programs/'+ program.programCode">
-                                                {{ program.programName }} ({{ program.programCode }})
-                                            </a>
-                                        </span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </p>
-                    </div>
                 </div>
-            </fieldset>
-        </div>
 
+                <div class="col-6">
+                    <fieldset v-if="cluster">
+                        <legend>
+                            Assigned Programs
+                        </legend>
+                        <div class="row">
+                            <div class="col-12">
+                                <p>
+
+                                    <div v-if="programs.length === 0">
+                                        No programs assigned
+                                    </div>
+
+
+                                    <ul class="list-group" v-if="programs.length > 0">
+                                        <li class="list-group-item" v-for="program in programs">
+                                            <div class="text-muted">Cluster: {{ program.clusterName}}</div>
+                                            <div class="font-weight-bolder">
+                                                <span>
+
+                                                    <a v-bind:href="'/careertech/programs/'+ program.programCode">
+                                                        {{ program.programName }} ({{ program.programCode }})
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </p>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            <a href="/courses">Back To Career Tech</a>
+        </div>
     </div>
+
+
 
 </div>
 
@@ -209,7 +217,9 @@
                 },
 
                 onChange: function(e) {
-                    this.getCluster(this.selectedCluster.clusterCode);
+                    if (this.selectedCluster !== null) {
+                        this.getCluster(this.selectedCluster.clusterCode);
+                    } 
                 },
 
                 getCluster(clusterCode) {
