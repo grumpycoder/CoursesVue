@@ -90,8 +90,8 @@
                                            placeholder="Course Name (required)"
                                            v-model.trim="course.name"
                                            v-validate="'required'"
-                                           data-vv-as="Name"/>
-                                    <small v-if="errors.has('name')" class="text-danger">{{ errors.first('name') }}</small>
+                                           data-vv-as="Course Name"/>
+                                    <small v-if="errors.has('courseName')" class="text-danger">{{ errors.first('courseName') }}</small>
                                 </div>
                             </div>
 
@@ -132,7 +132,7 @@
                                             v-model="course.endServiceYearId"
                                             name="endServiceYearId"
                                             id="endServiceYearId"
-                                            v-validate.continues="'required|greaterThan:beginServiceYear'"
+                                            v-validate.continues="'greaterThan:beginServiceYear'"
                                             data-vv-as="End Service Year">
                                         <option :value="null">-- Select Year --</option>
                                         <option v-for="year in schoolYears" :value="year.id">{{ year.year }}</option>
@@ -431,7 +431,7 @@
                         var valueObj = this.schoolYears.find(x => x.id == value);
                         var otherObj = this.schoolYears.find(x => x.id == otherValue);
                         if (valueObj !== undefined && otherObj !== undefined) {
-                            return valueObj.year > otherObj.year;
+                            return valueObj.year >= otherObj.year;
                         }
                         return true;
                     },
