@@ -1,7 +1,7 @@
 ﻿@model string
 
 @{
-    ViewBag.Title = "Detail";
+    ViewBag.Title = "Course Information";
 }
 <style>
     [v-cloak] {
@@ -13,7 +13,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h5 class="">{{course.name}} ({{course.courseCode}})</h5>
+            <span class="font-weight-bolder">{{course.name}} ({{course.courseCode}})</span>
         </div>
         <div class="card-body">
 
