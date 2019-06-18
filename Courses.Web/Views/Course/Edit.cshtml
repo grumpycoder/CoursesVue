@@ -41,6 +41,14 @@
 
                         <form novalidate v-on:submit.prevent="submit()">
 
+                            @*<ul>
+                                    <li v-for="group in errors.collect()">
+                                        <ul>
+                                            <li v-for="error in group">{{ error }}</li>
+                                        </ul>
+                                    </li>
+                                </ul>*@
+
                             <div class="form-group row">
                                 <label for="courseCode" class="col-3 col-form-label">Course Code</label>
                                 <div class="col-9">
@@ -49,8 +57,10 @@
                                            id="courseCode"
                                            name="courseCode"
                                            placeholder="Course Code (required)"
-                                           v-model="course.courseCode"
-                                           minlength="6" />
+                                           v-model.trim="course.courseCode"
+                                           v-validate.continues="'required|min:6|max:6'" 
+                                           data-vv-as="Course Code" />
+                                    <small v-if="errors.has('courseCode')" class="text-danger">{{ errors.first('courseCode') }}</small>
                                 </div>
                             </div>
 
@@ -63,8 +73,10 @@
                                            id="cipCode"
                                            name="cipCode"
                                            placeholder="CIP Code"
-                                           v-model="course.cipCode"
-                                           minlength="6" />
+                                           v-model.trim="course.cipCode"
+                                           v-validate="'min:3|max:3'"
+                                           data-vv-as="CIP Code"/>
+                                    <small v-if="errors.has('cipCode')" class="text-danger">{{ errors.first('cipCode') }}</small>
                                 </div>
                             </div>
 
@@ -76,7 +88,10 @@
                                            id="courseName"
                                            name="courseName"
                                            placeholder="Course Name (required)"
-                                           v-model="course.name" />
+                                           v-model.trim="course.name"
+                                           v-validate="'required'"
+                                           data-vv-as="Name"/>
+                                    <small v-if="errors.has('name')" class="text-danger">{{ errors.first('name') }}</small>
                                 </div>
                             </div>
 
@@ -89,7 +104,10 @@
                                               cols="30"
                                               rows="10"
                                               placeholder="Course Description (required)"
-                                              v-model="course.description"></textarea>
+                                              v-model.trim="course.description"
+                                              v-validate="'required'"
+                                              data-vv-as="Description"></textarea>
+                                    <small v-if="errors.has('description')" class="text-danger">{{ errors.first('description') }}</small>
                                 </div>
                             </div>
 
@@ -99,20 +117,27 @@
                                     <select class="form-control"
                                             v-model="course.beginServiceYearId"
                                             name="beginServiceYearId"
-                                            id="beginServiceYearId">
+                                            id="beginServiceYearId"
+                                            v-validate="'required'"
+                                            data-vv-as="Beginning Service Year"
+                                            ref="beginServiceYear">
                                         <option :value="null">-- Select Year --</option>
                                         <option v-for="year in schoolYears" :value="year.id">{{ year.year }}</option>
                                     </select>
+                                    <small v-if="errors.has('beginServiceYearId')" class="text-danger">{{ errors.first('beginServiceYearId') }}</small>
                                 </div>
                                 <div class="col-6">
                                     <label for="endServiceYearId" class="col-form-label">Ending Service Year</label>
                                     <select class="form-control"
                                             v-model="course.endServiceYearId"
                                             name="endServiceYearId"
-                                            id="endServiceYearId">
+                                            id="endServiceYearId"
+                                            v-validate.continues="'required|greaterThan:beginServiceYear'"
+                                            data-vv-as="End Service Year">
                                         <option :value="null">-- Select Year --</option>
                                         <option v-for="year in schoolYears" :value="year.id">{{ year.year }}</option>
                                     </select>
+                                    <small v-if="errors.has('endServiceYearId')" class="text-danger">{{ errors.first('endServiceYearId') }}</small>
                                 </div>
 
                             </div>
@@ -123,25 +148,30 @@
                                     <select class="form-control"
                                             v-model="course.lowGradeId"
                                             name="lowGradeId"
-                                            id="lowGradeId">
+                                            id="lowGradeId"
+                                            v-validate="'required'"
+                                            data-vv-as="Lowest Grade">
                                         <option :value="null">-- Select Grade --</option>
                                         <option v-for="grade in grades" :value="grade.id">
                                             {{ grade.name }} - {{ grade.description }}
                                         </option>
                                     </select>
-
+                                    <small v-if="errors.has('lowGradeId')" class="text-danger">{{ errors.first('lowGradeId') }}</small>
                                 </div>
                                 <div class="col-6">
                                     <label for="highGradeId" class="col-form-label">Highest Grade</label>
                                     <select class="form-control"
                                             v-model="course.highGradeId"
                                             name="highGradeId"
-                                            id="highGradeId">
+                                            id="highGradeId"
+                                            v-validate="'required'"
+                                            data-vv-as="Highest Grade">
                                         <option :value="null">-- Select Grade --</option>
                                         <option v-for="grade in grades" :value="grade.id">
                                             {{ grade.name }} - {{ grade.description }}
                                         </option>
                                     </select>
+                                    <small v-if="errors.has('highGradeId')" class="text-danger">{{ errors.first('highGradeId') }}</small>
                                 </div>
                             </div>
 
@@ -151,10 +181,13 @@
                                     <select class="form-control"
                                             v-model="course.courseTypeId"
                                             name="courseTypeId"
-                                            id="courseTypeId">
+                                            id="courseTypeId"
+                                            v-validate="'required'"
+                                            data-vv-as="Course Type">
                                         <option :value="null">-- Select Course Type --</option>
                                         <option v-for="type of courseTypes" :value="type.id">{{ type.name }}</option>
                                     </select>
+                                    <small v-if="errors.has('courseTypeId')" class="text-danger">{{ errors.first('courseTypeId') }}</small>
                                 </div>
 
                                 <div class="col-6">
@@ -162,10 +195,13 @@
                                     <select class="form-control"
                                             v-model="course.creditTypeId"
                                             name="creditTypeId"
-                                            id="creditTypeId">
+                                            id="creditTypeId"
+                                            v-validate="'required'"
+                                            data-vv-as="Credit Type">
                                         <option :value="null">-- Select Credit Type --</option>
                                         <option v-for="type of creditTypes" :value="type.id">{{ type.name }}</option>
                                     </select>
+                                    <small v-if="errors.has('creditTypeId')" class="text-danger">{{ errors.first('creditTypeId') }}</small>
                                 </div>
                             </div>
 
@@ -175,10 +211,13 @@
                                     <select class="form-control"
                                             v-model="course.classTypeId"
                                             name="classTypeId"
-                                            id="classTypeId">
+                                            id="classTypeId"
+                                            v-validate="'required'"
+                                            data-vv-as="Class Type">
                                         <option :value="null">-- Select Class Type --</option>
                                         <option v-for="type of classTypes" :value="type.id">{{ type.name }} - {{ type.description }}</option>
                                     </select>
+                                    <small v-if="errors.has('classTypeId')" class="text-danger">{{ errors.first('classTypeId') }}</small>
                                 </div>
 
                                 <div class="col-6">
@@ -186,14 +225,17 @@
                                     <select class="form-control"
                                             v-model="course.subjectAreaId"
                                             name="subjectAreaId"
-                                            id="subjectAreaId">
+                                            id="subjectAreaId"
+                                            v-validate="'required'"
+                                            data-vv-as="Subject Area">
                                         <option :value="null">-- Select Subject Area --</option>
                                         <option v-for="type of subjectAreas" :value="type.id">{{ type.name }}</option>
                                     </select>
+                                    <small v-if="errors.has('subjectAreaId')" class="text-danger">{{ errors.first('subjectAreaId') }}</small>
                                 </div>
                             </div>
 
-                            <button class="btn btn-primary" :disabled="!!course" type="submit">Save Course</button>
+                            <button class="btn btn-primary" :disabled="errors.any() || !isFormDirty" type="submit">Save Course</button>
                         </form>
                     </fieldset>
                 </div>
@@ -260,22 +302,6 @@
         </div>
     </div>
 
-    @*<vue-tabs active-tab-color="#9b59b6"
-                  active-text-color="white">
-            <v-tab title="Information" icon="fa fa-user">
-
-
-            </v-tab>
-
-            <v-tab title="Programs" icon="fa fa2x fa-cogs">
-                Programs
-
-            </v-tab>
-
-            <v-tab title="Third tab" icon="fa fa-check">
-                Third tab content
-            </v-tab>
-        </vue-tabs>*@
 
 </div>
 
@@ -286,6 +312,16 @@
         var refUrl = '/api/ref/';
         var courseUrl = '/api/courses/';
         var careerTechUrl = '/api/careertech/';
+
+
+        Vue.use(VeeValidate,
+            {
+                classes: true,
+                classNames: {
+                    valid: 'is-valid',
+                    invalid: 'is-invalid'
+                }
+            });
 
         Vue.use(VueTabs);
 
@@ -306,8 +342,13 @@
                 programs: [],
                 selectedProgram: null,
             },
+            computed: {
+                isFormDirty() {
+                    return Object.keys(this.fields).some(key => this.fields[key].dirty);
+                }
+            },
             methods: {
-                submit: function (e) {
+                submit: function(e) {
                     this.errors.push('Course code required');
                     if (this.course.name.length === 0) {
                         this.errors.push('Course code required');
@@ -319,17 +360,22 @@
                         });
                 },
 
-                deleteProgram: function (e, program) {
+                deleteProgram: function(e, program) {
                     var idx = this.coursePrograms.indexOf(program);
 
-                    axios.delete(careerTechUrl + 'programs/' + program.programCode + '/course/' + this.course.courseCode)
+                    axios.delete(
+                            careerTechUrl + 'programs/' + program.programCode + '/course/' + this.course.courseCode)
                         .then(resp => {
                             this.coursePrograms.splice(idx, 1);
                         });
                 },
 
-                addProgram: function (e) {
-                    var url = careerTechUrl + 'programs/' + this.selectedProgram.programCode + '/course/' + this.course.courseCode;
+                addProgram: function(e) {
+                    var url = careerTechUrl +
+                        'programs/' +
+                        this.selectedProgram.programCode +
+                        '/course/' +
+                        this.course.courseCode;
 
                     axios.post(url)
                         .then(resp => {
@@ -378,6 +424,21 @@
                 axios.get(refUrl + 'programs').then(resp => {
                     this.programs = resp.data;
                 }).catch(err => console.log(err));
+
+                //Custom Validator
+                this.$validator.extend('greaterThan',
+                    (value, otherValue) => {
+                        var valueObj = this.schoolYears.find(x => x.id == value);
+                        var otherObj = this.schoolYears.find(x => x.id == otherValue);
+                        if (valueObj !== undefined && otherObj !== undefined) {
+                            return valueObj.year > otherObj.year;
+                        }
+                        return true;
+                    },
+                    {
+                        hasTarget: true
+                    });
+
 
             },
             mounted() {
