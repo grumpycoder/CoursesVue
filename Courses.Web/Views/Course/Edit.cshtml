@@ -198,7 +198,7 @@
                                             v-model="selectedProgram"
                                             name="programs">
                                         <option selected>Choose...</option>
-                                        <option v-for="program in programs" :value="program.programId">
+                                        <option v-for="program in programs" :value="program">
                                             {{ program.clusterName }} - {{ program.programName }}
                                         </option>
                                     </select>
@@ -218,7 +218,7 @@
 
 
                                     <ul class="list-group">
-                                        <li class="list-group-item" v-for="program in course.programs">
+                                        <li class="list-group-item" v-for="program in coursePrograms">
                                             <div class="text-muted">Cluster: {{ program.clusterName}}</div>
                                             <div class="font-weight-bolder">
                                                 {{ program.programName }} ({{ program.programCode }})
@@ -267,11 +267,21 @@
 @section scripts{
 
     <script>
+        var urlParam = '@Model' ? '@Model' : null;
+        var refUrl = '/api/ref/';
+        var courseUrl = '/api/courses/';
+        var careerTechUrl = '/api/careertech/';
+
         Vue.use(VueTabs);
 
         var app = new Vue({
             el: '#app',
             data: {
+                urlParam: null,
+                title: '',
+                course: {},
+                coursePrograms: [],
+
                 schoolYears: [],
                 grades: [],
                 courseTypes: [],
@@ -279,11 +289,7 @@
                 classTypes: [],
                 subjectAreas: [],
                 programs: [],
-                course: {},
-                courseCode: '',
-                errors: [],
-                title: '',
-                selectedProgram: {}
+                selectedProgram: {},
             },
             methods: {
                 submit: function (e) {
@@ -292,72 +298,76 @@
                         this.errors.push('Course code required');
                     }
 
-                    axios.put('/api/courses', this.course)
+                    axios.put(courseUrl, this.course)
                         .then(resp => {
                             console.log('resp', resp);
                         });
                 },
 
                 deleteProgram: function (e, program) {
-                    var idx = this.course.programs.indexOf(program);
+                    var idx = this.coursePrograms.indexOf(program);
 
-                    axios.delete('/api/careertech/programs/' + program.programId + '/' + this.course.id)
+                    axios.delete(careerTechUrl + 'programs/' + program.programCode + '/course/' + this.course.courseCode)
                         .then(resp => {
-                            this.course.programs.splice(idx, 1);
+                            this.coursePrograms.splice(idx, 1);
                         });
                 },
 
                 addProgram: function (e) {
-                    var url = '/api/careertech/programs/' + this.selectedProgram + '/' + this.course.id;
+                    var url = careerTechUrl + 'programs/' + this.selectedProgram.programCode + '/course/' + this.course.courseCode;
 
                     axios.post(url)
                         .then(resp => {
-                            var dto = resp.data.result;
-                            this.course.programs.push(dto);
+                            this.coursePrograms.push(this.selectedProgram);
                         });
                 }
             },
-            mounted() {
-                var currentUrl = window.location.pathname.split('/');
-                this.courseCode = currentUrl[currentUrl.length - 2];
-                var url = '/api/courses/' + this.courseCode + '/edit/full';
-                axios.get(url).then(resp => {
+            created() {
+                this.urlParam = urlParam;
+                var fetch = courseUrl + urlParam + '/edit';
+                var programUrl = careerTechUrl + 'courses/' + this.urlParam + '/programs';
+
+                axios.get(fetch).then(resp => {
                     this.course = resp.data;
                     this.title = this.course.name + ' (' + this.course.courseCode + ')';
+                }).then(resp => {
+                    axios.get(programUrl).then(resp => {
+                        this.coursePrograms = resp.data;
+                    }).catch(err => console.log(err));
                 }).catch(err => console.log(err));
 
-                axios.get('/api/ref/schoolyears').then(resp => {
+                axios.get(refUrl + 'schoolyears').then(resp => {
                     this.schoolYears = resp.data;
                 }).catch(err => console.log(err));
 
-                axios.get('/api/ref/grades').then(resp => {
+                axios.get(refUrl + 'grades').then(resp => {
                     this.grades = resp.data;
                 }).catch(err => console.log(err));
 
-                axios.get('/api/ref/coursetypes').then(resp => {
+                axios.get(refUrl + 'coursetypes').then(resp => {
                     this.courseTypes = resp.data;
                 }).catch(err => console.log(err));
 
-                axios.get('/api/ref/credittypes').then(resp => {
+                axios.get(refUrl + 'credittypes').then(resp => {
                     this.creditTypes = resp.data;
                 }).catch(err => console.log(err));
 
-                axios.get('/api/ref/classtypes').then(resp => {
+                axios.get(refUrl + 'classtypes').then(resp => {
                     this.classTypes = resp.data;
                 }).catch(err => console.log(err));
 
-                axios.get('/api/ref/subjectareas').then(resp => {
+                axios.get(refUrl + 'subjectareas').then(resp => {
                     this.subjectAreas = resp.data;
                 }).catch(err => console.log(err));
 
-                axios.get('/api/ref/programs').then(resp => {
+                axios.get(refUrl + 'programs').then(resp => {
                     this.programs = resp.data;
                 }).catch(err => console.log(err));
+
+            },
+            mounted() {
             },
             ready() {
-                var currentUrl = window.location.pathname.split('/');
-                this.courseCode = currentUrl[currentUrl.length - 2];
-
             }
         });
     </script>
