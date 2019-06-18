@@ -17,16 +17,19 @@
 
     <div class="card" v-if="!course">
         <div class="card-header">
-            Not Found
+            <span class="card-title font-weight-bolder">Not Found</span>
         </div>
         <div class="card-body">
-            <h4>Unable to find course {{courseCode}}</h4>
+            <h4>Unable to find course {{this.urlParam}}</h4>
+        </div>
+        <div class="card-footer text-muted">
+            <a href="/courses">Back To Courses</a>
         </div>
     </div>
 
     <div class="card" v-if="course">
         <div class="card-header">
-            <h4 class="card-title">{{title}}</h4>
+            <span class="card-title font-weight-bolder">{{title}}</span>
         </div>
         <div class="card-body">
             <div class="row">
@@ -36,11 +39,11 @@
                             Details
                         </legend>
 
-
                         <form novalidate v-on:submit.prevent="submit()">
+
                             <div class="form-group row">
-                                <label for="courseCode" class="col-md-2 col-form-label">Course Code</label>
-                                <div class="col-md-8">
+                                <label for="courseCode" class="col-3 col-form-label">Course Code</label>
+                                <div class="col-9">
                                     <input type="text"
                                            class="form-control"
                                            id="courseCode"
@@ -50,9 +53,10 @@
                                            minlength="6" />
                                 </div>
                             </div>
+
                             <div class="form-group row">
-                                <label for="cipCode" class="col-md-2 col-form-label">CIP Code</label>
-                                <div class="col-md-8">
+                                <label for="cipCode" class="col-3 col-form-label">CIP Code</label>
+                                <div class="col-9">
                                     <input autocomplete="off"
                                            type="text"
                                            class="form-control"
@@ -63,9 +67,10 @@
                                            minlength="6" />
                                 </div>
                             </div>
+
                             <div class="form-group row">
-                                <label for="courseName" class="col-md-2 col-form-label">Name</label>
-                                <div class="col-md-8">
+                                <label for="courseName" class="col-3 col-form-label">Name</label>
+                                <div class="col-9">
                                     <input type="text"
                                            class="form-control"
                                            id="courseName"
@@ -74,9 +79,10 @@
                                            v-model="course.name" />
                                 </div>
                             </div>
+
                             <div class="form-group row">
-                                <label for="description" class="col-md-2 col-form-label">Description</label>
-                                <div class="col-md-8">
+                                <label for="description" class="col-3 col-form-label">Description</label>
+                                <div class="col-9">
                                     <textarea id="description"
                                               name="description"
                                               class="form-control"
@@ -86,100 +92,108 @@
                                               v-model="course.description"></textarea>
                                 </div>
                             </div>
+
                             <div class="form-group row">
-                                <label for="beginServiceYearId" class="col-md-2 col-form-label">Begin Service</label>
-                                <div class="col-md-8">
+                                <div class="col-6">
+                                    <label for="beginServiceYearId" class="col-form-label">Beginning Service Year</label>
                                     <select class="form-control"
                                             v-model="course.beginServiceYearId"
-                                            name="beginServiceYearId">
+                                            name="beginServiceYearId"
+                                            id="beginServiceYearId">
                                         <option :value="null">-- Select Year --</option>
                                         <option v-for="year in schoolYears" :value="year.id">{{ year.year }}</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="endServiceYearId" class="col-md-2 col-form-label">End Service</label>
-                                <div class="col-md-8">
+                                <div class="col-6">
+                                    <label for="endServiceYearId" class="col-form-label">Ending Service Year</label>
                                     <select class="form-control"
                                             v-model="course.endServiceYearId"
-                                            name="endServiceYearId">
+                                            name="endServiceYearId"
+                                            id="endServiceYearId">
                                         <option :value="null">-- Select Year --</option>
                                         <option v-for="year in schoolYears" :value="year.id">{{ year.year }}</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-6">
+                                    <label for="lowGradeId" class="col-form-label">Lowest Grade</label>
+                                    <select class="form-control"
+                                            v-model="course.lowGradeId"
+                                            name="lowGradeId"
+                                            id="lowGradeId">
+                                        <option :value="null">-- Select Grade --</option>
+                                        <option v-for="grade in grades" :value="grade.id">
+                                            {{ grade.name }} - {{ grade.description }}
+                                        </option>
+                                    </select>
+
+                                </div>
+                                <div class="col-6">
+                                    <label for="highGradeId" class="col-form-label">Highest Grade</label>
+                                    <select class="form-control"
+                                            v-model="course.highGradeId"
+                                            name="highGradeId"
+                                            id="highGradeId">
+                                        <option :value="null">-- Select Grade --</option>
+                                        <option v-for="grade in grades" :value="grade.id">
+                                            {{ grade.name }} - {{ grade.description }}
+                                        </option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="lowGradeId" class="col-md-2 col-form-label">Low Grade</label>
-                                <div class="col-md-8">
-                                    <select class="form-control"
-                                            v-model="course.lowGradeId"
-                                            name="lowGradeId">
-                                        <option :value="null">-- Select Grade --</option>
-                                        <option v-for="grade in grades" :value="grade.id">
-                                            {{ grade.name }} - {{ grade.description }}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="highGradeId" class="col-md-2 col-form-label">High Grade</label>
-                                <div class="col-md-8">
-                                    <select class="form-control"
-                                            v-model="course.highGradeId"
-                                            name="highGradeId">
-                                        <option :value="null">-- Select Grade --</option>
-                                        <option v-for="grade in grades" :value="grade.id">
-                                            {{ grade.name }} - {{ grade.description }}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="courseTypeId" class="col-md-2 col-form-label">Course Type</label>
-                                <div class="col-md-8">
+                                <div class="col-6">
+                                    <label for="courseTypeId" class="col-form-label">Course Type</label>
                                     <select class="form-control"
                                             v-model="course.courseTypeId"
-                                            name="courseTypeId">
+                                            name="courseTypeId"
+                                            id="courseTypeId">
                                         <option :value="null">-- Select Course Type --</option>
                                         <option v-for="type of courseTypes" :value="type.id">{{ type.name }}</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="creditTypeId" class="col-md-2 col-form-label">Credit Type</label>
-                                <div class="col-md-8">
+
+                                <div class="col-6">
+                                    <label for="creditTypeId" class="col-form-label">Credit Type</label>
                                     <select class="form-control"
                                             v-model="course.creditTypeId"
-                                            name="creditType">
+                                            name="creditTypeId"
+                                            id="creditTypeId">
                                         <option :value="null">-- Select Credit Type --</option>
                                         <option v-for="type of creditTypes" :value="type.id">{{ type.name }}</option>
                                     </select>
                                 </div>
                             </div>
+
                             <div class="form-group row">
-                                <label for="classTypeId" class="col-md-2 col-form-label">Class Type</label>
-                                <div class="col-md-8">
+                                <div class="col-6">
+                                    <label for="classTypeId" class="col-form-label">Class Type</label>
                                     <select class="form-control"
                                             v-model="course.classTypeId"
-                                            name="classTypeId">
+                                            name="classTypeId"
+                                            id="classTypeId">
                                         <option :value="null">-- Select Class Type --</option>
                                         <option v-for="type of classTypes" :value="type.id">{{ type.name }} - {{ type.description }}</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="subjectAreaId" class="col-md-2 col-form-label">Subject Area</label>
-                                <div class="col-md-8">
+
+                                <div class="col-6">
+                                    <label for="subjectAreaId" class="col-form-label">Subject Area</label>
                                     <select class="form-control"
                                             v-model="course.subjectAreaId"
-                                            name="subjectArea">
+                                            name="subjectAreaId"
+                                            id="subjectAreaId">
                                         <option :value="null">-- Select Subject Area --</option>
                                         <option v-for="type of subjectAreas" :value="type.id">{{ type.name }}</option>
                                     </select>
                                 </div>
                             </div>
-                            <button class="btn btn-primary" type="submit">Save Course</button>
+
+                            <button class="btn btn-primary" :disabled="!!course" type="submit">Save Course</button>
                         </form>
                     </fieldset>
                 </div>
@@ -197,7 +211,7 @@
                                     <select class="form-control"
                                             v-model="selectedProgram"
                                             name="programs">
-                                        <option selected>Choose...</option>
+                                        <option value="null">Choose Program ...</option>
                                         <option v-for="program in programs" :value="program">
                                             {{ program.clusterName }} - {{ program.programName }}
                                         </option>
@@ -239,28 +253,29 @@
 
             </div>
         </div>
+
         <div class="card-footer text-muted">
             <a v-bind:href="'/courses/'+ course.courseCode + ''"><i class="fa fa-arrow-circle-o-left"></i> Back To Details</a>
             <a href="/courses" class="float-right"><i class="fa fa-book"></i> Back To Courses</a>
         </div>
     </div>
 
-    <vue-tabs active-tab-color="#9b59b6"
-              active-text-color="white">
-        <v-tab title="Information" icon="fa fa-user">
+    @*<vue-tabs active-tab-color="#9b59b6"
+                  active-text-color="white">
+            <v-tab title="Information" icon="fa fa-user">
 
 
-        </v-tab>
+            </v-tab>
 
-        <v-tab title="Programs" icon="fa fa2x fa-cogs">
-            Programs
+            <v-tab title="Programs" icon="fa fa2x fa-cogs">
+                Programs
 
-        </v-tab>
+            </v-tab>
 
-        <v-tab title="Third tab" icon="fa fa-check">
-            Third tab content
-        </v-tab>
-    </vue-tabs>
+            <v-tab title="Third tab" icon="fa fa-check">
+                Third tab content
+            </v-tab>
+        </vue-tabs>*@
 
 </div>
 
@@ -289,7 +304,7 @@
                 classTypes: [],
                 subjectAreas: [],
                 programs: [],
-                selectedProgram: {},
+                selectedProgram: null,
             },
             methods: {
                 submit: function (e) {
