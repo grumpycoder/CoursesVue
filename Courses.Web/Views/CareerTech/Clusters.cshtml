@@ -33,7 +33,8 @@
                                             v-model="selectedCluster"
                                             v-on:change="onChange()"
                                             name="cluster"
-                                            id="cluster">
+                                            id="cluster"
+                                            :disabled="clusters.length == 0">
                                         <option :value="null">-- Select A Cluster --</option>
                                         <option v-for="item in clusters" :value="item"
                                                 :selected="item.clusterCode == clusterCode">
@@ -186,9 +187,6 @@
         </div>
     </div>
     
-    <div class="card-footer text-muted">
-   
-    </div>
 </div>
 
 @section scripts{
