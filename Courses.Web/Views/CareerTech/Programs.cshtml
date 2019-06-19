@@ -46,7 +46,9 @@
             <div class="row" v-if="selectedProgram">
                 <div class="col-6">
                     <fieldset class="border p-2">
-                        <legend class="w-auto">Details</legend>
+                        <legend class="w-auto">
+                            <small>Details</small>
+                        </legend>
                         <form novalidate v-on:submit.prevent="submit()" v-if="program">
 
                             <div class="form-group row">
@@ -206,7 +208,7 @@
                 <div class="col-6">
                     <fieldset v-if="program" class="border p-2">
                         <legend class="w-auto">
-                            Assigned Credentials
+                            <small>Assigned Credentials</small>
                         </legend>
                         <div class="row">
                             <div class="col-12">
