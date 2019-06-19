@@ -18,11 +18,10 @@
         <div class="card-body">
 
             <div class="row">
-
-
+                
                 <div class="col-6">
-                    <fieldset>
-                        <legend>Details</legend>
+                    <fieldset class="border p-2">
+                        <legend class="w-auto"><small>Details</small></legend>
                         <dl class="row">
                             <dt class="col-3">Name</dt>
                             <dd class="col-9">{{ course.name }}</dd>
@@ -56,8 +55,8 @@
                 </div>
 
                 <div class="col-6">
-                    <fieldset>
-                        <legend>Career Tech Programs</legend>
+                    <fieldset class="border p-2">
+                        <legend class="w-auto"><small>Career Tech Programs</small></legend>
                         <ul class="list-group">
                             <li v-for="program in course.programs" class="list-group-item">
                                 <div class="text-muted">Cluster: {{ program.clusterName}}</div>
