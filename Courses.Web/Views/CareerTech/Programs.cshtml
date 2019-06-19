@@ -11,247 +11,318 @@
 
 <div id="app" v-cloak>
 
-    <div class="row">
-        <div class="col-6">
-            <fieldset>
-                <legend>Programs</legend>
-
-                <div class="form-group row">
-                    <label for="selectedProgram" class="col-md-2 col-form-label">Programs</label>
-                    <div class="col-md-8">
-                        <select class="form-control"
-                                v-model="selectedProgram"
-                                v-on:change="onChange($event)"
-                                name="selectedProgram" id="selectedProgram">
-                            <option :value="null">-- Select Program --</option>
-                            <option v-for="p in programs" :value="p">
-                                {{ p.programName }} ({{ p.programCode }})
-                            </option>
-                        </select>
-                    </div>
-                </div>
-
-                <div v-if="!program">
-                    <h4>Select a Program to edit</h4>
-                </div>
-
-                <form novalidate v-on:submit.prevent="submit()" v-if="program">
-
-                    <div class="form-group row">
-                        <label for="programCode" class="col-md-2 col-form-label">Program Code</label>
-                        <div class="col-md-8">
-                            <input type="text"
-                                   class="form-control"
-                                   id="programCode"
-                                   name="programCode"
-                                   placeholder="Program Code (required)"
-                                   v-model="program.programCode"
-                                   minlength="3" />
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="programName" class="col-md-2 col-form-label">Name</label>
-                        <div class="col-md-8">
-                            <input type="text"
-                                   class="form-control"
-                                   id="programName"
-                                   name="programName"
-                                   placeholder="Program Name (required)"
-                                   v-model="program.name"
-                                   minlength="3" />
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="clusterId" class="col-md-2 col-form-label">Cluster</label>
-                        <div class="col-md-8">
-                            <select class="form-control" v-model="program.clusterId"
-                                    name="clusterId"
-                                    id="clusterId">
-                                <option :value="null">-- Select Cluster --</option>
-                                <option v-for="cluster in clusters" :value="cluster.id">
-                                    {{ cluster.name }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="programTypeId" class="col-md-2 col-form-label">Program Type</label>
-                        <div class="col-md-8">
-                            <select class="form-control" v-model="program.programTypeId" name="programTypeId" id="programTypeId">
-                                <option :value="null">-- Select Program Type --</option>
-                                <option v-for="type in programTypes" :value="type.id">
-                                    {{ type.name }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="beginYear" class="col-md-2 col-form-label">Begin Year</label>
-                        <div class="col-md-8">
-                            <select class="form-control"
-                                    v-model="program.beginYear"
-                                    name="beginYear"
-                                    id="beginYear">
-                                <option :value="null">-- Select Year --</option>
-                                <option v-for="year in schoolYears" :value="year.year">{{ year.year }}</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="endYear" class="col-md-2 col-form-label">End Year</label>
-                        <div class="col-md-8">
-                            <select class="form-control"
-                                    v-model="program.endYear"
-                                    name="endYear"
-                                    id="endYear">
-                                <option :value="null">-- Select Year --</option>
-                                <option v-for="year in schoolYears" :value="year.year">{{ year.year }}</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="isNonTraditionalForFemales" v-model="program.isNonTraditionalForFemales">
-                            <label class="form-check-label" for="isNonTraditionalForFemales">
-                                Non Traditional Females
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="isNonTraditionalForMales" v-model="program.isNonTraditionalForMales">
-                            <label class="form-check-label" for="isNonTraditionalForMales">
-                                Non Traditional Males
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="isProgramReviewed" v-model="program.isProgramReviewed">
-                            <label class="form-check-label" for="isProgramReviewed">
-                                Program Reviewed
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="doSupplementalReview" v-model="program.doSupplementalReview">
-                            <label class="form-check-label" for="doSupplementalReview">
-                                Do Supplemental Review
-                            </label>
-                        </div>
-                    </div>
-
-                    <button class="btn btn-primary" type="submit">Save Program</button>
-                </form>
-
-            </fieldset>
-
+    <div class="card">
+        <div class="card-header">
+            <span class="card-title font-weight-bolder">Career Tech Programs</span>
         </div>
+        <div class="card-body">
 
-        <div class="col-6">
-            <fieldset v-if="program">
-                <legend>
-                    Assigned Credentials
-                </legend>
-                <div class="row">
-                    <div class="col-12">
-                        <p>
+            <div class="row">
+                <div class="col-12">
 
-                            <div class="input-group mb-3">
+                    <fieldset class="border p-2">
+                        <legend class="w-auto">
+                            <h5>Select Program</h5>
+                        </legend>
+                        <div class="form-group row">
+                            <div class="col-4">
                                 <select class="form-control"
-                                        v-model="selectedCredential"
-                                        name="selectedCredential"
-                                        id="selectedCredential">
-                                    <option :value="null">-- Select Credential --</option>
-                                    <option v-for="item in credentials" :value="item">{{ item.name }} ({{ item.credentialCode }})</option>
+                                        v-model="selectedProgram"
+                                        v-on:change="onChange($event)"
+                                        name="selectedProgram" id="selectedProgram">
+                                    <option :value="null">-- Select A Program --</option>
+                                    <option v-for="p in programs" :value="p">
+                                        {{ p.programName }} ({{ p.programCode }})
+                                    </option>
                                 </select>
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button" id="button-addon2" v-on:click="addCredential">Add Credential</button>
+                            </div>
+                        </div>
+
+                    </fieldset>
+
+                </div>
+            </div>
+
+            <div class="row" v-if="selectedProgram">
+                <div class="col-6">
+                    <fieldset class="border p-2">
+                        <legend class="w-auto">Details</legend>
+                        <form novalidate v-on:submit.prevent="submit()" v-if="program">
+
+                            <div class="form-group row">
+                                <label for="programCode" class="col-3 col-form-label">Program Code</label>
+                                <div class="col-9">
+                                    <input type="text"
+                                           class="form-control"
+                                           id="programCode"
+                                           name="programCode"
+                                           placeholder="Program Code (required)"
+                                           v-model.trim="program.programCode"
+                                           v-validate.continues="'required|min:3|max:3'"
+                                           data-vv-as="Program Code" />
+                                    <small v-if="errors.has('programCode')" class="text-danger">{{ errors.first('programCode') }}</small>
                                 </div>
                             </div>
 
-                            <div v-if="!programCredentials">
-                                No credentials assigned
-                            </div>
-
-                            <ul class="list-group" v-if="programCredentials">
-                                <li class="list-group-item" v-for="credential in programCredentials">
-                                    <div class="row">
-                                        <div class="col-9">
-                                            <div class="font-weight-bolder">
-                                                <span>
-                                                    <a v-bind:href="'/careertech/credentials/'+ credential.credentialCode">
-                                                        {{ credential.name }} ({{ credential.credentialCode }})
-                                                    </a>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-3">
-                                            <button class="btn btn-danger btn-sm float-right" v-on:click="deleteCredential(credential)">Delete</button>
-
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-
-                        </p>
-                    </div>
-                </div>
-            </fieldset>
-        </div>
-
-        <div class="col-6">
-            <fieldset v-if="program">
-                <legend>
-                    Assigned Courses
-                </legend>
-                <div class="row">
-                    <div class="col-12">
-
-                        <p>
-                            <div class="input-group mb-3">
-                                <select class="form-control"
-                                        v-model="selectedCourse"
-                                        name="selectedCourse"
-                                        id="selectedCourse">
-                                    <option :value="null">-- Select Course --</option>
-                                    <option v-for="item in courses" :value="item">{{ item.courseCode }} ({{ item.name }})</option>
-                                </select>
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button" id="button-addon2" v-on:click="addCourse">Add Course</button>
+                            <div class="form-group row">
+                                <label for="programName" class="col-3 col-form-label">Name</label>
+                                <div class="col-9">
+                                    <input type="text"
+                                           class="form-control"
+                                           id="programName"
+                                           name="programName"
+                                           placeholder="Program Name (required)"
+                                           v-model.trim="program.name"
+                                           v-validate="'required'"
+                                           data-vv-as="Program Name" />
+                                    <small v-if="errors.has('programName')" class="text-danger">{{ errors.first('programName') }}</small>
                                 </div>
                             </div>
 
-                            <div v-if="!programCourses">
-                                No courses assigned
+                            <div class="form-group row">
+                                <label for="clusterId" class="col-3 col-form-label">Cluster</label>
+                                <div class="col-9">
+                                    <select class="form-control" v-model="program.clusterId"
+                                            name="clusterId"
+                                            id="clusterId"
+                                            v-validate="'required'"
+                                            data-vv-as="Cluster">
+                                        <option :value="null">-- Select Cluster --</option>
+                                        <option v-for="cluster in clusters" :value="cluster.id">
+                                            {{ cluster.name }}
+                                        </option>
+                                    </select>
+                                    <small v-if="errors.has('clusterId')" class="text-danger">{{ errors.first('clusterId') }}</small>
+                                </div>
                             </div>
 
-                            <ul class="list-group" v-if="programCourses">
-                                <li class="list-group-item" v-for="course in programCourses">
-                                    <div class="row">
-                                        <div class="col-9">
-                                            <div class="font-weight-bolder">
-                                                <span>
-                                                    <a v-bind:href="'/careertech/courses/'+ course.courseCode">
-                                                        {{ course.name }} ({{ course.courseCode }})
-                                                    </a>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-3">
-                                            <button class="btn btn-danger btn-sm float-right" v-on:click="removeCourse(course)">Delete</button>
+                            <div class="form-group row">
+                                <label for="programTypeId" class="col-3 col-form-label">Program Type</label>
+                                <div class="col-9">
+                                    <select class="form-control"
+                                            v-model="program.programTypeId"
+                                            name="programTypeId"
+                                            id="programTypeId"
+                                            v-validate="'required'"
+                                            data-vv-as="Program Type">
+                                        <option :value="null">-- Select Program Type --</option>
+                                        <option v-for="type in programTypes" :value="type.id">
+                                            {{ type.name }}
+                                        </option>
+                                    </select>
+                                    <small v-if="errors.has('programTypeId')" class="text-danger">{{ errors.first('programTypeId') }}</small>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="beginYear" class="col-3 col-form-label">Begin Year</label>
+                                <div class="col-9">
+                                    <select class="form-control"
+                                            v-model="program.beginYear"
+                                            name="beginYear"
+                                            id="beginYear"
+                                            v-validate="'required'"
+                                            data-vv-as="Begin Year">
+                                        <option :value="null">-- Select Year --</option>
+                                        <option v-for="year in schoolYears" :value="year.year">{{ year.year }}</option>
+                                    </select>
+                                    <small v-if="errors.has('beginYear')" class="text-danger">{{ errors.first('beginYear') }}</small>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="endYear" class="col-3 col-form-label">End Year</label>
+                                <div class="col-9">
+                                    <select class="form-control"
+                                            v-model="program.endYear"
+                                            name="endYear"
+                                            id="endYear"
+                                            v-validate="'required'"
+                                            data-vv-as="End Year">
+                                        <option :value="null">-- Select Year --</option>
+                                        <option v-for="year in schoolYears" :value="year.year">{{ year.year }}</option>
+                                    </select>
+                                    <small v-if="errors.has('endYear')" class="text-danger">{{ errors.first('endYear') }}</small>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group row">
+                                <label for="endYear" class="col-3 col-form-label">Flags</label>
+                                <div class="col-9">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox"
+                                               value="" id="isNonTraditionalForFemales"
+                                               v-model="program.isNonTraditionalForFemales"
+                                               v-validate="''">
+                                        <label class="form-check-label" for="isNonTraditionalForFemales">
+                                            Non Traditional Females
+                                        </label>
+
+                                    </div>
+                                    <div class="form-check">
+
+                                        <input class="form-check-input" type="checkbox"
+                                               value="" id="isNonTraditionalForMales"
+                                               v-model="program.isNonTraditionalForMales"
+                                               v-validate="''">
+                                        <label class="form-check-label" for="isNonTraditionalForMales">
+                                            Non Traditional Males
+                                        </label>
+
+                                    </div>
+                                    <div class="form-check">
+
+                                        <input class="form-check-input" type="checkbox"
+                                               value="" id="isProgramReviewed"
+                                               v-model="program.isProgramReviewed"
+                                               v-validate="''">
+                                        <label class="form-check-label" for="isProgramReviewed">
+                                            Program Reviewed
+                                        </label>
+
+                                    </div>
+                                    <div class="form-check">
+
+                                        <input class="form-check-input" type="checkbox"
+                                               value="" id="doSupplementalReview"
+                                               v-model="program.doSupplementalReview"
+                                               v-validate="''">
+                                        <label class="form-check-label" for="doSupplementalReview">
+                                            Do Supplemental Review
+                                        </label>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary" type="submit" :disabled="errors.any() || !isFormDirty">Save Program</button>
+                        </form>
+
+                    </fieldset>
+                </div>
+
+                <div class="col-6">
+                    <fieldset v-if="program" class="border p-2">
+                        <legend class="w-auto">
+                            Assigned Credentials
+                        </legend>
+                        <div class="row">
+                            <div class="col-12">
+                                <p>
+
+                                    <div class="input-group mb-3">
+                                        <select class="form-control"
+                                                v-model="selectedCredential"
+                                                name="selectedCredential"
+                                                id="selectedCredential">
+                                            <option :value="null">-- Select Credential --</option>
+                                            <option v-for="item in credentials" :value="item">{{ item.name }} ({{ item.credentialCode }})</option>
+                                        </select>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="button" :disabled="selectedCredential==null" id="button-addon2" v-on:click="addCredential">Add Credential</button>
                                         </div>
                                     </div>
-                                </li>
-                            </ul>
-                        </p>
 
-                    </div>
+                                    <div v-if="!programCredentials">
+                                        No credentials assigned
+                                    </div>
+
+                                    <ul class="list-group" v-if="programCredentials">
+                                        <li class="list-group-item" v-for="credential in programCredentials">
+                                            <div class="row">
+                                                <div class="col-9">
+                                                    <div class="font-weight-bolder">
+                                                        <span>
+                                                            <a v-bind:href="'/careertech/credentials/'+ credential.credentialCode">
+                                                                {{ credential.name }} ({{ credential.credentialCode }})
+                                                            </a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3">
+                                                    <button class="btn btn-danger btn-sm float-right" v-on:click="deleteCredential(credential)">Delete</button>
+
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                </p>
+                            </div>
+                        </div>
+                    </fieldset>
                 </div>
-            </fieldset>
+
+                <div class="col-6">
+                    <fieldset v-if="program" class="border p-2">
+                        <legend class="w-auto">
+                            Assigned Courses
+                        </legend>
+                        <div class="row">
+                            <div class="col-12">
+
+                                <p>
+                                    <div class="input-group mb-3">
+                                        <select class="form-control"
+                                                v-model="selectedCourse"
+                                                name="selectedCourse"
+                                                id="selectedCourse">
+                                            <option :value="null">-- Select Course --</option>
+                                            <option v-for="item in courses" :value="item">{{ item.courseCode }} ({{ item.name }})</option>
+                                        </select>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary"
+                                                    type="button"
+                                                    id="button-addon2"
+                                                    v-on:click="addCourse"
+                                                    :disabled="selectedCourse==null">
+                                                Add Course
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div v-if="!programCourses">
+                                        No courses assigned
+                                    </div>
+
+                                    <ul class="list-group" v-if="programCourses">
+                                        <li class="list-group-item" v-for="course in programCourses">
+                                            <div class="row">
+                                                <div class="col-9">
+                                                    <div class="font-weight-bolder">
+                                                        <span>
+                                                            <a v-bind:href="'/careertech/courses/'+ course.courseCode">
+                                                                {{ course.name }} ({{ course.courseCode }})
+                                                            </a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3">
+                                                    <button class="btn btn-danger btn-sm float-right"
+                                                            v-on:click="removeCourse(course)">
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </p>
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-footer text-muted">
+            <a href="/courses">Back To Courses</a>
         </div>
     </div>
+
+
 
 </div>
 
@@ -262,6 +333,15 @@
         var courseUrl = '/api/courses/';
         var refUrl = '/api/ref/';
         var urlParam = '@Model' ? '@Model' : null;
+
+        Vue.use(VeeValidate,
+            {
+                classes: true,
+                classNames: {
+                    valid: 'is-valid',
+                    invalid: 'is-invalid'
+                }
+            });
 
         var app = new Vue({
             el: '#app',
@@ -366,6 +446,11 @@
                         });
                 }
 
+            },
+            computed: {
+                isFormDirty() {
+                    return Object.keys(this.fields).some(key => this.fields[key].dirty);
+                }
             },
             created() {
                 var courseOptions = '?loadOptions.filter=isActive%3Dtrue&loadOptions.remoteSelect=true';
