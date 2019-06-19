@@ -71,7 +71,7 @@
                                                autocomplete="false"
                                                v-model.trim="cluster.clusterCode"
                                                v-validate.continues="'required|min:3|max:3'"
-                                               data-vv-as="Cluster Code"/>
+                                               data-vv-as="Cluster Code" />
                                         <small v-if="errors.has('clusterCode')" class="text-danger">{{ errors.first('clusterCode') }}</small>
                                     </div>
                                 </div>
@@ -87,7 +87,7 @@
                                                autocomplete="false"
                                                v-model.trim="cluster.name"
                                                v-validate.continues="'required'"
-                                               data-vv-as="Cluster Name"/>
+                                               data-vv-as="Cluster Name" />
                                         <small v-if="errors.has('clusterName')" class="text-danger">{{ errors.first('clusterName') }}</small>
                                     </div>
                                 </div>
@@ -141,6 +141,11 @@
                                 </div>
 
                                 <button class="btn btn-primary" :disabled="errors.any() || !isFormDirty" type="submit">Save Cluster</button>
+                                <button class="btn btn-outline-secondary" 
+                                        
+                                        v-on:click="cancel"
+                                        v-if="isFormDirty"
+                                        type="button">Cancel</button>
                             </form>
 
                         </div>
@@ -186,7 +191,7 @@
             </div>
         </div>
     </div>
-    
+
 </div>
 
 @section scripts{
@@ -211,10 +216,13 @@
                 clusterCode: null,
                 selectedCluster: null,
                 cluster: null,
+                cachedCluster: null,
                 clusters: [],
                 schoolYears: [],
                 clusterTypes: [],
-                programs: [],
+                programs: []
+            },
+            watch: {
             },
             methods: {
                 submit: function(e) {
@@ -228,21 +236,33 @@
                 onChange: function(e) {
                     if (this.selectedCluster !== null) {
                         this.getCluster(this.selectedCluster.clusterCode);
+                    } else {
+                        this.cluster = null;
                     }
+                },
+
+                cancel: function() {
+                    this.cluster = Object.assign({}, this.cachedCluster);
+                    this.$validator.reset();
                 },
 
                 getCluster(clusterCode) {
                     var url = careerTechUrl + 'clusters/' + clusterCode;
+                    this.cluster = {};
 
                     axios.get(url + '/edit').then(resp => {
                             this.cluster = resp.data;
+
+                            this.$validator.reset();
+                            this.cachedCluster = Object.assign({}, resp.data);
+
                         }).then(resp => {
                             axios.get(url + '/programs').then(resp => {
                                 this.programs = resp.data;
                             }).catch(err => console.log(err));
                         })
                         .catch(err => console.log(err));
-                }
+                },
             },
             computed: {
                 isFormDirty() {
@@ -267,11 +287,13 @@
                     }
                 }).catch(err => console.log(err));
 
-                this.$validator.extend('greaterThan', (value, otherValue) => {
-                    return value >= otherValue;
-                }, {
-                    hasTarget: true
-                });
+                this.$validator.extend('greaterThan',
+                    (value, otherValue) => {
+                        return value >= otherValue;
+                    },
+                    {
+                        hasTarget: true
+                    });
 
                 //Custom Validator
                 //this.$validator.extend('greaterThan',
