@@ -42,7 +42,8 @@ namespace Courses.Web.Controllers.api
         [HttpGet, Route("clusters/{clusterCode}/edit")]
         public async Task<object> GetEdit(string clusterCode)
         {
-            var dto = await _context.Clusters.ProjectTo<ClusterEditDto>().FirstOrDefaultAsync(x => x.ClusterCode == clusterCode);
+            var dto = new ClusterEditDto();
+            dto = await _context.Clusters.ProjectTo<ClusterEditDto>().FirstOrDefaultAsync(x => x.ClusterCode == clusterCode);
 
             return Ok(dto);
         }
@@ -56,13 +57,32 @@ namespace Courses.Web.Controllers.api
         }
 
         [HttpPut, Route("clusters")]
-        public async Task<object> Put(ClusterEditDto dto)
+        public async Task<object> UpdateCluster(ClusterEditDto dto)
         {
             var cluster = await _context.Clusters.FindAsync(dto.Id);
 
             Mapper.Map(dto, cluster);
 
             await _context.SaveChangesAsync();
+
+            return Ok(dto);
+        }
+
+        [HttpPost, Route("clusters")]
+        public async Task<object> CreateCluster(ClusterEditDto dto)
+        {
+            var cluster = new Cluster()
+            {
+               ModifyUser = "mlawrence"
+            };
+
+            Mapper.Map(dto, cluster);
+
+            _context.Clusters.Add(cluster);
+            
+            await _context.SaveChangesAsync();
+
+            Mapper.Map(cluster, dto);
 
             return Ok(dto);
         }

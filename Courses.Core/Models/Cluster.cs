@@ -12,6 +12,9 @@ namespace Courses.Core.Models
         public int? ClusterTypeId { get; set; }
         public int? BeginYear { get; set; }
         public int? EndYear { get; set; }
+
+        public string ModifyUser { get; set; }
+
         public List<Program> Programs { get; set; }
     }
 }
