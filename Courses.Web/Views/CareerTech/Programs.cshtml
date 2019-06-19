@@ -51,10 +51,11 @@
                     <div class="card border-secondary mb-3"
                          v-bind:class="{'border-danger':errors.any()}"
                          v-if="!program">
-
+                        <div class="card-header">Not Found</div>
 
                         <div class="card-body text-secondary">
                             <h4>Unable to find program {{this.urlParam}}</h4>
+                            <h5 class="card-title"><small>Choose a Program from the selection list above.</small></h5>
                         </div>
 
                     </div>
@@ -365,6 +366,7 @@
         var app = new Vue({
             el: '#app',
             data: {
+                urlParam: null, 
                 selectedProgram: null,
                 program: null,
                 programs: [],
@@ -472,6 +474,7 @@
                 }
             },
             created() {
+                this.urlParam = urlParam;
                 var courseOptions = '?loadOptions.filter=isActive%3Dtrue&loadOptions.remoteSelect=true';
 
                 axios.get(refUrl + 'schoolyears').then(resp => {
