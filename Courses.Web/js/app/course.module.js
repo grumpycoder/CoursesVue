@@ -29,7 +29,7 @@
         headerFilter: { visible: true },
         groupPanel: { visible: true },
         scrolling: { mode: "virtual", rowRenderingMode: "virtual" },
-        paging: { pageSize: 20 },
+        paging: { pageSize: 5 },
         height: 650,
         columnChooser: { enabled: true },
         columnResizingMode: "nextColumn",
