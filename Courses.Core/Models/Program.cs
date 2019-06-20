@@ -25,7 +25,7 @@ namespace Courses.Core.Models
 
         //public List<Course> Courses { get; set; } = new List<Course>();
 
-
         public List<ProgramCredential> Credentials { get; set; }
+        public string ModifyUser { get; set; }
     }
 }

@@ -39,7 +39,7 @@
                                     </select>
                                 </div>
                             </div>
-
+                            <button class="btn btn-outline-secondary float-right" v-on:click="create">New Program</button>
                         </div>
                     </div>
 
@@ -81,6 +81,7 @@
                                                id="programCode"
                                                name="programCode"
                                                placeholder="Program Code (required)"
+                                               autocomplete="off"
                                                v-model.trim="program.programCode"
                                                v-validate.continues="'required|min:3|max:3'"
                                                data-vv-as="Program Code" />
@@ -96,6 +97,7 @@
                                                id="programName"
                                                name="programName"
                                                placeholder="Program Name (required)"
+                                               autocomplete="off"
                                                v-model.trim="program.name"
                                                v-validate="'required'"
                                                data-vv-as="Program Name" />
@@ -234,8 +236,6 @@
 
                 </div>
 
-
-
                 <div class="col-6">
                     <div class="card border-secondary mb-3"
                          v-bind:class="{'border-danger':errors.any()}">
@@ -338,7 +338,6 @@
                     </div>
                 </div>
 
-
             </div>
 
         </div>
@@ -346,7 +345,6 @@
         <div class="card-footer text-muted">
             <a v-bind:href="'/careertech/clusters/'"><i class="fa fa-arrow-circle-o-left"></i> Back To Clusters</a>
         </div>
-
 
     </div>
 
@@ -372,7 +370,7 @@
         var app = new Vue({
             el: '#app',
             data: {
-                urlParam: null, 
+                urlParam: null,
                 selectedProgram: null,
                 program: null,
                 cachedProgram: null,
@@ -388,24 +386,61 @@
                 selectedCredential: null,
             },
             methods: {
-                submit: function (e) {
+                create: function() {
+                    this.program = {
+                        clusterId: null,
+                        programTypeId: null,
+                        beginYear: null
+                    };
+                    this.cachedProgram = Object.assign({}, {});
+                    //this.$validator.fields.items.forEach(r => {
+                    //    console.log(r);
+                    //});
+                    //this.$validator.validateAll().then((r) => {
+                    //    console.log(r);
+                    //});
+                    //this.$validator.attach({ name: 'clusterName', rules: 'required' });
+                    //this.$validator.attach({ name: 'clusterCode', rules: 'required' });
+                    //this.$validator.attach({ name: 'clusterTypeId', rules: 'required' });
+                    //this.$validator.attach({ name: 'beginYear', rules: 'required' });
+                    //this.$validator.attach({ name: 'endYear', rules: 'greaterThan:beginYear' });
+                },
+                submit: function(e) {
+                    if (this.program.id == undefined) {
+                        axios.post(careerTechUrl + 'programs', this.program)
+                            .then(resp => {
+                                this.program = resp.data;
+                                this.cachedProgram = Object.assign({}, this.program);
 
-                    axios.put(careerTechUrl + 'programs', this.program)
-                        .then(resp => {
-                            this.selectedProgram.programName = this.program.name;
-                            this.selectedProgram.programCode = this.program.programCode;
-                            
-                            this.cachedProgram = Object.assign({}, this.program);
-                            this.$validator.reset();
+                                var program = {
+                                    programName: this.program.name, 
+                                    programCode: this.program.programCode
+                                }
+                                this.programs.push(program);
+                                this.selectedProgram = program;
 
-                        });
+                                this.$validator.reset();
+
+                            });
+
+                    } else {
+                        axios.put(careerTechUrl + 'programs', this.program)
+                            .then(resp => {
+                                this.selectedProgram.programName = this.program.name;
+                                this.selectedProgram.programCode = this.program.programCode;
+
+                                this.cachedProgram = Object.assign({}, this.program);
+                                this.$validator.reset();
+
+                            });
+                    }
                 },
 
-                onChange: function (e) {
+                onChange: function(e) {
                     this.getProgram(this.selectedProgram.programCode);
                 },
 
-                deleteCredential: function (credential) {
+                deleteCredential: function(credential) {
                     var idx = this.programCredentials.indexOf(credential);
                     var url = careerTechUrl +
                         'programs/' +
@@ -418,7 +453,7 @@
                         });
                 },
 
-                addCredential: function () {
+                addCredential: function() {
                     var url = careerTechUrl +
                         'programs/' +
                         this.selectedProgram.programCode +
@@ -431,7 +466,7 @@
                         });
                 },
 
-                addCourse: function () {
+                addCourse: function() {
                     var url = careerTechUrl +
                         'programs/' +
                         this.selectedProgram.programCode +
@@ -444,7 +479,7 @@
                         }).catch(err => console.log(err));;
                 },
 
-                removeCourse: function (course) {
+                removeCourse: function(course) {
                     var idx = this.programCourses.indexOf(course);
                     var url = careerTechUrl +
                         'programs/' +
@@ -544,7 +579,7 @@
 
             }
         });
- 
+
     </script>
 }
 

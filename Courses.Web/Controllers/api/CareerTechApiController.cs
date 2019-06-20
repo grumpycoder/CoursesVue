@@ -88,12 +88,12 @@ namespace Courses.Web.Controllers.api
         }
 
         [HttpGet, Route("programs/{programCode}/edit")]
-        public async Task<object> GetEditPrograms(int programCode)
+        public async Task<object> GetEditPrograms(string programCode)
         {
             //var schoolYear = 2017;
             var programs = await _context.Programs
                 .ProjectTo<ProgramEditDto>()
-                .Where(x => x.Id == programCode).FirstOrDefaultAsync();
+                .Where(x => x.ProgramCode == programCode).FirstOrDefaultAsync();
             return Ok(programs);
         }
 
@@ -144,7 +144,7 @@ namespace Courses.Web.Controllers.api
         }
 
         [HttpPut, Route("programs")]
-        public async Task<object> Put(ProgramEditDto dto)
+        public async Task<object> UpdateProgram(ProgramEditDto dto)
         {
             var program = await _context.Programs.FindAsync(dto.Id);
 
@@ -153,6 +153,24 @@ namespace Courses.Web.Controllers.api
             await _context.SaveChangesAsync();
 
             return Ok(dto);
+        }
+
+        [HttpPost, Route("programs")]
+        public async Task<object> CreateProgram(ProgramEditDto dto)
+        {
+            var program = new Program()
+            {
+                ModifyUser = "mlawrence"
+            };
+
+            Mapper.Map(dto, program);
+
+            _context.Programs.Add(program);
+            
+            await _context.SaveChangesAsync();
+
+            return Ok(dto);
+
         }
 
         [HttpGet, Route("credentials/{credentialCode}/edit")]
