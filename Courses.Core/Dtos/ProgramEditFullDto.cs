@@ -1,5 +1,4 @@
-﻿using Courses.Core.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Courses.Core.Dtos
 {
@@ -15,10 +14,8 @@ namespace Courses.Core.Dtos
         public int? ClusterId { get; set; }
         public bool? isNonTraditionalForFemales { get; set; }
         public bool? isNonTraditionalForMales { get; set; }
-        public bool? isProgramReviewed { get; set; }
-        public bool? doSupplementalReview { get; set; }
 
         public List<CredentialDto> Credentials { get; set; }
-        
+
     }
 }

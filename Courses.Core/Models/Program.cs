@@ -16,8 +16,6 @@ namespace Courses.Core.Models
 
         public bool? isNonTraditionalForFemales { get; set; }
         public bool? isNonTraditionalForMales { get; set; }
-        public bool? isProgramReviewed { get; set; }
-        public bool? doSupplementalReview { get; set; }
 
         public int? ClusterId { get; set; }
         public Cluster Cluster { get; set; }
