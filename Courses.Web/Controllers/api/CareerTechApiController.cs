@@ -73,13 +73,13 @@ namespace Courses.Web.Controllers.api
         {
             var cluster = new Cluster()
             {
-               ModifyUser = "mlawrence"
+                ModifyUser = "mlawrence"
             };
 
             Mapper.Map(dto, cluster);
 
             _context.Clusters.Add(cluster);
-            
+
             await _context.SaveChangesAsync();
 
             Mapper.Map(cluster, dto);
@@ -166,7 +166,7 @@ namespace Courses.Web.Controllers.api
             Mapper.Map(dto, program);
 
             _context.Programs.Add(program);
-            
+
             await _context.SaveChangesAsync();
 
             return Ok(dto);
@@ -208,8 +208,26 @@ namespace Courses.Web.Controllers.api
             return Ok(dto);
         }
 
-     [HttpPut, Route("credentials")]
-        public async Task<object> PutCredential(CredentialEditDto dto)
+        [HttpPost, Route("credentials")]
+        public async Task<object> CreateCredential(CredentialEditDto dto)
+        {
+            var credential = new Credential()
+            {
+                ModifyUser = "mlawrence"
+            };
+
+            Mapper.Map(dto, credential);
+
+            _context.Credentials.Add(credential);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(dto);
+
+        }
+
+        [HttpPut, Route("credentials")]
+        public async Task<object> UpdateCredential(CredentialEditDto dto)
         {
             var credential = await _context.Credentials.FindAsync(dto.Id);
 

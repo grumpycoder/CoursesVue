@@ -14,10 +14,11 @@ namespace Courses.Core.Models
 
         public bool IsReimbursable { get; set; }
 
-        
+
         public int? BeginYear { get; set; }
         public int? EndYear { get; set; }
 
         public List<ProgramCredential> Programs { get; set; }
+        public string ModifyUser { get; set; }
     }
 }
