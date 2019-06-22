@@ -1,6 +1,6 @@
 {
   "/api/*": {
-    "target": "http://localhost:4300",
+    "target": "http://devcourses.alsde.edu",
     "secure": false,
     "changeOrigin": true,
     "pathRewrite": {

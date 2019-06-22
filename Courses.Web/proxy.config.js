@@ -1,10 +1,12 @@
 ﻿const PROXY_CONFIG = [
     {
         context: [
-            "/api"
+            "/api/*"
         ],
-        target: "http://localhost:4300",
-        secure: false
+        "target": "http://devcourses.alsde.edu",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "debug"
     }
 ];
 
