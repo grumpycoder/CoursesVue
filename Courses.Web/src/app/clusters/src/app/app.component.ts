@@ -24,7 +24,9 @@ export class AppComponent implements OnInit {
 
     this.clusterTypes = this.http.get('api/ref/clustertypes');
     this.schoolYears = this.http.get('api/ref/schoolyears');
-    this.clusters = this.http.get("api/ref/clusters");
+    this.http.get("api/ref/clusters").subscribe(data => {
+      this.clusters = data;
+    });
 
   }
 
@@ -37,16 +39,27 @@ export class AppComponent implements OnInit {
         .subscribe(data => {
           this.cluster = data;
           this.cacheCluster = Object.assign({}, this.cluster);
-          this.programs = this.http.get(`api/careertech/clusters/${this.cluster.clusterCode}/programs`);
+          this.http.get(`api/careertech/clusters/${this.cluster.clusterCode}/programs`).subscribe(data => {
+            this.programs = data;
+          });
         });
 
     }
   }
 
   onSubmit(formValues) {
-    this.http.put('api/careertech/clusters', this.cluster).subscribe(r => {
-      this.cacheCluster = Object.assign({}, this.cluster);
-    })
+
+    if (this.cluster.id == null) {
+      this.http.post('api/careertech/clusters', this.cluster).subscribe(resp => {
+        this.clusters.push(resp);
+        this.cluster = resp;
+        this.cacheCluster = Object.assign({}, this.cluster);
+      })
+    } else {
+      this.http.put('api/careertech/clusters', this.cluster).subscribe(resp => {
+        this.cacheCluster = Object.assign({}, this.cluster);
+      })
+    }
   }
 
   cancel(form) {
@@ -54,4 +67,9 @@ export class AppComponent implements OnInit {
     this.cluster = Object.assign({}, this.cacheCluster)
   }
 
+  create() {
+    this.cluster = {
+      id: null
+    };
+  }
 }

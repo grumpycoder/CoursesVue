@@ -7,14 +7,17 @@
     <div class="row">
       <div class="col-6">
         <div class="card border-secondary mb-3">
-          <div class="card-header">Clusters</div>
+          <div class="card-header">Clusters
+
+          </div>
           <div class="card-body text-secondary">
-            <h5 class="card-title"><small>Select Cluster</small></h5>
+            <h5 class="card-title"><small>Select Cluster</small>
+            </h5>
 
             <div class="form-group row">
               <div class="col-12">
 
-                <dx-select-box [dataSource]="clusters | async" displayExpr="name" [searchMode]="'contains'"
+                <dx-select-box [dataSource]="clusters" displayExpr="name" [searchMode]="'contains'"
                   [searchExpr]="['name', 'clusterCode']" [minSearchLength]="1" [searchEnabled]="true"
                   [showDataBeforeSearch]="true" [showClearButton]="true"
                   (selectedItemChange)="onSelectionChanged($event)" itemTemplate="data">
@@ -24,7 +27,7 @@
                 </dx-select-box>
               </div>
             </div>
-
+            <button class="btn btn-outline-secondary float-right" (click)="create()">New</button>
           </div>
         </div>
       </div>
@@ -42,8 +45,8 @@
                 <label for="name" class="col-3 col-form-label">Name</label>
                 <div class="col-9">
                   <input type="text" class="form-control" id="name" name="name" placeholder="Cluster Name (required)"
-                    [class.field-error]="form.submitted &&
-                      name.invalid" [(ngModel)]="cluster.name" required minlength="6" #name="ngModel" />
+                    [class.field-error]="name.touched &&
+                      name.invalid" [(ngModel)]="cluster.name" required #name="ngModel" />
                   <div [hidden]="name.valid" class="alert alert-danger">
                     Enter a name
                   </div>
@@ -113,10 +116,7 @@
                 </div>
 
               </div>
-              <pre ng-if="form">
-              <div>Cluster</div>
-            {{form.valid}}
-          </pre>
+
             </form>
 
           </div>
@@ -132,23 +132,18 @@
               <div class="col-12">
                 <span class="title">Programs</span>
 
-                <dx-list ng-if="programs | async" #list [dataSource]="programs" [height]="400" [searchEnabled]="true"
+                <dx-list ng-if="programs" #list [dataSource]="programs" [height]="400" [searchEnabled]="true"
                   searchExpr="programName" searchMode="contains">
                   <div *dxTemplate="let data of 'item'">
                     <div>{{data.programName}} ({{ data.programCode }})</div>
                   </div>
                 </dx-list>
-
-                <!-- <ul *ngIf="cluster" class="list-group">
-                  <li *ngFor="let program of programs" class="list-group-item">
-                    {{ program.programName }} ({{ program.programCode }})
-                  </li>
-                </ul> -->
               </div>
             </div>
           </div>
         </div>
       </div>
+
     </div>
 
 
