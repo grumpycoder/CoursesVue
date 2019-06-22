@@ -1,4 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+//@import "node_modules/bootstrap/dist/css/bootstrap.css"
 
 // @import "/node_modules/devextreme/dist/css/dx.common.css";
 // @import "/node_modules/devextreme/dist/css/dx.light.css"
+
+pre {
+  background-color: gainsboro;
+}
+
+.ng-invalid:not(form).ng-touched {
+  border: solid 1px red;
+}
+
+// .field-error {
+//   border: 1px solid red;
+// }

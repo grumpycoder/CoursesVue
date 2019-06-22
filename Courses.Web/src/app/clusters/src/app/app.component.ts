@@ -8,27 +8,24 @@ import { NgForm } from '@angular/forms';
   styles: []
 })
 export class AppComponent implements OnInit {
-  title = "clusters";
-  clusters: any[];
+  title = "Career Tech Clusters";
+  clusters: any;
   cluster: any;
+  cacheCluster: any;
+  programs: any[];
   selectedCluster: any;
-  clusterTypes: any[];
-  schoolYears: { id: number; year: number; }[];
+  clusterTypes: any;
+  schoolYears: any;
 
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
     console.log("init");
-    this.http.get<any[]>('api/ref/clustertypes').subscribe(data => {
-      this.clusterTypes = data;
-    })
 
-    this.http.get<any[]>('api/ref/schoolyears').subscribe(data => {
-      this.schoolYears = data;
-    })
-    this.http.get<any[]>("api/ref/clusters").subscribe(r => {
-      this.clusters = r;
-    });
+    this.clusterTypes = this.http.get('api/ref/clustertypes');
+    this.schoolYears = this.http.get('api/ref/schoolyears');
+    this.clusters = this.http.get("api/ref/clusters");
+
   }
 
   onSelectionChanged(item) {
@@ -39,7 +36,26 @@ export class AppComponent implements OnInit {
         .get(`api/careertech/clusters/${item.clusterCode}/edit`)
         .subscribe(data => {
           this.cluster = data;
+          this.cacheCluster = Object.assign({}, this.cluster);
+
+          this.http.get<any[]>(`api/careertech/clusters/${this.cluster.clusterCode}/programs`).subscribe(data => {
+            this.programs = data;
+          })
+
         });
+
     }
   }
+
+  onSubmit(formValues) {
+    this.http.put('api/careertech/clusters', this.cluster).subscribe(r => {
+      this.cacheCluster = Object.assign({}, this.cluster);
+    })
+  }
+
+  cancel(form) {
+    form.reset(this.cacheCluster);
+    this.cluster = Object.assign({}, this.cacheCluster)
+  }
+
 }

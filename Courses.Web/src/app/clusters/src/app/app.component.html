@@ -1,70 +1,157 @@
-<h2>{{ title }}</h2>
-Clusters app component
-
-<dx-select-box [dataSource]="clusters" displayExpr="name" [searchMode]="'contains'"
-  [searchExpr]="['name', 'clusterCode']" [minSearchLength]="1" [searchEnabled]="true" [showDataBeforeSearch]="true"
-  [showClearButton]="true" (selectedItemChange)="onSelectionChanged($event)" itemTemplate="data">
-  <div *dxTemplate="let item of 'data'">
-    <div>{{ item.clusterCode }} - {{ item.name }}</div>
+<div class="card">
+  <div class="card-header">
+    <span class="card-title font-weight-bolder">{{ title }}</span>
   </div>
-</dx-select-box>
-<pre>
-    {{ cluster | json }}
-</pre>
+  <div class="card-body">
 
+    <div class="row">
+      <div class="col-6">
+        <div class="card border-secondary mb-3">
+          <div class="card-header">Clusters</div>
+          <div class="card-body text-secondary">
+            <h5 class="card-title"><small>Select Cluster</small></h5>
 
-<div *ngIf="cluster">
-  <form novalidate #clusterForm="ngForm" (ngSubmit)="onSubmit(clusterForm.value)">
-    <fieldset>
-      <div class="form-group row">
-        <label for="courseCode" class="col-md-2 col-form-label">Name</label>
-        <div class="col-md-8">
-          <input type="text" class="form-control" id="clusterName" name="clusterName"
-            placeholder="Cluster Name (required)" [(ngModel)]="cluster.name" minlength="6" #clusterName="ngModel" />
+            <div class="form-group row">
+              <div class="col-12">
+
+                <dx-select-box [dataSource]="clusters | async" displayExpr="name" [searchMode]="'contains'"
+                  [searchExpr]="['name', 'clusterCode']" [minSearchLength]="1" [searchEnabled]="true"
+                  [showDataBeforeSearch]="true" [showClearButton]="true"
+                  (selectedItemChange)="onSelectionChanged($event)" itemTemplate="data">
+                  <div *dxTemplate="let item of 'data'">
+                    <div>{{ item.clusterCode }} - {{ item.name }}</div>
+                  </div>
+                </dx-select-box>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
+    </div>
 
-      <div class="form-group row">
-        <label for="clusterCode" class="col-md-2 col-form-label">Cluster Code</label>
-        <div class="col-md-8">
-          <input type="text" class="form-control" id="clusterCode" name="clusterCode"
-            placeholder="Cluster Code (required)" [(ngModel)]="cluster.clusterCode" minlength="6"
-            #clusterCode="ngModel" />
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="clusterTypeId" class="col-md-2 col-form-label">Cluster Type</label>
-        <div class="col-md-8">
-          <select class="form-control" [(ngModel)]="cluster.clusterTypeId" name="clusterTypeId"
-            #clusterTypeId="ngModel">
-            <option *ngFor="let cluster of clusterTypes" [value]="cluster.id">{{
+    <div *ngIf="cluster" class="row">
+      <div class="col-6">
+        <div class="card border-secondary mb-3" v-bind:class="{'border-danger':errors.any()}">
+          <div class="card-header">Details</div>
+          <div class="card-body text-secondary">
+
+            <form novalidate #form="ngForm" (ngSubmit)="onSubmit(form.value)">
+
+              <div class="form-group row">
+                <label for="name" class="col-3 col-form-label">Name</label>
+                <div class="col-9">
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Cluster Name (required)"
+                    [class.field-error]="form.submitted &&
+                      name.invalid" [(ngModel)]="cluster.name" required minlength="6" #name="ngModel" />
+                  <div [hidden]="name.valid" class="alert alert-danger">
+                    Enter a name
+                  </div>
+                </div>
+
+
+              </div>
+
+
+              <div class="form-group row">
+                <label for="clusterCode" class="col-3 col-form-label">Cluster Code</label>
+                <div class="col-9">
+                  <input type="text" class="form-control" id="clusterCode" name="clusterCode"
+                    placeholder="Cluster Code (required)" [(ngModel)]="cluster.clusterCode" required minlength="3"
+                    #clusterCode="ngModel" />
+                </div>
+              </div>
+
+
+              <div class="form-group row">
+                <label for="clusterTypeId" class="col-md-3 col-form-label">Cluster Type</label>
+                <div class="col-md-9">
+                  <select class="form-control" [(ngModel)]="cluster.clusterTypeId" name="clusterTypeId"
+                    #clusterTypeId="ngModel">
+                    <option *ngFor="let cluster of clusterTypes | async" [value]="cluster.id">{{
                   cluster.name
                 }}</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="beginYear" class="col-md-2 col-form-label">Begin Service</label>
-        <div class="col-md-8">
-          <select class="form-control" [(ngModel)]="cluster.beginYear" name="beginYear" #beginYear="ngModel">
-            <option *ngFor="let year of schoolYears" [value]="year.year">{{
-                  year.year
-                }}</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="endYear" class="col-md-2 col-form-label">End Service</label>
-        <div class="col-md-8">
-          <select class="form-control" [(ngModel)]="cluster.endYear" name="endYear" #endYear="ngModel">
-            <option *ngFor="let year of schoolYears" [value]="year.year">{{
-                  year.year
-                }}</option>
-          </select>
-        </div>
-      </div>
-    </fieldset>
+                  </select>
+                </div>
+              </div>
 
-    <button class="btn btn-primary" type="submit">Save</button>
-  </form>
+              <div class="form-group row">
+
+                <div class="col-6">
+                  <label for="beginYear" class="col-form-label">Begin Service</label>
+
+                  <select class="form-control" [(ngModel)]="cluster.beginYear" name="beginYear" #beginYear="ngModel">
+                    <option *ngFor="let year of schoolYears | async" [value]="year.year">{{
+                  year.year
+                }}</option>
+                  </select>
+
+                </div>
+                <div class="col-6">
+                  <label for="endYear" class="col-form-label">End Service</label>
+
+                  <select class="form-control" [(ngModel)]="cluster.endYear" name="endYear" #endYear="ngModel">
+                    <option *ngFor="let year of schoolYears | async" [value]="year.year">{{
+                  year.year
+                }}</option>
+                  </select>
+
+                </div>
+
+              </div>
+
+              <div class="form-group row">
+                <div class="col-6">
+                  <button class="btn btn-outline-secondary btn-block" [hidden]="form.pristine" type="button"
+                    (click)="cancel(form)">Cancel</button>
+
+                </div>
+                <div class="col-6">
+                  <button class="btn btn-primary btn-block" [disabled]="form.invalid || form.pristine"
+                    type="submit(form)">Save</button>
+
+                </div>
+
+              </div>
+              <pre ng-if="form">
+              <div>Cluster</div>
+            {{form.valid}}
+          </pre>
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="card border-secondary mb-3">
+          <div class="card-header">Programs</div>
+          <div class="card-body text-secondary">
+
+            <div class="row">
+              <div class="col-12">
+                <span class="title">Programs</span>
+                <ul *ngIf="cluster" class="list-group">
+                  <li *ngFor="let program of programs" class="list-group-item">
+                    {{ program.programName }} ({{ program.programCode }})
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-12">
+        <pre>
+              <div>Cluster</div>
+            {{ cluster | json }}
+          </pre>
+      </div>
+    </div>
+
+  </div>
 </div>
