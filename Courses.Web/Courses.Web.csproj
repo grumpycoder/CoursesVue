@@ -204,7 +204,6 @@
     <Content Include="js\vendor-bundle.min.js">
       <DependentUpon>vendor-bundle.js</DependentUpon>
     </Content>
-    <Content Include="package.json" />
     <Content Include="bundleconfig.json" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
@@ -227,7 +226,9 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="proxy.conf.json" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="proxy.config.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />

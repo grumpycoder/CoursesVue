@@ -25,6 +25,19 @@ namespace Courses.Web
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+
+            bundles.Add(new StyleBundle("~/css/clusters").Include(
+                "~/js/app/styles*"));
+            
+            bundles.Add(new ScriptBundle("~/bundles/clusters")
+                .Include(
+                "~/js/app/clusters/runtime*", 
+                "~/js/app/clusters/es2015-polyfills*", 
+                "~/js/app/clusters/polyfills*", 
+                "~/js/app/clusters/main*"
+                ));
+
         }
     }
 }

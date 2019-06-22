@@ -1,0 +1,52 @@
+<h2>{{ title }}</h2>
+Clusters app component
+
+<dx-select-box
+  [dataSource]="clusters"
+  displayExpr="name"
+  [searchMode]="'contains'"
+  [searchExpr]="['name', 'clusterCode']"
+  [minSearchLength]="1"
+  [searchEnabled]="true"
+  [showDataBeforeSearch]="true"
+  [showClearButton]="true"
+  (selectedItemChange)="onSelectionChanged($event)"
+  itemTemplate="data"
+>
+  <div *dxTemplate="let item of 'data'">
+    <div>{{ item.clusterCode }} - {{ item.name }}</div>
+  </div>
+</dx-select-box>
+<pre>
+    {{ cluster | json }}
+</pre>
+<!-- <dx-select-box
+  [dataSource]="clusters"
+  id="clusterList"
+  valueExpr="id"
+  placeholder="Choose Cluster"
+  displayExpr="name"
+  [searchMode]="'contains'"
+  [minSearchLength]="2"
+  [showClearButton]="true"
+  [searchEnabled]="true"
+  [searchExpr]="['name', 'clusterCode']"
+  fieldTemplate="field"
+  (selectedItemChange)="onSelectionChanged($event)"
+>
+  <div *dxTemplate="let data of 'field'">
+    <div class="custom-item">
+      <dx-text-box
+        class="product-name"
+        [value]="data?.name"
+        [readOnly]="true"
+        [readOnly]="true"
+      ></dx-text-box>
+    </div>
+  </div>
+  <div *dxTemplate="let data of 'item'">
+    <div class="custom-item">
+      <div class="product-name">{{ data.name }} ({{ data.clusterCode }})</div>
+    </div>
+  </div>
+</dx-select-box> -->
