@@ -1,18 +1,9 @@
 <h2>{{ title }}</h2>
 Clusters app component
 
-<dx-select-box
-  [dataSource]="clusters"
-  displayExpr="name"
-  [searchMode]="'contains'"
-  [searchExpr]="['name', 'clusterCode']"
-  [minSearchLength]="1"
-  [searchEnabled]="true"
-  [showDataBeforeSearch]="true"
-  [showClearButton]="true"
-  (selectedItemChange)="onSelectionChanged($event)"
-  itemTemplate="data"
->
+<dx-select-box [dataSource]="clusters" displayExpr="name" [searchMode]="'contains'"
+  [searchExpr]="['name', 'clusterCode']" [minSearchLength]="1" [searchEnabled]="true" [showDataBeforeSearch]="true"
+  [showClearButton]="true" (selectedItemChange)="onSelectionChanged($event)" itemTemplate="data">
   <div *dxTemplate="let item of 'data'">
     <div>{{ item.clusterCode }} - {{ item.name }}</div>
   </div>
@@ -20,33 +11,60 @@ Clusters app component
 <pre>
     {{ cluster | json }}
 </pre>
-<!-- <dx-select-box
-  [dataSource]="clusters"
-  id="clusterList"
-  valueExpr="id"
-  placeholder="Choose Cluster"
-  displayExpr="name"
-  [searchMode]="'contains'"
-  [minSearchLength]="2"
-  [showClearButton]="true"
-  [searchEnabled]="true"
-  [searchExpr]="['name', 'clusterCode']"
-  fieldTemplate="field"
-  (selectedItemChange)="onSelectionChanged($event)"
->
-  <div *dxTemplate="let data of 'field'">
-    <div class="custom-item">
-      <dx-text-box
-        class="product-name"
-        [value]="data?.name"
-        [readOnly]="true"
-        [readOnly]="true"
-      ></dx-text-box>
-    </div>
-  </div>
-  <div *dxTemplate="let data of 'item'">
-    <div class="custom-item">
-      <div class="product-name">{{ data.name }} ({{ data.clusterCode }})</div>
-    </div>
-  </div>
-</dx-select-box> -->
+
+
+<div *ngIf="cluster">
+  <form novalidate #clusterForm="ngForm" (ngSubmit)="onSubmit(clusterForm.value)">
+    <fieldset>
+      <div class="form-group row">
+        <label for="courseCode" class="col-md-2 col-form-label">Name</label>
+        <div class="col-md-8">
+          <input type="text" class="form-control" id="clusterName" name="clusterName"
+            placeholder="Cluster Name (required)" [(ngModel)]="cluster.name" minlength="6" #clusterName="ngModel" />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="clusterCode" class="col-md-2 col-form-label">Cluster Code</label>
+        <div class="col-md-8">
+          <input type="text" class="form-control" id="clusterCode" name="clusterCode"
+            placeholder="Cluster Code (required)" [(ngModel)]="cluster.clusterCode" minlength="6"
+            #clusterCode="ngModel" />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="clusterTypeId" class="col-md-2 col-form-label">Cluster Type</label>
+        <div class="col-md-8">
+          <select class="form-control" [(ngModel)]="cluster.clusterTypeId" name="clusterTypeId"
+            #clusterTypeId="ngModel">
+            <option *ngFor="let cluster of clusterTypes" [value]="cluster.id">{{
+                  cluster.name
+                }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="beginYear" class="col-md-2 col-form-label">Begin Service</label>
+        <div class="col-md-8">
+          <select class="form-control" [(ngModel)]="cluster.beginYear" name="beginYear" #beginYear="ngModel">
+            <option *ngFor="let year of schoolYears" [value]="year.year">{{
+                  year.year
+                }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="endYear" class="col-md-2 col-form-label">End Service</label>
+        <div class="col-md-8">
+          <select class="form-control" [(ngModel)]="cluster.endYear" name="endYear" #endYear="ngModel">
+            <option *ngFor="let year of schoolYears" [value]="year.year">{{
+                  year.year
+                }}</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <button class="btn btn-primary" type="submit">Save</button>
+  </form>
+</div>

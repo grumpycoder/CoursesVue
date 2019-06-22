@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import ArrayStore from "devextreme/data/array_store";
-import DataSource from "devextreme/data/data_source";
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: "app-root",
@@ -10,16 +9,24 @@ import DataSource from "devextreme/data/data_source";
 })
 export class AppComponent implements OnInit {
   title = "clusters";
-  // data: DataSource;
-  clusters: any;
+  clusters: any[];
   cluster: any;
   selectedCluster: any;
+  clusterTypes: any[];
+  schoolYears: { id: number; year: number; }[];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
     console.log("init");
-    this.http.get("api/ref/clusters").subscribe(r => {
+    this.http.get<any[]>('api/ref/clustertypes').subscribe(data => {
+      this.clusterTypes = data;
+    })
+
+    this.http.get<any[]>('api/ref/schoolyears').subscribe(data => {
+      this.schoolYears = data;
+    })
+    this.http.get<any[]>("api/ref/clusters").subscribe(r => {
       this.clusters = r;
     });
   }
@@ -29,14 +36,10 @@ export class AppComponent implements OnInit {
       this.cluster = null;
     } else {
       this.http
-        .get(`/api/careertech/clusters/${item.clusterCode}/edit`)
+        .get(`api/careertech/clusters/${item.clusterCode}/edit`)
         .subscribe(data => {
-          console.log("data", data);
           this.cluster = data;
         });
-      // this.careerTech.ClusterEdit(cluster).subscribe(data => {
-      //   this.cluster = data;
-      // });
     }
   }
 }

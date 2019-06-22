@@ -1,6 +1,10 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
+
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 import {
   DxSelectBoxModule,
   DxListModule,
@@ -14,6 +18,8 @@ import { AppComponent } from "./app.component";
   imports: [
     BrowserModule,
     HttpClientModule,
+    CommonModule,
+    FormsModule,
     DxSelectBoxModule,
     DxListModule,
     DxTextBoxModule,
@@ -22,4 +28,4 @@ import { AppComponent } from "./app.component";
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
