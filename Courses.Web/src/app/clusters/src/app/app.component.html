@@ -131,11 +131,19 @@
             <div class="row">
               <div class="col-12">
                 <span class="title">Programs</span>
-                <ul *ngIf="cluster" class="list-group">
+
+                <dx-list ng-if="programs | async" #list [dataSource]="programs" [height]="400" [searchEnabled]="true"
+                  searchExpr="programName" searchMode="contains">
+                  <div *dxTemplate="let data of 'item'">
+                    <div>{{data.programName}} ({{ data.programCode }})</div>
+                  </div>
+                </dx-list>
+
+                <!-- <ul *ngIf="cluster" class="list-group">
                   <li *ngFor="let program of programs" class="list-group-item">
                     {{ program.programName }} ({{ program.programCode }})
                   </li>
-                </ul>
+                </ul> -->
               </div>
             </div>
           </div>

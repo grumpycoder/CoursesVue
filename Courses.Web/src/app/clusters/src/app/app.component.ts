@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
   clusters: any;
   cluster: any;
   cacheCluster: any;
-  programs: any[];
+  programs: any;
   selectedCluster: any;
   clusterTypes: any;
   schoolYears: any;
@@ -37,11 +37,7 @@ export class AppComponent implements OnInit {
         .subscribe(data => {
           this.cluster = data;
           this.cacheCluster = Object.assign({}, this.cluster);
-
-          this.http.get<any[]>(`api/careertech/clusters/${this.cluster.clusterCode}/programs`).subscribe(data => {
-            this.programs = data;
-          })
-
+          this.programs = this.http.get(`api/careertech/clusters/${this.cluster.clusterCode}/programs`);
         });
 
     }
