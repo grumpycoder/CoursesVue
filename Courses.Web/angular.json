@@ -132,6 +132,10 @@
               "src/app/programs/src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/font-awesome/css/font-awesome.min.css",
+              "node_modules/devextreme/dist/css/dx.common.css",
+              "node_modules/devextreme/dist/css/dx.light.css",
               "src/app/programs/src/styles.scss"
             ],
             "scripts": [],
@@ -232,7 +236,11 @@
               "src/app/credentials/src/assets"
             ],
             "styles": [
-              "src/app/credentials/src/styles.scss"
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/font-awesome/css/font-awesome.min.css",
+              "node_modules/devextreme/dist/css/dx.common.css",
+              "node_modules/devextreme/dist/css/dx.light.css",
+              "src/app/programs/src/styles.scss"
             ],
             "scripts": [],
             "es5BrowserSupport": true
