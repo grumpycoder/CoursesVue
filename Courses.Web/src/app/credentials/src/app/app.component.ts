@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   credentialTypes: any;
   schoolYears: any;
   isNew: boolean;
+  credentialPrograms: Object;
 
   constructor(private http: HttpClient) {
 
@@ -40,9 +41,11 @@ export class AppComponent implements OnInit {
         .subscribe(data => {
           this.credential = data;
           this.cacheCredential = Object.assign({}, this.credential);
-          // this.http.get(`api/careertech/clusters/${this.credential.credentialCode}/programs`).subscribe(data => {
-          //   this.programs = data;
-          // });
+
+          this.http.get(`api/careertech/credentials/${this.credential.credentialCode}/programs`).subscribe(data => {
+            this.credentialPrograms = data;
+          });
+
         });
 
     }
