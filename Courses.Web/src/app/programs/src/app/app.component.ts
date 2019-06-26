@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import * as AspNetData from 'devextreme-aspnet-data-nojquery';
+import DataSource from 'devextreme/data/data_source';
+import ArrayStore from "devextreme/data/array_store";
 
 @Component({
   selector: 'app-root',
@@ -20,6 +23,8 @@ export class AppComponent implements OnInit {
   programCourses: any;
   credentials: any;
   selectedCredential: any;
+  courseData: any;
+  dataSource: any;
 
   constructor(private http: HttpClient) {
 
@@ -43,6 +48,15 @@ export class AppComponent implements OnInit {
     this.http.get("api/ref/credentials").subscribe(data => {
       this.credentials = data;
     });
+
+    this.courses = new DataSource({
+      store: AspNetData.createStore({
+        loadUrl: "/api/courses"
+      }),
+      paginate: true,
+      pageSize: 1,
+    });
+
   }
 
   onSelectionChanged(item) {
@@ -87,7 +101,6 @@ export class AppComponent implements OnInit {
   }
 
   addCred(list) {
-    console.log('list', list.selectedItem);
     var url = `api/careertech/programs/${this.program.programCode}/credential/${list.selectedItem.credentialCode}`;
 
     this.http.post(url, null).subscribe(data => {
@@ -95,12 +108,25 @@ export class AppComponent implements OnInit {
     })
   }
 
-  deleteCred(item) {
+  removeCred(item) {
     var url = `api/careertech/programs/${this.program.programCode}/credential/${item.itemData.credentialCode}`;
-    console.log('item', item.itemData);
 
     this.http.delete(url).subscribe(data => {
-      console.log(`deleted ${item.itemData.credentialCode}`);
+    })
+
+  }
+
+  addCourse(list) {
+    var url = `api/careertech/programs/${this.program.programCode}/course/${list.selectedItem.courseCode}`;
+    this.http.post(url, null).subscribe(data => {
+      this.programCourses.push(data)
+    })
+  }
+
+  removeCourse(item) {
+    var url = `api/careertech/programs/${this.program.programCode}/course/${item.itemData.courseCode}`;
+
+    this.http.delete(url).subscribe(data => {
     })
 
   }
