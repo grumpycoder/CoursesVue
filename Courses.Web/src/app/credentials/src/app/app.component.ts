@@ -1,31 +1,87 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
-  template: `
-    <!--The content below is only a placeholder and can be replaced.-->
-    <div style="text-align:center">
-      <h1>
-        Welcome to {{title}}!
-      </h1>
-      <img width="300" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-    </div>
-    <h2>Here are some links to help you start: </h2>
-    <ul>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-      </li>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-      </li>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-      </li>
-    </ul>
-    
-  `,
+  templateUrl: './app.component.html',
   styles: []
 })
-export class AppComponent {
-  title = 'credentials';
+export class AppComponent implements OnInit {
+  title = 'Career Tech Credentials';
+  credentials: any;
+  credential: any;
+  selectedCredential: any;
+  cacheCredential: any;
+  credentialTypes: any;
+  schoolYears: any;
+  isNew: boolean;
+
+  constructor(private http: HttpClient) {
+
+  }
+  ngOnInit(): void {
+    this.http.get<any>('api/ref/credentials').subscribe(data => {
+      this.credentials = data;
+    })
+
+    this.schoolYears = this.http.get('api/ref/schoolyears');
+
+    this.http.get<any>('api/ref/credentialtypes').subscribe(data => {
+      this.credentialTypes = data;
+    })
+  }
+
+  onSelectionChanged(item) {
+    if (item === null) {
+      this.credential = null;
+    } else {
+      this.http
+        .get(`api/careertech/credentials/${item.credentialCode}/edit`)
+        .subscribe(data => {
+          this.credential = data;
+          this.cacheCredential = Object.assign({}, this.credential);
+          // this.http.get(`api/careertech/clusters/${this.credential.credentialCode}/programs`).subscribe(data => {
+          //   this.programs = data;
+          // });
+        });
+
+    }
+  }
+
+  onSubmit(formValues) {
+
+    if (this.credential.id == null) {
+      this.http.post('api/careertech/credentials', this.credential).subscribe(resp => {
+        this.credentials.push(resp);
+        this.credential = resp;
+        this.cacheCredential = Object.assign({}, this.credential);
+        this.selectedCredential = resp;
+      })
+    } else {
+      this.http.put('api/careertech/credentials', this.credential).subscribe(resp => {
+        this.cacheCredential = Object.assign({}, this.credential);
+      })
+    }
+  }
+
+  cancel(form) {
+    form.reset(this.cacheCredential);
+    this.credential = Object.assign({}, this.cacheCredential)
+  }
+
+  create() {
+    let credential = {
+      "id": null,
+      "credentialCode": null,
+      "name": null,
+      "credentialTypeId": null,
+      "beginYear": null,
+      "endYear": null
+    };
+
+    this.credential = Object.assign({}, credential);
+    // this.selectedCredential = {};
+    // this.isNew = true;
+  }
+
 }
