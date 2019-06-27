@@ -4,13 +4,16 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   DxDataGridModule,
   DxBulletModule,
-  DxTemplateModule
+  DxTemplateModule,
+  DxListModule,
+  DxSelectBoxModule
 } from 'devextreme-angular';
 import DataSource from 'devextreme/data/data_source';
 
 import { AppComponent } from './app.component';
 import { CourseListComponent } from './course-list/course-list.component';
 import { CourseDetailComponent } from './course-detail/course-detail.component';
+import { HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [
 
@@ -43,9 +46,12 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
+    HttpClientModule,
     DxDataGridModule,
     DxTemplateModule,
-    DxBulletModule
+    DxBulletModule,
+    DxListModule,
+    DxSelectBoxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

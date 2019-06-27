@@ -1,4 +1,72 @@
-<h2>{{title}}</h2>
-<p>
-  course-detail works!
-</p>
+<div class="card" *ngIf="course">
+  <div class="card-header">
+    <span class="font-weight-bolder">{{ title }}</span>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-6">
+        <div class="card border-secondary mb-3">
+          <div class="card-header">Details</div>
+          <div class="card-body text-secondary">
+            <dl class="row">
+              <dt class="col-3">Name</dt>
+              <dd class="col-9">{{ course.name }}</dd>
+
+              <dt class="col-3">Course Code</dt>
+              <dd class="col-9">{{ course.courseCode }}</dd>
+
+              <dt class="col-3">CIP Code</dt>
+              <dd class="col-9">{{ course.cipCode || 'None' }}</dd>
+
+              <dt class="col-3">Description</dt>
+              <dd class="col-9">{{ course.description }}</dd>
+
+              <dt class="col-3">Service Range</dt>
+              <dd class="col-9">{{ course.beginYear }}-{{ course.endYear || 'Current' }}</dd>
+
+              <dt class="col-3">Grade Range</dt>
+              <dd class="col-9">{{ course.lowGrade }}-{{ course.highGrade }}</dd>
+
+              <dt class="col-3">Course Type</dt>
+              <dd class="col-9">{{ course.courseType }}</dd>
+
+              <dt class="col-3">Credit Type</dt>
+              <dd class="col-9">{{ course.creditType }}</dd>
+
+              <dt class="col-3">Subject Area</dt>
+              <dd class="col-9">{{ course.subjectArea }}</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="card border-secondary mb-3">
+          <div class="card-header">Career Tech Programs</div>
+          <div class="card-body text-secondary">
+            <div class="list-container">
+              <dx-list
+                height="100%"
+                [dataSource]="listData"
+                [grouped]="true"
+                [collapsibleGroups]="false"
+                [searchEnabled]="true"
+                [searchExpr]="['clusterName', 'programName', 'programCode']"
+                [grouped]="true"
+                itemTemplate="data"
+              >
+                <div *dxTemplate="let item of 'data'">
+                  <div>{{ item.programName }} ({{ item.programCode }})</div>
+                </div>
+              </dx-list>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer text-muted">
+    <a href="/courses">Back To Courses</a>
+    <a [routerLink]="['/courses', course.courseCode, 'edit']" class="float-right">Edit</a>
+  </div>
+</div>
