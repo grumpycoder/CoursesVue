@@ -38,6 +38,14 @@ namespace Courses.Web
                 "~/js/app/clusters/main*"
                 ));
 
+            bundles.Add(new ScriptBundle("~/bundles/courses")
+                .Include(
+                    "~/js/app/coursess/runtime*", 
+                    "~/js/app/coursess/es2015-polyfills*", 
+                    "~/js/app/coursess/polyfills*", 
+                    "~/js/app/coursess/main*"
+                ));
+
         }
     }
 }
