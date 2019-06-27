@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import {
   DxDataGridModule,
@@ -14,11 +15,13 @@ import { AppComponent } from './app.component';
 import { CourseListComponent } from './course-list/course-list.component';
 import { CourseDetailComponent } from './course-detail/course-detail.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CourseEditComponent } from './course-edit/course-edit.component';
 
 const routes: Routes = [
 
   { path: '', component: CourseListComponent },
-  { path: ':id', component: CourseDetailComponent }
+  { path: ':id', component: CourseDetailComponent },
+  { path: ':id/edit', component: CourseEditComponent }
   // {
   //   path: ':id', component: CourseDetailComponent, resolve: { resolvedData: CourseResolver },
   //   children: [
@@ -41,11 +44,13 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     CourseListComponent,
-    CourseDetailComponent
+    CourseDetailComponent,
+    CourseEditComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
+    FormsModule,
     HttpClientModule,
     DxDataGridModule,
     DxTemplateModule,

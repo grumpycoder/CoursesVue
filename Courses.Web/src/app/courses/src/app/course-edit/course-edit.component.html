@@ -1,0 +1,343 @@
+<div class="card">
+  <div class="card-header">
+    <span class="card-title font-weight-bolder">{{ title }}</span>
+  </div>
+  <div class="card-body" *ngIf="course">
+    <div class="row">
+      <div class="col-6">
+        <div class="card border-secondary mb-3">
+          <div class="card-header">Details</div>
+          <div class="card-body text-secondary">
+            <form novalidate #form="ngForm" (ngSubmit)="onSubmit(form)">
+              <div class="form-group row">
+                <label for="courseCode" class="col-3 col-form-label">Course Code</label>
+                <div class="col-9">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="courseCode"
+                    name="courseCode"
+                    placeholder="Course Code (required)"
+                    [(ngModel)]="course.courseCode"
+                    required
+                    minlength="6"
+                    maxlength="6"
+                  />
+                  <!-- <small v-if="errors.has('courseCode')" class="text-danger">{{
+            errors.first('courseCode')
+          }}</small> -->
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="cipCode" class="col-3 col-form-label">CIP Code</label>
+                <div class="col-9">
+                  <input
+                    autocomplete="off"
+                    type="text"
+                    class="form-control"
+                    id="cipCode"
+                    name="cipCode"
+                    placeholder="CIP Code"
+                    [(ngModel)]="course.cipCode"
+                    minlength="3"
+                    maxlength="3"
+                  />
+                  <!-- <small v-if="errors.has('cipCode')" class="text-danger">{{
+            errors.first('cipCode')
+          }}</small> -->
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="courseName" class="col-3 col-form-label">Name</label>
+                <div class="col-9">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="courseName"
+                    name="courseName"
+                    placeholder="Course Name (required)"
+                    [(ngModel)]="course.name"
+                    required
+                  />
+                  <!-- <small v-if="errors.has('courseName')" class="text-danger">{{
+            errors.first('courseName')
+          }}</small> -->
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="description" class="col-3 col-form-label">Description</label>
+                <div class="col-9">
+                  <textarea
+                    id="description"
+                    name="description"
+                    class="form-control"
+                    cols="30"
+                    rows="10"
+                    placeholder="Course Description (required)"
+                    [(ngModel)]="course.description"
+                    required
+                  ></textarea>
+                  <!-- <small v-if="errors.has('description')" class="text-danger">{{
+            errors.first('description')
+          }}</small> -->
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-6">
+                  <label for="beginServiceYearId" class="col-form-label"
+                    >Beginning Service Year</label
+                  >
+                  <select
+                    class="form-control"
+                    [(ngModel)]="course.beginServiceYearId"
+                    name="beginServiceYearId"
+                    id="beginServiceYearId"
+                    required
+                  >
+                    <option *ngFor="let year of schoolYears | async" [value]="year.id">{{
+                      year.year
+                    }}</option>
+                  </select>
+                  <!-- <small v-if="errors.has('beginServiceYearId')" class="text-danger">{{
+            errors.first('beginServiceYearId')
+          }}</small> -->
+                </div>
+                <div class="col-6">
+                  <label for="endServiceYearId" class="col-form-label">Ending Service Year</label>
+                  <select
+                    class="form-control"
+                    [(ngModel)]="course.endServiceYearId"
+                    name="endServiceYearId"
+                    id="endServiceYearId"
+                  >
+                    <option *ngFor="let year of schoolYears | async" [value]="year.id">{{
+                      year.year
+                    }}</option>
+                  </select>
+                  <!-- <small v-if="errors.has('endServiceYearId')" class="text-danger">{{
+            errors.first('endServiceYearId')
+          }}</small> -->
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-6">
+                  <label for="lowGradeId" class="col-form-label">Lowest Grade</label>
+                  <select
+                    class="form-control"
+                    [(ngModel)]="course.lowGradeId"
+                    name="lowGradeId"
+                    id="lowGradeId"
+                    required
+                  >
+                    <option *ngFor="let grade of grades | async" [value]="grade.id">
+                      {{ grade.name }} - {{ grade.description }}
+                    </option>
+                  </select>
+                  <!-- <small v-if="errors.has('lowGradeId')" class="text-danger">{{
+            errors.first('lowGradeId')
+          }}</small> -->
+                </div>
+                <div class="col-6">
+                  <label for="highGradeId" class="col-form-label">Highest Grade</label>
+                  <select
+                    class="form-control"
+                    [(ngModel)]="course.highGradeId"
+                    name="highGradeId"
+                    id="highGradeId"
+                    required
+                  >
+                    <option *ngFor="let grade of grades | async" [value]="grade.id">
+                      {{ grade.name }} - {{ grade.description }}
+                    </option>
+                  </select>
+                  <!-- <small v-if="errors.has('highGradeId')" class="text-danger">{{
+            errors.first('highGradeId')
+          }}</small> -->
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-6">
+                  <label for="courseTypeId" class="col-form-label">Course Type</label>
+                  <select
+                    class="form-control"
+                    [(ngModel)]="course.courseTypeId"
+                    name="courseTypeId"
+                    id="courseTypeId"
+                    required
+                  >
+                    <option *ngFor="let type of courseTypes | async" [value]="type.id">{{
+                      type.name
+                    }}</option>
+                  </select>
+                  <!-- <small v-if="errors.has('courseTypeId')" class="text-danger">{{
+            errors.first('courseTypeId')
+          }}</small> -->
+                </div>
+
+                <div class="col-6">
+                  <label for="creditTypeId" class="col-form-label">Credit Type</label>
+                  <select
+                    class="form-control"
+                    [(ngModel)]="course.creditTypeId"
+                    name="creditTypeId"
+                    id="creditTypeId"
+                    required
+                  >
+                    <option *ngFor="let type of creditTypes | async" [value]="type.id">{{
+                      type.name
+                    }}</option>
+                  </select>
+                  <!-- <small v-if="errors.has('creditTypeId')" class="text-danger">{{
+            errors.first('creditTypeId')
+          }}</small> -->
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-6">
+                  <label for="classTypeId" class="col-form-label">Class Type</label>
+                  <select
+                    class="form-control"
+                    [(ngModel)]="course.classTypeId"
+                    name="classTypeId"
+                    id="classTypeId"
+                    required
+                  >
+                    <option *ngFor="let type of classTypes | async" [value]="type.id"
+                      >{{ type.name }} - {{ type.description }}</option
+                    >
+                  </select>
+                  <!-- <small v-if="errors.has('classTypeId')" class="text-danger">{{
+            errors.first('classTypeId')
+          }}</small> -->
+                </div>
+
+                <div class="col-6">
+                  <label for="subjectAreaId" class="col-form-label">Subject Area</label>
+                  <select
+                    class="form-control"
+                    [(ngModel)]="course.subjectAreaId"
+                    name="subjectAreaId"
+                    id="subjectAreaId"
+                    required
+                  >
+                    <option *ngFor="let type of subjectAreas | async" [value]="type.id">{{
+                      type.name
+                    }}</option>
+                  </select>
+                  <!-- <small v-if="errors.has('subjectAreaId')" class="text-danger">{{
+            errors.first('subjectAreaId')
+          }}</small> -->
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-6">
+                  <button
+                    class="btn btn-outline-secondary btn-block"
+                    [hidden]="form.pristine"
+                    type="button"
+                    (click)="cancel(form)"
+                  >
+                    Cancel
+                  </button>
+                </div>
+                <div class="col-6">
+                  <button
+                    class="btn btn-primary btn-block"
+                    [disabled]="form.invalid || form.pristine"
+                    type="submit"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="card border-secondary mb-3">
+          <div class="card-header">Assigned Career Tech Programs</div>
+          <div class="card-body text-secondary">
+            <div class="form-group row">
+              <div class="col-12">
+                <div class="col-12">
+                  <div class="input-group mb-3">
+                    <dx-select-box
+                      #list
+                      class="form-control"
+                      [dataSource]="programList"
+                      displayExpr="programName"
+                      [searchMode]="'contains'"
+                      [searchExpr]="['programName', 'programCode']"
+                      [minSearchLength]="1"
+                      [searchEnabled]="true"
+                      [showDataBeforeSearch]="true"
+                      [showClearButton]="true"
+                      [grouped]="true"
+                      itemTemplate="data"
+                    >
+                      <div *dxTemplate="let item of 'data'">
+                        <div>{{ item.programName }} - {{ item.programCode }}</div>
+                      </div>
+                    </dx-select-box>
+                    <div class="input-group-append">
+                      <button
+                        class="btn btn-outline-secondary"
+                        type="button"
+                        id="btnaddProgram"
+                        name="btnaddProgram"
+                        (click)="addProgram(list)"
+                      >
+                        Add Program
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- <dx-select-box
+                  [dataSource]="programList"
+                  placeholder="Choose Program"
+                  displayExpr="programName"
+                  [showClearButton]="true"
+                  [searchEnabled]="true"
+                  [searchExpr]="['clusterName', 'programName']"
+                  [grouped]="true"
+                  itemTemplate="data"
+                >
+                  <div *dxTemplate="let item of 'data'">
+                    <div>{{ item.programCode }} - {{ item.programName }}</div>
+                  </div>
+                </dx-select-box> -->
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="list-container">
+                <dx-list
+                  height="100%"
+                  [dataSource]="assignedPrograms"
+                  [grouped]="true"
+                  [collapsibleGroups]="false"
+                  [searchEnabled]="true"
+                  [searchExpr]="['clusterName', 'programName', 'programCode']"
+                  [grouped]="true"
+                  itemTemplate="data"
+                >
+                  <div *dxTemplate="let item of 'data'">
+                    <div>{{ item.programName }} ({{ item.programCode }})</div>
+                  </div>
+                </dx-list>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

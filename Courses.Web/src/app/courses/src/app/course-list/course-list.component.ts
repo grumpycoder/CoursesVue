@@ -9,6 +9,7 @@ import * as AspNetData from "devextreme-aspnet-data-nojquery";
 export class CourseListComponent implements OnInit {
   title: string = 'Courses';
   courses: any;
+  currentFilter: any;
 
   constructor() { }
 

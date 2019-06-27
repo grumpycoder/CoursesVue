@@ -21,12 +21,12 @@ export class CourseDetailComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       const id = params['id'];
-      this.title = `Course Code: ${id}`;
 
       this.http.get<any>(`api/courses/${id}/full`).subscribe(data => {
         this.course = data;
-        this.programs = data.programs;
+        this.title = `${this.course.name} (${this.course.courseCode})`
 
+        this.programs = data.programs;
         this.listData = new DataSource({
           store: new ArrayStore({
             data: this.programs,
