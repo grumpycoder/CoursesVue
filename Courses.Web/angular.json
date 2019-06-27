@@ -450,7 +450,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/courses",
+            "outputPath": "js/app/courses",
             "index": "src/app/courses/src/index.html",
             "main": "src/app/courses/src/main.ts",
             "polyfills": "src/app/courses/src/polyfills.ts",
