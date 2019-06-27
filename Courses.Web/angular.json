@@ -38,10 +38,12 @@
           },
           "configurations": {
             "production": {
-              "fileReplacements": [{
-                "replace": "src/app/clusters/src/environments/environment.ts",
-                "with": "src/app/clusters/src/environments/environment.prod.ts"
-              }],
+              "fileReplacements": [
+                {
+                  "replace": "src/app/clusters/src/environments/environment.ts",
+                  "with": "src/app/clusters/src/environments/environment.prod.ts"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -51,11 +53,13 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "budgets": [{
-                "type": "initial",
-                "maximumWarning": "2mb",
-                "maximumError": "5mb"
-              }]
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
             }
           }
         },
@@ -143,10 +147,12 @@
           },
           "configurations": {
             "production": {
-              "fileReplacements": [{
-                "replace": "src/app/programs/src/environments/environment.ts",
-                "with": "src/app/programs/src/environments/environment.prod.ts"
-              }],
+              "fileReplacements": [
+                {
+                  "replace": "src/app/programs/src/environments/environment.ts",
+                  "with": "src/app/programs/src/environments/environment.prod.ts"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -156,11 +162,13 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "budgets": [{
-                "type": "initial",
-                "maximumWarning": "2mb",
-                "maximumError": "5mb"
-              }]
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
             }
           }
         },
@@ -247,10 +255,12 @@
           },
           "configurations": {
             "production": {
-              "fileReplacements": [{
-                "replace": "src/app/credentials/src/environments/environment.ts",
-                "with": "src/app/credentials/src/environments/environment.prod.ts"
-              }],
+              "fileReplacements": [
+                {
+                  "replace": "src/app/credentials/src/environments/environment.ts",
+                  "with": "src/app/credentials/src/environments/environment.prod.ts"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -260,11 +270,13 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "budgets": [{
-                "type": "initial",
-                "maximumWarning": "2mb",
-                "maximumError": "5mb"
-              }]
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
             }
           }
         },
@@ -308,6 +320,114 @@
             "tsConfig": [
               "src/app/credentials/tsconfig.app.json",
               "src/app/credentials/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "ct-courses": {
+      "root": "src/app/ct-courses/",
+      "sourceRoot": "src/app/ct-courses/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/ct-courses",
+            "index": "src/app/ct-courses/src/index.html",
+            "main": "src/app/ct-courses/src/main.ts",
+            "polyfills": "src/app/ct-courses/src/polyfills.ts",
+            "tsConfig": "src/app/ct-courses/tsconfig.app.json",
+            "assets": [
+              "src/app/ct-courses/src/favicon.ico",
+              "src/app/ct-courses/src/assets"
+            ],
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/font-awesome/css/font-awesome.min.css",
+              "node_modules/devextreme/dist/css/dx.common.css",
+              "node_modules/devextreme/dist/css/dx.light.css",
+              "src/app/ct-courses/src/styles.scss"
+            ],
+            "scripts": [],
+            "es5BrowserSupport": true
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/app/ct-courses/src/environments/environment.ts",
+                  "with": "src/app/ct-courses/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ct-courses:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ct-courses:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ct-courses:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/app/ct-courses/src/test.ts",
+            "polyfills": "src/app/ct-courses/src/polyfills.ts",
+            "tsConfig": "src/app/ct-courses/tsconfig.spec.json",
+            "karmaConfig": "src/app/ct-courses/karma.conf.js",
+            "styles": [
+              "src/app/ct-courses/src/styles.scss"
+            ],
+            "scripts": [],
+            "assets": [
+              "src/app/ct-courses/src/favicon.ico",
+              "src/app/ct-courses/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "src/app/ct-courses/tsconfig.app.json",
+              "src/app/ct-courses/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
