@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Courses.Core.Dtos;
 using Courses.Core.Models;
@@ -311,8 +312,14 @@ namespace Courses.Web.Controllers.api
             await _context.SaveChangesAsync();
 
             var dto = Mapper.Map<CourseDto>(course);
+            var programDto = Mapper.Map<ProgramDto>(program);
 
-            return Ok(dto);
+            var obj = new
+            {
+                dto, programDto
+            }; 
+
+            return Ok(obj);
 
         }
 
