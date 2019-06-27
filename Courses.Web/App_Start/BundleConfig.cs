@@ -38,6 +38,9 @@ namespace Courses.Web
             bundles.Add(new StyleBundle("~/css/ct-courses").Include(
                 "~/js/app/ct-courses/styles*"));
 
+            bundles.Add(new StyleBundle("~/css/courses").Include(
+                "~/js/app/courses/styles*"));
+
             bundles.Add(new ScriptBundle("~/bundles/clusters")
                 .Include(
                 "~/js/app/clusters/runtime*",
@@ -78,7 +81,6 @@ namespace Courses.Web
                     "~/js/app/courses/polyfills*",
                     "~/js/app/courses/main*"
                 ));
-
         }
     }
 }
