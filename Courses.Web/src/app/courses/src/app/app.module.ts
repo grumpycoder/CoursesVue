@@ -3,10 +3,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
+import { CourseListComponent } from './course-list/course-list.component';
+import { CourseDetailComponent } from './course-detail/course-detail.component';
 
 const routes: Routes = [
 
-  // { path: '', component: CourseListComponent },
+  { path: '', component: CourseListComponent },
+  { path: ':id', component: CourseDetailComponent }
   // {
   //   path: ':id', component: CourseDetailComponent, resolve: { resolvedData: CourseResolver },
   //   children: [
@@ -27,11 +30,13 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CourseListComponent,
+    CourseDetailComponent
   ],
   imports: [
     BrowserModule,
-    RouterModule.forChild(routes),
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]
