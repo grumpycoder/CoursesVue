@@ -1,6 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {
+  DxDataGridModule,
+  DxBulletModule,
+  DxTemplateModule
+} from 'devextreme-angular';
+import DataSource from 'devextreme/data/data_source';
 
 import { AppComponent } from './app.component';
 import { CourseListComponent } from './course-list/course-list.component';
@@ -36,7 +42,10 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    DxDataGridModule,
+    DxTemplateModule,
+    DxBulletModule
   ],
   providers: [],
   bootstrap: [AppComponent]

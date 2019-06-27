@@ -1,3 +1,70 @@
-<p>
-  course-list works!
-</p>
+<div class="card">
+  <div class="card-header">
+    <span class="card-title font-weight-bolder">{{ title }}</span>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <dx-data-grid
+        id="gridContainer"
+        [dataSource]="courses"
+        [remoteOperations]="false"
+        [allowColumnReordering]="true"
+        [rowAlternationEnabled]="true"
+        [showBorders]="true"
+        [height]="400"
+        [columns]="[
+          'courseCode',
+          'name',
+          'description',
+          'cipCode',
+          'beginServiceYear',
+          'endServiceYeaer',
+          'creditType',
+          'courseType',
+          'classType',
+          'subjectArea',
+          'status'
+        ]"
+      >
+        <!-- <dxo-editing
+        mode="row"
+        [allowUpdating]="true"
+        [allowDeleting]="false"
+        [useIcons]="true"
+      ></dxo-editing> -->
+        <dxi-column type="selection" cellTemplate="selectionCellTemplate"> </dxi-column>
+        <div *dxTemplate="let cellInfo of 'selectionCellTemplate'">
+          <a [routerLink]="['/', cellInfo.data.courseCode]">Details</a>
+          <!-- <a
+          [routerLink]="['/courses', cellInfo.data.id, 'edit']"
+          routerLinkActive="router-link-active"
+          >Edit</a
+        > -->
+        </div>
+        <dxi-column dataField="courseCode" caption="Course Code"></dxi-column>
+        <dxi-column dataField="name" caption="Course Code"></dxi-column>
+        <dxi-column dataField="description" caption="Course Code"></dxi-column>
+        <dxi-column dataField="cipCode" caption="Course Code"></dxi-column>
+        <dxi-column dataField="beginServiceYear" caption="Course Code"></dxi-column>
+        <dxi-column dataField="endServiceYear" caption="Course Code"></dxi-column>
+        <dxi-column dataField="creditType" caption="Credit Type"></dxi-column>
+        <dxi-column dataField="courseType" caption="Course Type"></dxi-column>
+        <dxi-column dataField="classType" caption="Class Type"></dxi-column>
+        <dxi-column dataField="subjectArea" caption="Subject Area"></dxi-column>
+        <dxi-column dataField="status" caption="Status"></dxi-column>
+
+        <dxo-selection mode="single">
+          <!-- "multiple" | "none" -->
+        </dxo-selection>
+        <dxo-scrolling mode="virtual" rowRenderingMode="virtual"></dxo-scrolling>
+        <dxo-paging [pageSize]="10"></dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true">
+        </dxo-pager>
+        <dxo-filter-row [visible]="true" [applyFilter]="currentFilter"></dxo-filter-row>
+        <dxo-header-filter [visible]="true"></dxo-header-filter>
+        <dxo-search-panel [visible]="true" [width]="240" placeholder="Search..."></dxo-search-panel>
+        <dxo-search-panel [visible]="true" [width]="240" placeholder="Search..."></dxo-search-panel>
+      </dx-data-grid>
+    </div>
+  </div>
+</div>
