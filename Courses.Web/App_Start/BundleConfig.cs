@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace Courses.Web
 {
@@ -29,20 +28,32 @@ namespace Courses.Web
 
             bundles.Add(new StyleBundle("~/css/clusters").Include(
                 "~/js/app/clusters/styles*"));
-            
+
+            bundles.Add(new StyleBundle("~/css/programs").Include(
+                "~/js/app/programs/styles*"));
+
             bundles.Add(new ScriptBundle("~/bundles/clusters")
                 .Include(
-                "~/js/app/clusters/runtime*", 
-                "~/js/app/clusters/es2015-polyfills*", 
-                "~/js/app/clusters/polyfills*", 
+                "~/js/app/clusters/runtime*",
+                "~/js/app/clusters/es2015-polyfills*",
+                "~/js/app/clusters/polyfills*",
                 "~/js/app/clusters/main*"
                 ));
 
+            bundles.Add(new ScriptBundle("~/bundles/programs")
+                .Include(
+                    "~/js/app/programs/runtime*",
+                    "~/js/app/programs/es2015-polyfills*",
+                    "~/js/app/programs/polyfills*",
+                    "~/js/app/programs/main*"
+                ));
+
+
             bundles.Add(new ScriptBundle("~/bundles/courses")
                 .Include(
-                    "~/js/app/courses/runtime*", 
-                    "~/js/app/courses/es2015-polyfills*", 
-                    "~/js/app/courses/polyfills*", 
+                    "~/js/app/courses/runtime*",
+                    "~/js/app/courses/es2015-polyfills*",
+                    "~/js/app/courses/polyfills*",
                     "~/js/app/courses/main*"
                 ));
 
