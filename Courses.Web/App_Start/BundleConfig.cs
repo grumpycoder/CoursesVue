@@ -40,10 +40,10 @@ namespace Courses.Web
 
             bundles.Add(new ScriptBundle("~/bundles/courses")
                 .Include(
-                    "~/js/app/coursess/runtime*", 
-                    "~/js/app/coursess/es2015-polyfills*", 
-                    "~/js/app/coursess/polyfills*", 
-                    "~/js/app/coursess/main*"
+                    "~/js/app/courses/runtime*", 
+                    "~/js/app/courses/es2015-polyfills*", 
+                    "~/js/app/courses/polyfills*", 
+                    "~/js/app/courses/main*"
                 ));
 
         }
