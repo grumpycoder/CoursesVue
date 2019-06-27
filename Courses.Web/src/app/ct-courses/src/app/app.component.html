@@ -40,7 +40,8 @@
         </div>
       </div>
 
-      <div class="col-6">
+      <div class="col-6"
+           *ngIf="course">
         <div class="card border-secondary mb-3">
           <div class="card-header">Assigned Programs</div>
           <div class="card-body text-secondary">
@@ -73,17 +74,16 @@
               </div>
             </div>
 
-            <div class="
-                                col-12">
-              <div *ngIf="!programCourses">
+            <div class="col-12">
+              <div *ngIf="!coursePrograms">
                 No courses assigned
               </div>
 
 
-              <div *ngIf="programCourses">
+              <div *ngIf="coursePrograms">
                 <dx-list ng-if="programs"
                          #list
-                         [dataSource]="programCourses"
+                         [dataSource]="coursePrograms"
                          [height]="400"
                          [searchEnabled]="true"
                          searchExpr="programName"

@@ -12,7 +12,7 @@ import ArrayStore from "devextreme/data/array_store";
 export class AppComponent implements OnInit {
   title = 'Career Tech Courses';
   courses: any;
-  programCourses: any;
+  coursePrograms: any;
   programs: any;
   course: any;
 
@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
 
   onSelectionChanged(item) {
     this.http.get<any>(`api/careertech/courses/${item.courseCode}/programs`).subscribe(data => {
-      this.programCourses = data;
+      this.coursePrograms = data;
       this.course = item;
     })
   }
@@ -46,7 +46,7 @@ export class AppComponent implements OnInit {
     console.log('list', list);
     var url = `api/careertech/programs/${list.selectedItem.programCode}/course/${this.course.courseCode}`;
     this.http.post(url, null).subscribe(data => {
-      this.programCourses.push(data['programDto'])
+      this.coursePrograms.push(data['programDto'])
     })
   }
 
