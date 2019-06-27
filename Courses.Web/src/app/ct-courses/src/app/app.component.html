@@ -3,73 +3,71 @@
     <span class="card-title font-weight-bolder">{{ title }}</span>
   </div>
   <div class="card-body">
-
     <div class="row">
       <div class="col-6">
         <div class="card border-secondary mb-3">
-          <div class="card-header">Courses
-
-          </div>
+          <div class="card-header">Courses</div>
           <div class="card-body text-secondary">
-            <h5 class="card-title"><small>Select Course</small>
-            </h5>
+            <h5 class="card-title"><small>Select Course</small></h5>
 
             <div class="form-group row">
               <div class="col-12">
-
-                <dx-select-box #courseList
-                               [dataSource]="courses"
-                               displayExpr="name"
-                               [searchMode]="'contains'"
-                               [searchExpr]="['name', 'courseCode']"
-                               [minSearchLength]="1"
-                               [searchEnabled]="true"
-                               [showDataBeforeSearch]="true"
-                               [showClearButton]="true"
-                               (selectedItemChange)="onSelectionChanged($event)"
-                               itemTemplate="data">
+                <dx-select-box
+                  #courseList
+                  [dataSource]="courses"
+                  displayExpr="name"
+                  [searchMode]="'contains'"
+                  [searchExpr]="['name', 'courseCode']"
+                  [minSearchLength]="1"
+                  [searchEnabled]="true"
+                  [showDataBeforeSearch]="true"
+                  [showClearButton]="true"
+                  (selectedItemChange)="onSelectionChanged($event)"
+                  itemTemplate="data"
+                >
                   <div *dxTemplate="let item of 'data'">
                     <div>{{ item.name }} - {{ item.courseCode }}</div>
                   </div>
                 </dx-select-box>
               </div>
             </div>
-            <button class="btn btn-outline-secondary float-right"
-                    (click)="create()">New</button>
           </div>
         </div>
       </div>
 
-      <div class="col-6"
-           *ngIf="course">
+      <div class="col-6" *ngIf="course">
         <div class="card border-secondary mb-3">
           <div class="card-header">Assigned Programs</div>
           <div class="card-body text-secondary">
-
             <div class="col-12">
-
               <div class="input-group mb-3">
-                <dx-select-box #list
-                               class="form-control"
-                               [dataSource]="programs"
-                               displayExpr="programName"
-                               [searchMode]="'contains'"
-                               [searchExpr]="['programName', 'programCode']"
-                               [minSearchLength]="1"
-                               [searchEnabled]="true"
-                               [showDataBeforeSearch]="true"
-                               [showClearButton]="true"
-                               itemTemplate="data">
+                <dx-select-box
+                  #list
+                  class="form-control"
+                  [dataSource]="programs"
+                  displayExpr="programName"
+                  [searchMode]="'contains'"
+                  [searchExpr]="['programName', 'programCode']"
+                  [minSearchLength]="1"
+                  [searchEnabled]="true"
+                  [showDataBeforeSearch]="true"
+                  [showClearButton]="true"
+                  itemTemplate="data"
+                >
                   <div *dxTemplate="let item of 'data'">
                     <div>{{ item.programName }} - {{ item.programCode }}</div>
                   </div>
                 </dx-select-box>
                 <div class="input-group-append">
-                  <button class="btn btn-outline-secondary"
-                          type="button"
-                          id="btnaddProgram"
-                          name="btnaddProgram"
-                          (click)="addProgram(list)">Add Program</button>
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    id="btnaddProgram"
+                    name="btnaddProgram"
+                    (click)="addProgram(list)"
+                  >
+                    Add Program
+                  </button>
                 </div>
               </div>
             </div>
@@ -79,32 +77,27 @@
                 No courses assigned
               </div>
 
-
               <div *ngIf="coursePrograms">
-                <dx-list ng-if="programs"
-                         #list
-                         [dataSource]="coursePrograms"
-                         [height]="400"
-                         [searchEnabled]="true"
-                         searchExpr="programName"
-                         searchMode="contains"
-                         [allowItemDeleting]="true"
-                         (onItemDeleting)="removeProgram($event)">
+                <dx-list
+                  ng-if="programs"
+                  #list
+                  [dataSource]="coursePrograms"
+                  [height]="400"
+                  [searchEnabled]="true"
+                  searchExpr="programName"
+                  searchMode="contains"
+                  [allowItemDeleting]="true"
+                  (onItemDeleting)="removeProgram($event)"
+                >
                   <div *dxTemplate="let data of 'item'">
-                    <div>{{data.programName}} ({{ data.programCode }})</div>
+                    <div>{{ data.programName }} ({{ data.programCode }})</div>
                   </div>
                 </dx-list>
               </div>
-
             </div>
-
           </div>
         </div>
       </div>
-
-
-
     </div>
-
   </div>
 </div>

@@ -22,10 +22,7 @@
             "main": "src/app/clusters/src/main.ts",
             "polyfills": "src/app/clusters/src/polyfills.ts",
             "tsConfig": "src/app/clusters/tsconfig.app.json",
-            "assets": [
-              "src/app/clusters/src/favicon.ico",
-              "src/app/clusters/src/assets"
-            ],
+            "assets": ["src/app/clusters/src/favicon.ico", "src/app/clusters/src/assets"],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/font-awesome/css/font-awesome.min.css",
@@ -88,14 +85,9 @@
             "polyfills": "src/app/clusters/src/polyfills.ts",
             "tsConfig": "src/app/clusters/tsconfig.spec.json",
             "karmaConfig": "src/app/clusters/karma.conf.js",
-            "styles": [
-              "src/app/clusters/src/styles.scss"
-            ],
+            "styles": ["src/app/clusters/src/styles.scss"],
             "scripts": [],
-            "assets": [
-              "src/app/clusters/src/favicon.ico",
-              "src/app/clusters/src/assets"
-            ]
+            "assets": ["src/app/clusters/src/favicon.ico", "src/app/clusters/src/assets"]
           }
         },
         "lint": {
@@ -105,9 +97,7 @@
               "src/app/clusters/tsconfig.app.json",
               "src/app/clusters/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -131,10 +121,7 @@
             "main": "src/app/programs/src/main.ts",
             "polyfills": "src/app/programs/src/polyfills.ts",
             "tsConfig": "src/app/programs/tsconfig.app.json",
-            "assets": [
-              "src/app/programs/src/favicon.ico",
-              "src/app/programs/src/assets"
-            ],
+            "assets": ["src/app/programs/src/favicon.ico", "src/app/programs/src/assets"],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/font-awesome/css/font-awesome.min.css",
@@ -196,14 +183,9 @@
             "polyfills": "src/app/programs/src/polyfills.ts",
             "tsConfig": "src/app/programs/tsconfig.spec.json",
             "karmaConfig": "src/app/programs/karma.conf.js",
-            "styles": [
-              "src/app/programs/src/styles.scss"
-            ],
+            "styles": ["src/app/programs/src/styles.scss"],
             "scripts": [],
-            "assets": [
-              "src/app/programs/src/favicon.ico",
-              "src/app/programs/src/assets"
-            ]
+            "assets": ["src/app/programs/src/favicon.ico", "src/app/programs/src/assets"]
           }
         },
         "lint": {
@@ -213,9 +195,7 @@
               "src/app/programs/tsconfig.app.json",
               "src/app/programs/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -239,10 +219,7 @@
             "main": "src/app/credentials/src/main.ts",
             "polyfills": "src/app/credentials/src/polyfills.ts",
             "tsConfig": "src/app/credentials/tsconfig.app.json",
-            "assets": [
-              "src/app/credentials/src/favicon.ico",
-              "src/app/credentials/src/assets"
-            ],
+            "assets": ["src/app/credentials/src/favicon.ico", "src/app/credentials/src/assets"],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/font-awesome/css/font-awesome.min.css",
@@ -304,14 +281,9 @@
             "polyfills": "src/app/credentials/src/polyfills.ts",
             "tsConfig": "src/app/credentials/tsconfig.spec.json",
             "karmaConfig": "src/app/credentials/karma.conf.js",
-            "styles": [
-              "src/app/credentials/src/styles.scss"
-            ],
+            "styles": ["src/app/credentials/src/styles.scss"],
             "scripts": [],
-            "assets": [
-              "src/app/credentials/src/favicon.ico",
-              "src/app/credentials/src/assets"
-            ]
+            "assets": ["src/app/credentials/src/favicon.ico", "src/app/credentials/src/assets"]
           }
         },
         "lint": {
@@ -321,9 +293,7 @@
               "src/app/credentials/tsconfig.app.json",
               "src/app/credentials/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -342,15 +312,12 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ct-courses",
+            "outputPath": "js/app/ct-courses",
             "index": "src/app/ct-courses/src/index.html",
             "main": "src/app/ct-courses/src/main.ts",
             "polyfills": "src/app/ct-courses/src/polyfills.ts",
             "tsConfig": "src/app/ct-courses/tsconfig.app.json",
-            "assets": [
-              "src/app/ct-courses/src/favicon.ico",
-              "src/app/ct-courses/src/assets"
-            ],
+            "assets": ["src/app/ct-courses/src/favicon.ico", "src/app/ct-courses/src/assets"],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/font-awesome/css/font-awesome.min.css",
@@ -412,14 +379,9 @@
             "polyfills": "src/app/ct-courses/src/polyfills.ts",
             "tsConfig": "src/app/ct-courses/tsconfig.spec.json",
             "karmaConfig": "src/app/ct-courses/karma.conf.js",
-            "styles": [
-              "src/app/ct-courses/src/styles.scss"
-            ],
+            "styles": ["src/app/ct-courses/src/styles.scss"],
             "scripts": [],
-            "assets": [
-              "src/app/ct-courses/src/favicon.ico",
-              "src/app/ct-courses/src/assets"
-            ]
+            "assets": ["src/app/ct-courses/src/favicon.ico", "src/app/ct-courses/src/assets"]
           }
         },
         "lint": {
@@ -429,9 +391,7 @@
               "src/app/ct-courses/tsconfig.app.json",
               "src/app/ct-courses/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -455,10 +415,7 @@
             "main": "src/app/courses/src/main.ts",
             "polyfills": "src/app/courses/src/polyfills.ts",
             "tsConfig": "src/app/courses/tsconfig.app.json",
-            "assets": [
-              "src/app/courses/src/favicon.ico",
-              "src/app/courses/src/assets"
-            ],
+            "assets": ["src/app/courses/src/favicon.ico", "src/app/courses/src/assets"],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/font-awesome/css/font-awesome.min.css",
@@ -520,26 +477,16 @@
             "polyfills": "src/app/courses/src/polyfills.ts",
             "tsConfig": "src/app/courses/tsconfig.spec.json",
             "karmaConfig": "src/app/courses/karma.conf.js",
-            "styles": [
-              "src/app/courses/src/styles.scss"
-            ],
+            "styles": ["src/app/courses/src/styles.scss"],
             "scripts": [],
-            "assets": [
-              "src/app/courses/src/favicon.ico",
-              "src/app/courses/src/assets"
-            ]
+            "assets": ["src/app/courses/src/favicon.ico", "src/app/courses/src/assets"]
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "src/app/courses/tsconfig.app.json",
-              "src/app/courses/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["src/app/courses/tsconfig.app.json", "src/app/courses/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
