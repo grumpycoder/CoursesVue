@@ -28,7 +28,7 @@ namespace Courses.Web
 
 
             bundles.Add(new StyleBundle("~/css/clusters").Include(
-                "~/js/app/styles*"));
+                "~/js/app/clusters/styles*"));
             
             bundles.Add(new ScriptBundle("~/bundles/clusters")
                 .Include(
