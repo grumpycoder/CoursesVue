@@ -20,8 +20,8 @@ export class CourseEditComponent implements OnInit {
   creditTypes: any;
   subjectAreas: any;
   assignedPrograms: any;
-  //programList: DataSource;
-  programList: ArrayStore;
+  programList: any;
+
 
   constructor(private route: ActivatedRoute, private http: HttpClient) { }
 
@@ -58,7 +58,7 @@ export class CourseEditComponent implements OnInit {
             store: new ArrayStore({
               data: data,
 
-              key: 'id'
+              key: 'clusterId'
             }), group: 'clusterName'
           });
 
@@ -70,7 +70,7 @@ export class CourseEditComponent implements OnInit {
   onSubmit(form) {
     this.http.put('/api/courses/', this.course).subscribe(data => {
       this.cachedCourse = Object.assign({}, this.course)
-      form.reset(this.course);
+      //form.reset(this.course);
     })
   }
 
@@ -80,26 +80,42 @@ export class CourseEditComponent implements OnInit {
   }
 
   addProgram(list) {
-    console.log('list', list);
-    //this.programList.reload();
-    // let item = {
-    //   beginYear: 2017,
-    //   clusterCode: "001",
-    //   clusterId: 1,
-    //   clusterName: "Agriculture, Food & Natural Resources",
-    //   endYear: 2018,
-    //   isNonTraditionalForFemales: false,
-    //   isNonTraditionalForMales: false,
-    //   programCode: "001",
-    //   programId: 1,
-    //   programName: "7th/8th Grade Agriscience",
-    // }
-    this.programList.store().push(list.selectedItem);
-    this.programList.reload();
 
-    // var url = `api/careertech/programs/${list.selectedItem.programCode}/course/${this.course.courseCode}`;
-    // this.http.post(url, null).subscribe(data => {
-    //   this.programList.store().push(data['programDto'])
-    // })
+    var url = `api/careertech/programs/${list.selectedItem.programCode}/course/${this.course.courseCode}`;
+    this.http.post(url, null).subscribe(data => {
+      //this.programList.store().push(data['programDto'])
+      this.http.get<any>(`api/careertech/courses/${this.course.courseCode}/programs`).subscribe(data => {
+        this.assignedPrograms = new DataSource({
+          reshapeOnPush: true,
+          store: new ArrayStore({
+            data: data,
+
+            key: 'id'
+          }), group: 'clusterName'
+        });
+      })
+
+
+    })
+
+  }
+
+  removeProgram(item) {
+    var url = `api/careertech/programs/${item.itemData.programCode}/course/${this.course.courseCode}`;
+
+    this.http.delete(url).subscribe(data => {
+      this.http.get<any>(`api/careertech/courses/${this.course.courseCode}/programs`).subscribe(data => {
+        this.assignedPrograms = new DataSource({
+          reshapeOnPush: true,
+          store: new ArrayStore({
+            data: data,
+
+            key: 'id'
+          }), group: 'clusterName'
+        });
+
+      })
+    })
+
   }
 }
