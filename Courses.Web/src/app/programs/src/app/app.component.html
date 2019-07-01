@@ -3,179 +3,192 @@
     <span class="card-title font-weight-bolder">{{ title }}</span>
   </div>
   <div class="card-body">
-
     <div class="row">
       <div class="col-6">
         <div class="card border-secondary mb-3">
-          <div class="card-header">Programs
-
-          </div>
+          <div class="card-header">Programs</div>
           <div class="card-body text-secondary">
-            <h5 class="card-title"><small>Select Program</small>
-            </h5>
+            <h5 class="card-title"><small>Select Program</small></h5>
 
             <div class="form-group row">
               <div class="col-12">
-
-                <dx-select-box [dataSource]="programs"
-                               displayExpr="programName"
-                               [searchMode]="'contains'"
-                               [searchExpr]="['programName', 'programCode']"
-                               [minSearchLength]="1"
-                               [searchEnabled]="true"
-                               [showDataBeforeSearch]="true"
-                               [showClearButton]="true"
-                               (selectedItemChange)="onSelectionChanged($event)"
-                               itemTemplate="data">
+                <dx-select-box
+                  [dataSource]="programs"
+                  displayExpr="programName"
+                  [searchMode]="'contains'"
+                  [searchExpr]="['programName', 'programCode']"
+                  [minSearchLength]="1"
+                  [searchEnabled]="true"
+                  [showDataBeforeSearch]="true"
+                  [showClearButton]="true"
+                  (selectedItemChange)="onSelectionChanged($event)"
+                  itemTemplate="data"
+                >
                   <div *dxTemplate="let item of 'data'">
                     <div>{{ item.programName }} - {{ item.programCode }}</div>
                   </div>
                 </dx-select-box>
               </div>
             </div>
-            <button class="btn btn-outline-secondary float-right"
-                    (click)="create()">New</button>
+            <button class="btn btn-outline-secondary float-right" (click)="create()">New</button>
           </div>
         </div>
       </div>
     </div>
 
-    <div *ngIf="program"
-         class="row">
+    <div *ngIf="program" class="row">
       <div class="col-6">
         <div class="card border-secondary mb-3">
           <div class="card-header">Details</div>
           <div class="card-body text-secondary">
-
-            <form novalidate
-                  #form="ngForm"
-                  (ngSubmit)="onSubmit(form.value)">
-
+            <form novalidate #form="ngForm" (ngSubmit)="onSubmit(form.value)">
               <div class="form-group row">
-                <label for="name"
-                       class="col-3 col-form-label">Name</label>
+                <label for="name" class="col-3 col-form-label">Name</label>
                 <div class="col-9">
-                  <input type="text"
-                         class="form-control"
-                         id="name"
-                         name="name"
-                         placeholder="Program Name (required)"
-                         [class.field-error]="name.touched &&
-                      name.invalid"
-                         [(ngModel)]="program.name"
-                         required
-                         #name="ngModel" />
-                  <div [hidden]="name.valid"
-                       class="alert alert-danger">
-                    Enter a name
-                  </div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    name="name"
+                    autocomplete="off"
+                    placeholder="Program Name (required)"
+                    [ngClass]="{ error: name.invalid && name.dirty }"
+                    [(ngModel)]="program.name"
+                    required
+                    #name="ngModel"
+                  />
+                  <em *ngIf="name.invalid && name.dirty">Required</em>
                 </div>
               </div>
 
-
               <div class="form-group row">
-                <label for="programCode"
-                       class="col-3 col-form-label">Program Code</label>
+                <label for="programCode" class="col-3 col-form-label">Program Code</label>
                 <div class="col-9">
-                  <input type="text"
-                         class="form-control"
-                         id="programCode"
-                         name="programCode"
-                         placeholder="Program Code (required)"
-                         [(ngModel)]="program.programCode"
-                         required
-                         minlength="3"
-                         #programCode="ngModel" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="programCode"
+                    name="programCode"
+                    autocomplete="off"
+                    placeholder="Program Code (required)"
+                    [(ngModel)]="program.programCode"
+                    required
+                    minlength="3"
+                    maxlength="3"
+                    #programCode="ngModel"
+                    [ngClass]="{ error: programCode.invalid && programCode.dirty }"
+                  />
+                  <em
+                    *ngIf="programCode.invalid && programCode.dirty && programCode?.errors.required"
+                    >Required</em
+                  >
+                  <em
+                    *ngIf="
+                      programCode.invalid && programCode.dirty && programCode?.errors.minlength
+                    "
+                    >Must be 3 characters</em
+                  >
+                  <em
+                    *ngIf="
+                      programCode.invalid && programCode.dirty && programCode?.errors.maxlength
+                    "
+                    >Cannot exceed 3 characters</em
+                  >
                 </div>
               </div>
 
-
               <div class="form-group row">
-                <label for="programTypeId"
-                       class="col-md-3 col-form-label">Program Type</label>
+                <label for="programTypeId" class="col-md-3 col-form-label">Program Type</label>
                 <div class="col-md-9">
-                  <select class="form-control"
-                          [(ngModel)]="program.programTypeId"
-                          name="programTypeId"
-                          #programTypeId="ngModel">
-                    <option *ngFor="let item of programTypes"
-                            [value]="item.id">{{
-                  item.name
-                }}</option>
+                  <select
+                    class="form-control"
+                    [(ngModel)]="program.programTypeId"
+                    name="programTypeId"
+                    id="programTypeId"
+                    #programTypeId="ngModel"
+                    [ngClass]="{ error: programTypeId.invalid && programTypeId.dirty }"
+                  >
+                    <option *ngFor="let item of programTypes" [value]="item.id">{{
+                      item.name
+                    }}</option>
                   </select>
+                  <em *ngIf="programTypeId.invalid && programTypeId.dirty">Required</em>
                 </div>
               </div>
 
               <div class="form-group row">
-                <label for="clusterId"
-                       class="col-md-3 col-form-label">Cluster</label>
+                <label for="clusterId" class="col-md-3 col-form-label">Cluster</label>
                 <div class="col-md-9">
-                  <select class="form-control"
-                          [(ngModel)]="program.clusterId"
-                          name="clusterId"
-                          #programTypeId="ngModel">
-                    <option *ngFor="let item of clusters"
-                            [value]="item.id">{{
-                  item.name
-                }}</option>
+                  <select
+                    class="form-control"
+                    [(ngModel)]="program.clusterId"
+                    name="clusterId"
+                    id="clusterId"
+                    #clusterId="ngModel"
+                    [ngClass]="{ error: clusterId.invalid && clusterId.dirty }"
+                  >
+                    <option *ngFor="let item of clusters" [value]="item.id">{{ item.name }}</option>
+                  </select>
+                  <em *ngIf="clusterId.invalid && clusterId.dirty">Required</em>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-6">
+                  <label for="beginYear" class="col-form-label">Begin Service</label>
+
+                  <select
+                    class="form-control"
+                    [(ngModel)]="program.beginYear"
+                    name="beginYear"
+                    id="beginYear"
+                    #beginYear="ngModel"
+                    [ngClass]="{ error: beginYear.invalid && beginYear.dirty }"
+                  >
+                    <option *ngFor="let year of schoolYears" [value]="year.year">{{
+                      year.year
+                    }}</option>
+                  </select>
+                  <em *ngIf="beginYear.invalid && beginYear.dirty">Required</em>
+                </div>
+                <div class="col-6">
+                  <label for="endYear" class="col-form-label">End Service</label>
+
+                  <select
+                    class="form-control"
+                    [(ngModel)]="program.endYear"
+                    name="endYear"
+                    #endYear="ngModel"
+                  >
+                    <option *ngFor="let year of schoolYears" [value]="year.year">{{
+                      year.year
+                    }}</option>
                   </select>
                 </div>
               </div>
 
               <div class="form-group row">
-
                 <div class="col-6">
-                  <label for="beginYear"
-                         class="col-form-label">Begin Service</label>
-
-                  <select class="form-control"
-                          [(ngModel)]="program.beginYear"
-                          name="beginYear"
-                          #beginYear="ngModel">
-                    <option *ngFor="let year of schoolYears"
-                            [value]="year.year">{{
-                  year.year
-                }}</option>
-                  </select>
-
+                  <button
+                    class="btn btn-outline-secondary btn-block"
+                    [hidden]="form.pristine"
+                    type="button"
+                    (click)="cancel(form)"
+                  >
+                    Cancel
+                  </button>
                 </div>
                 <div class="col-6">
-                  <label for="endYear"
-                         class="col-form-label">End Service</label>
-
-                  <select class="form-control"
-                          [(ngModel)]="program.endYear"
-                          name="endYear"
-                          #endYear="ngModel">
-                    <option *ngFor="let year of schoolYears"
-                            [value]="year.year">{{
-                  year.year
-                }}</option>
-                  </select>
-
+                  <button
+                    class="btn btn-primary btn-block"
+                    [disabled]="form.invalid || form.pristine"
+                    type="submit(form)"
+                  >
+                    Save
+                  </button>
                 </div>
-
               </div>
-
-              <div class="form-group row">
-                <div class="col-6">
-                  <button class="btn btn-outline-secondary btn-block"
-                          [hidden]="form.pristine"
-                          type="button"
-                          (click)="cancel(form)">Cancel</button>
-
-                </div>
-                <div class="col-6">
-                  <button class="btn btn-primary btn-block"
-                          [disabled]="form.invalid || form.pristine"
-                          type="submit(form)">Save</button>
-
-                </div>
-
-              </div>
-
             </form>
-
           </div>
         </div>
       </div>
@@ -185,28 +198,32 @@
           <div class="card-header">Assigned Credentials</div>
           <div class="card-body text-secondary">
             <div class="col-12">
-
-
               <div class="input-group mb-3">
-                <dx-select-box [dataSource]="credentials"
-                               displayExpr="name"
-                               [searchMode]="'contains'"
-                               [searchExpr]="['name', 'credentialCode']"
-                               [minSearchLength]="1"
-                               [searchEnabled]="true"
-                               [showDataBeforeSearch]="true"
-                               [showClearButton]="true"
-                               itemTemplate="data"
-                               #credentialList>
+                <dx-select-box
+                  [dataSource]="credentials"
+                  displayExpr="name"
+                  [searchMode]="'contains'"
+                  [searchExpr]="['name', 'credentialCode']"
+                  [minSearchLength]="1"
+                  [searchEnabled]="true"
+                  [showDataBeforeSearch]="true"
+                  [showClearButton]="true"
+                  itemTemplate="data"
+                  #credentialList
+                >
                   <div *dxTemplate="let item of 'data'">
                     <div>{{ item.name }} - {{ item.credentialCode }}</div>
                   </div>
                 </dx-select-box>
                 <div class="input-group-append">
-                  <button class="btn btn-outline-secondary"
-                          type="button"
-                          id="button-addon2"
-                          (click)="addCred(credentialList)">Add Credential</button>
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    id="button-addon2"
+                    (click)="addCred(credentialList)"
+                  >
+                    Add Credential
+                  </button>
                 </div>
               </div>
             </div>
@@ -217,81 +234,85 @@
               </div>
 
               <div *ngIf="programCreds">
-                <dx-list #list
-                         [dataSource]="programCreds"
-                         [height]="400"
-                         [searchEnabled]="true"
-                         searchExpr="name"
-                         searchMode="contains"
-                         [allowItemDeleting]="true"
-                         (onItemDeleting)="removeCred($event)">
+                <dx-list
+                  #list
+                  [dataSource]="programCreds"
+                  [height]="400"
+                  [searchEnabled]="true"
+                  searchExpr="name"
+                  searchMode="contains"
+                  [allowItemDeleting]="true"
+                  (onItemDeleting)="removeCred($event)"
+                >
                   <div *dxTemplate="let data of 'item'">
-                    <div>{{data.name}}</div>
+                    <div>{{ data.name }}</div>
                   </div>
                 </dx-list>
               </div>
             </div>
-
           </div>
         </div>
-
-
       </div>
 
       <div class="col-6">
-        <div class="card border-secondary mb-3"
-             v-bind:class="{'border-danger':errors.any()}">
+        <div class="card border-secondary mb-3" v-bind:class="{'border-danger':errors.any()}">
           <div class="card-header">Assigned Courses</div>
           <div class="card-body text-secondary">
-
             <div class="col-12">
-
               <div class="input-group mb-3">
-                <dx-select-box #courseList
-                               [dataSource]="courses"
-                               displayExpr="name"
-                               [searchMode]="'contains'"
-                               [searchExpr]="['name', 'courseCode']"
-                               [minSearchLength]="1"
-                               [searchEnabled]="true"
-                               [showDataBeforeSearch]="true"
-                               [showClearButton]="true"
-                               itemTemplate="data">
+                <dx-select-box
+                  #courseList
+                  [dataSource]="courses"
+                  displayExpr="name"
+                  [searchMode]="'contains'"
+                  [searchExpr]="['name', 'courseCode']"
+                  [minSearchLength]="1"
+                  [searchEnabled]="true"
+                  [showDataBeforeSearch]="true"
+                  [showClearButton]="true"
+                  itemTemplate="data"
+                >
                   <div *dxTemplate="let item of 'data'">
                     <div>{{ item.name }} - {{ item.courseCode }}</div>
                   </div>
                 </dx-select-box>
                 <div class="input-group-append">
-                  <button class="btn btn-outline-secondary"
-                          type="button"
-                          id="btnAddCourse"
-                          name="btnAddCourse"
-                          (click)="addCourse(courseList)">Add Course</button>
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    id="btnAddCourse"
+                    name="btnAddCourse"
+                    (click)="addCourse(courseList)"
+                  >
+                    Add Course
+                  </button>
                 </div>
               </div>
             </div>
 
-            <div class="
-                          col-12">
+            <div
+              class="
+                          col-12"
+            >
               <div *ngIf="!programCourses">
                 No courses assigned
               </div>
 
-
               <div *ngIf="programCourses">
-                <dx-list [dataSource]="programCourses"
-                         [height]="400"
-                         [searchEnabled]="true"
-                         searchExpr="name"
-                         searchMode="contains"
-                         [allowItemDeleting]="true"
-                         (onItemDeleting)="removeCourse($event)">
+                <dx-list
+                  [dataSource]="programCourses"
+                  [height]="400"
+                  [searchEnabled]="true"
+                  searchExpr="name"
+                  searchMode="contains"
+                  [allowItemDeleting]="true"
+                  (onItemDeleting)="removeCourse($event)"
+                >
                   <div *dxTemplate="let data of 'item'">
-                    <div>{{data.name}}</div>
+                    <div>{{ data.name }}</div>
                   </div>
                 </dx-list>
               </div>
-
             </div>
 
             <!-- <ul class="list-group" v-if="programCourses">
@@ -314,21 +335,15 @@
                 </div>
               </li>
             </ul> -->
-
           </div>
         </div>
       </div>
-
     </div>
-
 
     <div class="row">
       <div class="col-12">
-        <pre>
-
-          </pre>
+        <pre></pre>
       </div>
     </div>
-
   </div>
 </div>
