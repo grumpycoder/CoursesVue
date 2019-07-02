@@ -194,7 +194,7 @@
         </div>
       </div>
 
-      <div class="col-6">
+      <div class="col-6" *ngIf="program">
         <div class="card border-secondary mb-3">
           <div class="card-header">Assigned Credentials</div>
           <div class="card-body text-secondary">
@@ -202,6 +202,7 @@
               <div class="input-group mb-3">
                 <dx-select-box
                   [dataSource]="credentials"
+                  placeholder="Select Credential"
                   displayExpr="name"
                   [searchMode]="'contains'"
                   [searchExpr]="['name', 'credentialCode']"
@@ -211,6 +212,7 @@
                   [showClearButton]="true"
                   itemTemplate="data"
                   #credentialList
+                  [(ngModel)]="selectedCredential"
                 >
                   <div *dxTemplate="let item of 'data'">
                     <div>{{ item.name }} - {{ item.credentialCode }}</div>
@@ -220,10 +222,12 @@
                   <button
                     class="btn btn-outline-secondary"
                     type="button"
-                    id="button-addon2"
+                    id="btnAddCredential"
+                    name="btnAddCredential"
+                    [disabled]="!selectedCredential"
                     (click)="addCred(credentialList)"
                   >
-                    Add Credential
+                    Add
                   </button>
                 </div>
               </div>
@@ -255,8 +259,8 @@
         </div>
       </div>
 
-      <div class="col-6">
-        <div class="card border-secondary mb-3" v-bind:class="{'border-danger':errors.any()}">
+      <div class="col-6" *ngIf="program">
+        <div class="card border-secondary mb-3">
           <div class="card-header">Assigned Courses</div>
           <div class="card-body text-secondary">
             <div class="col-12">
@@ -291,10 +295,7 @@
               </div>
             </div>
 
-            <div
-              class="
-                          col-12"
-            >
+            <div class="col-12">
               <div *ngIf="!programCourses">
                 No courses assigned
               </div>
@@ -315,35 +316,8 @@
                 </dx-list>
               </div>
             </div>
-
-            <!-- <ul class="list-group" v-if="programCourses">
-              <li class="list-group-item" *ngFor="course in programCourses">
-                <div class="row">
-                  <div class="col-9">
-                    <div class="font-weight-bolder">
-                      <span>
-                        <a v-bind:href="'/careertech/courses/'+ course.courseCode">
-                          {{ course.name }} ({{ course.courseCode }})
-                        </a>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="col-3">
-                    <button class="btn btn-danger btn-sm float-right" v-on:click="removeCourse(course)">
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              </li>
-            </ul> -->
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-12">
-        <pre></pre>
       </div>
     </div>
   </div>
